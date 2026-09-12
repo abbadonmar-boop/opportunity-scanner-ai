@@ -218,3 +218,11 @@ All notable verified project changes are recorded here.
 - The future AI compliance gate does not expand Module 5 and does not block the current access / collector stage.
 - D-028 decision commit: d341146 — docs: define module 5 reddit access gate.
 - Reddit Collector implementation has not started.
+
+- Sanitized the local Windows user path from tracked CHANGELOG.md before public publication; main repository commit: 495e938 — docs: sanitize local path in changelog.
+- Created an independent public snapshot without the original local Git history or real .env file.
+- Published the sanitized snapshot to the public GitHub repository for the Reddit API access request; public snapshot root commit: 028aa72 — Initial public snapshot.
+- Submitted the official Reddit API access request for Opportunity Scanner AI on 2026-09-12.
+- Reddit Support confirmed successful receipt of the API access request.
+- Reddit approval has not yet been granted.
+- Module 5 — Reddit Collector implementation remains not started and is awaiting the external Reddit access decision.

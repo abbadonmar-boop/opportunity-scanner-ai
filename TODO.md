@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Confirm an officially permitted Reddit developer access path for the approved Opportunity Scanner AI use case before any Reddit Collector implementation.
+Await Reddit's decision or follow-up on the successfully submitted API access request. Do not begin Reddit Collector implementation until officially permitted access is confirmed.
 
 ## FOUNDATION
 

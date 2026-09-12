@@ -10,9 +10,10 @@ Current development state:
 - Module 2 — PostgreSQL: COMPLETED / PASS
 - Module 3 — Telegram Bot: COMPLETED / PASS
 - Module 4 — RSS Collector: COMPLETED / PASS
+- Module 5 — Reddit Collector: ACCESS GATE / AWAITING REDDIT APPROVAL
 - Repository initialized
 - Mandatory project documentation: COMPLETED / VERIFIED
-- Application code: IN PROGRESS — PostgreSQL, Telegram Bot, and current Module 4 RSS Collector functionality implemented and verified to the recorded project state
+- Application code: IN PROGRESS — implemented through the verified Module 4 state; Module 5 implementation has not started and is awaiting Reddit access approval
 
 See `PROJECT_STATE.md` for the latest verified state.
 
@@ -146,7 +147,7 @@ ChatGPT Work is auxiliary and may be used only at an explicitly declared WORK CH
 
 Before handoff, current repository state documentation must be synchronized as required. The new MAIN DEVELOPMENT chat must continue strictly from the recorded `NEXT STEP` and must not restart the project, begin a new audit, or repeat already verified work without a demonstrated technical reason.
 
-This continuity workflow does not change the approved architecture, roadmap, scope, module order or current Module 4 decisions.
+This continuity workflow does not change the approved architecture, roadmap, scope, module order or current module decisions.
 
 ## Known Unresolved Issues
 

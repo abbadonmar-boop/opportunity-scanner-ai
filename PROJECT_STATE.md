@@ -4,10 +4,10 @@
 Foundation
 
 ## CURRENT MODULE
-Module 5 — Reddit Collector — ACCESS GATE / IN PROGRESS
+Module 5 — Reddit Collector — ACCESS GATE / AWAITING REDDIT APPROVAL
 
 ## CURRENT STEP
-Module 4 — RSS Collector remains COMPLETED / PASS. Module 5 — Reddit Collector is now at its approved D-028 access gate. Reddit Collector implementation has not started. Before implementation, the project must confirm an officially permitted Reddit developer access path for the approved Opportunity Scanner AI use case.
+Module 4 — RSS Collector remains COMPLETED / PASS. The official Reddit API access request for Opportunity Scanner AI was successfully submitted on 2026-09-12 and receipt was confirmed by Reddit Support. Reddit approval has not yet been granted. Reddit Collector implementation has not started and must not start until an officially permitted Reddit developer access path is confirmed.
 
 ## COMPLETED
 - Product requirements and Architecture v1.0 are fixed.
@@ -112,13 +112,13 @@ Module 4 — RSS Collector remains COMPLETED / PASS. Module 5 — Reddit Collect
 - Removed the synthetic real-delivery verification row from PostgreSQL and verified zero matching test rows remained.
 
 ## IN PROGRESS
-Module 5 — Reddit Collector access-gate verification is in progress. Collector implementation has not started.
+Module 5 — Reddit Collector access gate is awaiting Reddit's response to the submitted API access request. Collector implementation has not started.
 
 ## NEXT STEP
-Confirm an officially permitted Reddit developer access path for the approved Opportunity Scanner AI use case before any Reddit Collector implementation.
+Await Reddit's decision or follow-up on the submitted API access request. Do not begin Reddit Collector implementation until officially permitted access is confirmed.
 
 ## BLOCKERS
-Module 5 implementation is gated by confirmation of an officially permitted Reddit developer access path under D-028. This is an access gate, not yet a confirmed blocker.
+Module 5 implementation is currently blocked on an external Reddit access decision. The API access request was successfully submitted on 2026-09-12, but approval has not yet been granted.
 
 ## KNOWN ISSUES
 - Conflict 1 — RESOLVED by D-017.
@@ -161,4 +161,4 @@ D-028 fixes the Module 5 Reddit Collector scope, official-access gate, Reddit da
 - Module 4 — RSS Collector: COMPLETED / PASS.
 
 ## LAST VERIFIED STATE
-2026-09-12 — Module 4 — RSS Collector is COMPLETED / PASS and milestone commit f817bd1 is verified. Module 5 — Reddit Collector has entered its D-028 access-gate stage; collector implementation has not started. D-028 is FIXED / APPROVED and committed as d341146. The next required step is to confirm an officially permitted Reddit developer access path for the approved Opportunity Scanner AI use case before implementation. The future Reddit-to-AI compliance gate is also fixed by D-028 but does not block the current access / collector stage.
+2026-09-12 — Module 4 — RSS Collector remains COMPLETED / PASS and milestone commit f817bd1 remains verified. D-028 remains FIXED / APPROVED and was committed as d341146. The official Reddit API access request for Opportunity Scanner AI was successfully submitted on 2026-09-12 and receipt was confirmed by Reddit Support. Reddit approval has not yet been granted. Module 5 — Reddit Collector implementation has not started and is awaiting the external Reddit access decision before implementation may proceed. The future Reddit-to-AI compliance gate remains fixed by D-028 and does not alter the current access-gate state.
