@@ -1,0 +1,12 @@
+﻿# Local secrets
+.env
+.env.*
+
+# Keep safe environment template tracked
+!.env.example
+
+# Python runtime artifacts
+__pycache__/
+*.py[cod]
+# Python virtual environment
+.venv/
