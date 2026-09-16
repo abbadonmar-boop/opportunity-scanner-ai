@@ -1083,3 +1083,224 @@ D-017 remains authoritative for PostgreSQL persistence.
 D-029 permits Module 6 execution while Module 5 — Reddit Collector remains BLOCKED — DATA ACCESS NOT APPROVED.
 
 D-030 does not change the fixed logical pipeline, approved architecture, roadmap definitions, source list or module order.
+
+## D-031 — MODULE 6 MULTILINGUAL FILTER RULES AND MATCHING SEMANTICS
+Status: FIXED / APPROVED
+
+D-031 defines the exact deterministic multilingual rule set and matching semantics required by D-030 before Module 6 Filter Engine implementation begins.
+
+The Filter Engine remains rule-based, inexpensive and deterministic. No AI, NLP or semantic interpretation is introduced.
+
+### INPUT AND NORMALIZATION
+
+1. Filtering evaluates the normalized source-item title and content text available to the FILTER component.
+2. Available text fields are combined into one text value before matching.
+3. Matching uses Unicode casefold() normalization.
+4. No stemming, lemmatization, fuzzy matching, embeddings, semantic similarity, language model inference or other NLP behavior is introduced.
+5. Module 6 does not analyze grammatical context, intent, negation or semantic meaning.
+
+### MATCHING SEMANTICS
+
+6. Rules containing whitespace or otherwise defined as phrases use literal casefolded phrase matching.
+7. Phrase matching requires the configured phrase to occur as a contiguous casefolded text sequence.
+8. Single-word rules must use word / token boundaries and must not match as arbitrary substrings inside a larger token.
+9. For single-word matching, a token boundary exists at the start or end of text, or where the adjacent character is not a Unicode letter, digit or underscore.
+10. No rule may silently fall back from token-boundary matching to arbitrary substring matching.
+11. Stop / hard-REJECT rules are evaluated before positive rules.
+12. If any hard-REJECT rule matches, the result is REJECT.
+13. Otherwise, if any positive rule matches, the result is PASS.
+14. Otherwise, the result is REJECT.
+
+### HARD-REJECT RULES — EN
+
+- unpaid
+- volunteer
+- giveaway
+- lottery
+- raffle
+- xp only
+- points only
+
+### HARD-REJECT RULES — RU
+
+- без оплаты
+- неоплачиваем
+- волонтёр
+- волонтер
+- розыгрыш
+- лотерея
+- только xp
+- только баллы
+
+### HARD-REJECT RULES — UA
+
+- без оплати
+- неоплачув
+- волонтер
+- розіграш
+- лотерея
+- лише xp
+- лише бали
+
+### HARD-REJECT RULES — DE
+
+- unbezahlt
+- ehrenamt
+- gewinnspiel
+- lotterie
+- verlosung
+- nur xp
+- nur punkte
+
+### POSITIVE RULES — EN
+
+- freelance
+- freelance task
+- remote work
+- remote job
+- part-time remote
+- entry level
+- no experience
+- hiring now
+- contributors wanted
+- tester
+- testing
+- qa tester
+- bug testing
+- usability testing
+- paid beta testing
+- beta tester
+- data annotation
+- data labeling
+- ai rater
+- ai evaluator
+- llm trainer
+- model reviewer
+- search evaluator
+- data collection
+- paid testnet
+- web3 task
+
+### POSITIVE RULES — RU
+
+- фриланс
+- удалённая работа
+- удаленная работа
+- удалённая подработка
+- удаленная подработка
+- без опыта
+- тестировщик
+- тестирование
+- qa тестировщик
+- поиск багов
+- юзабилити тестирование
+- платное бета-тестирование
+- разметка данных
+- оценщик ии
+- оценщик ai
+- тренер llm
+- проверка модели
+- проверка ответов ии
+- сбор данных
+- платный тестнет
+- оплачиваемое web3 задание
+
+### POSITIVE RULES — UA
+
+- фриланс
+- віддалена робота
+- віддалена підробітка
+- без досвіду
+- тестувальник
+- тестування
+- qa тестувальник
+- пошук багів
+- юзабіліті тестування
+- платне бета-тестування
+- розмітка даних
+- оцінювач ші
+- оцінювач ai
+- тренер llm
+- перевірка моделі
+- перевірка відповідей ші
+- збір даних
+- платний тестнет
+- оплачуване web3 завдання
+
+### POSITIVE RULES — DE
+
+- freelance
+- freiberuflich
+- remote arbeit
+- remote-arbeit
+- homeoffice
+- teilzeit remote
+- berufseinsteiger
+- ohne erfahrung
+- tester
+- softwaretester
+- testing
+- qa tester
+- bug testing
+- usability testing
+- bezahlter betatest
+- datenannotation
+- datenlabeling
+- datenerfassung
+- ki-bewertung
+- ai evaluator
+- llm-trainer
+- modellbewertung
+- bezahltes testnet
+- bezahlte web3-aufgabe
+
+### DOWNSTREAM BOUNDARY
+
+15. The following signals are not hard-REJECT rules in Module 6 merely because the term is present:
+
+- contest
+- leaderboard
+- top winners
+- ambassador
+- staking
+- deposit
+- trading volume
+- mandatory purchase
+- prepayment
+- seed phrase
+- phishing
+- wallet connection
+- smart contract
+- KYC
+- unknown token
+
+16. These signals may require later EXTRACT, Anti-Scam, Risk or Score handling according to the applicable future module decisions.
+17. Excluding these terms from Module 6 hard-REJECT rules does not classify them as safe.
+18. Module 6 must not implement Anti-Scam, Risk or Score behavior indirectly through filter rules.
+
+### MINIMUM PAYOUT BOUNDARY
+
+19. The approved minimum payout requirement of $5 is not implemented as a Module 6 text-filter rule.
+20. Payment amount handling requires extracted payment information and therefore remains a downstream concern after FILTER.
+21. Module 6 must not guess or infer payout amounts from incomplete text merely to enforce the minimum payout requirement.
+
+### REQUIRED VERIFICATION
+
+22. Module 6 tests must verify hard-REJECT priority over positive matches.
+23. Tests must verify case-insensitive behavior through casefold().
+24. Tests must verify literal phrase matching.
+25. Tests must verify that single-word rules match complete tokens.
+26. Tests must verify that a single-word rule does not match when it appears only as part of a larger token.
+27. Tests must cover approved EN / RU / UA / DE rules.
+28. Tests must verify default REJECT when neither hard-REJECT nor positive rules match.
+29. No test may rely on AI, NLP, context understanding or negation analysis.
+
+### ARCHITECTURE RELATION
+
+D-031 supplies the exact multilingual rule set and matching semantics required by D-030.
+
+D-021 remains authoritative that Module 6 extends the same architectural FILTER component first implemented in Module 4.
+
+D-025 remains the verified Module 4 baseline whose behavior is superseded only where D-031 explicitly defines the approved Module 6 rules and matching semantics.
+
+D-031 does not change the fixed logical pipeline, architecture, roadmap definitions, source list, Module 6 scope or downstream module responsibilities.

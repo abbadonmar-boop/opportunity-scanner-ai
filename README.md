@@ -11,10 +11,10 @@ Current development state:
 - Module 3 — Telegram Bot: COMPLETED / PASS
 - Module 4 — RSS Collector: COMPLETED / PASS
 - Module 5 — Reddit Collector: BLOCKED — DATA ACCESS NOT APPROVED
-- Module 6 — Filter Engine: SCOPE APPROVED / IN PROGRESS
+- Module 6 — Filter Engine: SPECIFICATION COMPLETE / IN PROGRESS
 - Repository initialized
 - Mandatory project documentation: COMPLETED / VERIFIED
-- Application code: IN PROGRESS — implemented through the verified Module 4 state; Module 5 remains BLOCKED — DATA ACCESS NOT APPROVED; Module 6 scope is approved under D-030 but implementation has not started
+- Application code: IN PROGRESS — implemented through the verified Module 4 state; Module 5 remains BLOCKED — DATA ACCESS NOT APPROVED; Module 6 specification is complete under D-030 and D-031, but implementation has not started
 
 See `PROJECT_STATE.md` for the latest verified state.
 

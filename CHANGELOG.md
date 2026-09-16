@@ -244,3 +244,15 @@ All notable verified project changes are recorded here.
 - Module 6 does not implement AI, Anti-Scam, Risk, Score, source collection or Telegram delivery redesign.
 - Exact multilingual positive-keyword rules, stop-word rules and the hard-REJECT versus downstream risk / scoring boundary remain pending a separate explicit project decision before implementation.
 - Module 6 implementation has not started.
+
+- D-031 — Module 6 Multilingual Filter Rules and Matching Semantics — FIXED / APPROVED.
+- D-031 defines the exact EN / RU / UA / DE deterministic multilingual filter rules required by D-030.
+- Matching uses Unicode casefold().
+- Phrase rules use literal contiguous phrase matching.
+- Single-word rules use word / token boundaries and must not match arbitrary substrings inside larger tokens.
+- Hard-REJECT rules are evaluated before positive rules.
+- AI, NLP, fuzzy matching, semantic interpretation, context analysis and negation analysis are not introduced in Module 6.
+- Anti-Scam, Risk and Score signals remain outside Module 6 hard-REJECT behavior unless explicitly approved by a later decision.
+- The approved $5 minimum payout requirement remains downstream because payout handling requires extracted payment information.
+- The required Module 6 pre-implementation specification is now complete.
+- Module 6 implementation has not started.

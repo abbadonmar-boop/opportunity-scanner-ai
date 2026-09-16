@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Define and approve the exact Module 6 multilingual filtering rules and the hard-REJECT versus downstream risk / scoring boundary before any Filter Engine implementation.
+Begin the first controlled Module 6 implementation step: create the reusable deterministic Filter Engine foundation while preserving the verified Module 4 RSS filter behavior.
 
 ## FOUNDATION
 

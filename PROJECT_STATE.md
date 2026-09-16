@@ -7,7 +7,7 @@ Foundation
 Module 6 — Filter Engine — SCOPE APPROVED / IN PROGRESS
 
 ## CURRENT STEP
-Module 5 — Reddit Collector remains BLOCKED — DATA ACCESS NOT APPROVED under D-028 and D-029. Controlled roadmap execution has transitioned to Module 6 — Filter Engine. D-030 — Module 6 Filter Engine Scope and Acceptance Criteria — is FIXED / APPROVED. Module 6 implementation has not started. Before implementation, the exact multilingual positive-keyword rules, stop-word rules and hard-REJECT versus downstream risk / scoring boundary must be defined through a separate explicit project decision.
+Module 5 — Reddit Collector remains BLOCKED — DATA ACCESS NOT APPROVED under D-028 and D-029. Module 6 — Filter Engine scope is fixed by D-030. D-031 — Module 6 Multilingual Filter Rules and Matching Semantics — is FIXED / APPROVED. The required pre-implementation rule specification is now complete. Module 6 implementation has not started.
 
 ## COMPLETED
 - Product requirements and Architecture v1.0 are fixed.
@@ -112,10 +112,10 @@ Module 5 — Reddit Collector remains BLOCKED — DATA ACCESS NOT APPROVED under
 - Removed the synthetic real-delivery verification row from PostgreSQL and verified zero matching test rows remained.
 
 ## IN PROGRESS
-Module 6 — Filter Engine specification is in progress. D-030 scope and acceptance criteria are approved; implementation has not started.
+Module 6 — Filter Engine is ready for controlled implementation. D-030 scope and D-031 multilingual rule/matching semantics are approved. Implementation has not started.
 
 ## NEXT STEP
-Define and approve the exact Module 6 multilingual filtering rules and the hard-REJECT versus downstream risk / scoring boundary before any Filter Engine implementation.
+Begin the first controlled Module 6 implementation step: create the reusable deterministic Filter Engine foundation while preserving the verified Module 4 RSS filter behavior.
 
 ## BLOCKERS
 Module 5 — Reddit Collector is BLOCKED — DATA ACCESS NOT APPROVED. The Reddit Data Team did not approve the submitted access request. This blocker applies to Reddit Collector implementation and must not be bypassed. Under D-029 it does not block continued execution of the remaining approved roadmap.
@@ -138,6 +138,7 @@ D-027 fixes the Module 4 initial live-feed safety mechanism: exactly one configu
 D-028 fixes the Module 5 Reddit Collector scope, official-access gate, Reddit data compliance boundary, and future AI compliance gate without changing the approved architecture, roadmap, module order or source list.
 D-029 records the verified Reddit access denial and permits controlled roadmap execution to continue beyond blocked Module 5 without changing the approved architecture, source list, roadmap definitions or Module 5 scope.
 D-030 fixes the Module 6 Filter Engine scope and acceptance criteria without changing the fixed logical pipeline, approved architecture, roadmap definitions, source list or module order.
+D-031 fixes the exact Module 6 multilingual filtering rules, deterministic matching semantics and downstream responsibility boundaries without changing the approved architecture or Module 6 scope.
 - D-027 bounded live-feed verification mode implemented in rss_collector.py.
 - Added deterministic first-parser-item processing with at most one item entering persistence and downstream processing.
 - Added allowlist enforcement before live feed retrieval.
@@ -163,4 +164,4 @@ D-030 fixes the Module 6 Filter Engine scope and acceptance criteria without cha
 - Module 4 — RSS Collector: COMPLETED / PASS.
 
 ## LAST VERIFIED STATE
-2026-09-16 — Module 5 — Reddit Collector remains BLOCKED — DATA ACCESS NOT APPROVED under D-028 and D-029. Controlled execution has transitioned to Module 6 — Filter Engine. D-030 — Module 6 Filter Engine Scope and Acceptance Criteria — is FIXED / APPROVED. Module 6 implementation has not started. The next required step is to define and approve the exact multilingual filtering rules and the hard-REJECT versus downstream risk / scoring boundary before implementation.
+2026-09-16 — Module 5 — Reddit Collector remains BLOCKED — DATA ACCESS NOT APPROVED. Module 6 — Filter Engine is the current active module. D-030 — Module 6 Filter Engine Scope and Acceptance Criteria — is FIXED / APPROVED. D-031 — Module 6 Multilingual Filter Rules and Matching Semantics — is FIXED / APPROVED. The required pre-implementation specification is complete. Module 6 implementation has not started. The next required step is the first controlled implementation of the reusable deterministic Filter Engine foundation while preserving verified Module 4 RSS behavior.
