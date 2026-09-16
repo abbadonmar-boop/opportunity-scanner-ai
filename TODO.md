@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Complete the D-032 milestone documentation sync and Git commit. After Git is clean, stop before collector implementation and prepare the separate SOURCE ACCESS PRECHECK for all approved V1 sources.
+Complete the D-033 documentation sync and Git commit. After Git is clean, begin the SOURCE ACCESS PRECHECK as a separate controlled activity, one approved V1 source at a time.
 
 ## FOUNDATION
 

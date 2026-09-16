@@ -1363,3 +1363,158 @@ Status: FIXED / APPROVED
    - the final Git working tree state is verified clean.
 
 19. D-032 does not change the approved architecture, source list or roadmap order.
+
+## D-033 — SOURCE ACCESS PRECHECK
+
+Status: FIXED / APPROVED
+
+### PURPOSE
+
+1. A separate SOURCE ACCESS PRECHECK must be completed before further collector implementation.
+
+2. The SOURCE ACCESS PRECHECK does not change:
+   - the approved architecture;
+   - the roadmap;
+   - module order;
+   - the approved V1 source list.
+
+3. The SOURCE ACCESS PRECHECK is not collector implementation.
+
+### SOURCES
+
+4. The precheck covers exactly the approved V1 sources:
+   - Reddit;
+   - X / Twitter;
+   - Discord;
+   - Telegram;
+   - RSS / Atom.
+
+### ACCESS BOUNDARY
+
+5. Only officially permitted APIs, feeds and access paths may be used.
+
+6. The following are prohibited:
+   - HTML scraping;
+   - browser scraping;
+   - unofficial mirrors;
+   - credential workarounds;
+   - access-restriction bypasses;
+   - other unapproved substitute access paths.
+
+7. Paid API access, paid subscriptions, paid credits or other paid source access must not be purchased or activated without separate explicit user approval.
+
+8. Credentials, tokens and secrets must not be stored in tracked Git files or exposed in diagnostic output.
+
+### FORMAL STATUS CRITERIA
+
+9. Each source must receive exactly one of the following statuses:
+
+#### AVAILABLE
+
+A source is `AVAILABLE` only when all of the following are true:
+
+- an official permitted access path exists for the approved Opportunity Scanner AI use case;
+- no unresolved external access denial or mandatory approval gate blocks use;
+- no unresolved user approval is required before the access path can be used for controlled implementation;
+- required technical prerequisites are known and do not prevent compliant collector implementation;
+- required compliance obligations are known sufficiently to proceed safely;
+- no prohibited workaround is required.
+
+#### AVAILABLE WITH LIMITATIONS
+
+A source is `AVAILABLE WITH LIMITATIONS` when an official permitted access path exists and compliant collector implementation can proceed, but one or more material limitations apply, including for example:
+
+- rate limits;
+- quotas;
+- free-tier limits;
+- paid-use boundaries already separately approved;
+- restricted endpoint coverage;
+- restricted source scope;
+- permission constraints;
+- retention / deletion obligations;
+- polling or delivery limitations;
+- other documented technical or compliance constraints.
+
+The limitations must be explicitly documented and must not make compliant implementation impossible.
+
+#### BLOCKED
+
+A source is `BLOCKED` when any of the following is true:
+
+- the required official access path is unavailable for the approved use case;
+- required access has been explicitly denied;
+- applicable official rules prohibit the intended use;
+- mandatory technical or compliance conditions make the approved collector implementation impossible without changing project decisions;
+- proceeding would require scraping, unofficial access, restriction bypasses or another prohibited workaround.
+
+A BLOCKED status does not automatically remove the source from the architecture, roadmap or approved V1 source list.
+
+#### UNKNOWN — REQUIRES APPROVAL
+
+A source is `UNKNOWN — REQUIRES APPROVAL` when a final availability classification cannot yet be established because an unresolved approval or user-controlled prerequisite must be completed first, including for example:
+
+- creating or authorizing a developer application;
+- submitting an official access request;
+- granting required permissions;
+- approving a paid tier, credits or cost exposure;
+- accepting a source-specific access condition;
+- completing another explicit approval-dependent step required before availability can be verified.
+
+No paid action or irreversible approval-dependent action may be taken automatically.
+
+### REQUIRED CHECK FOR EACH SOURCE
+
+10. For every source, the precheck must determine and document:
+
+- official access path;
+- whether a developer account is required;
+- whether an application or external approval is required;
+- whether credentials are required;
+- whether a paid access / cost gate exists;
+- technical limitations relevant to the approved use case;
+- retention / deletion / content-compliance requirements relevant before persistence;
+- whether collector implementation may safely proceed;
+- final formal status.
+
+### DATE AND EVIDENCE REQUIREMENT
+
+11. Every source result must include a verification date in `YYYY-MM-DD` format.
+
+12. Every source result must include evidence sufficient to support and later audit the classification.
+
+13. Evidence must use authoritative sources wherever available, including as applicable:
+
+- official API documentation;
+- official developer policies;
+- official pricing / rate-limit documentation;
+- official developer-console or account-state evidence;
+- official approval / denial correspondence;
+- deterministic local verification output from an officially permitted access path.
+
+14. Evidence must identify what fact it supports. A status must not be assigned from unsupported assumptions.
+
+15. Secrets, tokens, credentials and sensitive authentication values must never be included in stored evidence.
+
+16. Because source access conditions can change, the recorded verification date is part of the evidence and must not be omitted.
+
+### SOURCE-SPECIFIC BASELINE
+
+17. Reddit retains the already verified status `BLOCKED — DATA ACCESS NOT APPROVED` unless new official evidence changes that state.
+
+18. A source that is blocked or approval-dependent is not silently removed, reordered or replaced. Any roadmap consequence requires a separate explicit project decision.
+
+### COMPLETION CRITERIA
+
+19. SOURCE ACCESS PRECHECK is complete only when all five approved V1 sources have:
+
+- a formal status;
+- a verification date;
+- documented evidence;
+- documented limitations or blockers where applicable;
+- a clear statement whether collector implementation may proceed.
+
+20. Relevant repository documentation must be synchronized after the five-source precheck is complete.
+
+21. Collector implementation must not resume until the SOURCE ACCESS PRECHECK is completed and its results are verified.
+
+22. D-033 does not change the approved architecture, roadmap, module order or V1 source list.

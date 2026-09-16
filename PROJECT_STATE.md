@@ -7,7 +7,7 @@ Foundation
 Module 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION
 
 ## CURRENT STEP
-Module 6 — Filter Engine remains COMPLETED / PASS. Controlled execution has transitioned to Module 7 — X Collector. D-032 — Module 7 X Collector Scope, Access, Cost and Compliance Gate — is FIXED / APPROVED. Module 7 implementation has not started. Before the first persisted live X Content, an X-specific content compliance policy must be explicitly defined and approved. Real X API collection remains gated by valid developer credentials. Any paid live verification remains gated by a separately approved maximum request-count and billable-resource budget.
+Module 6 — Filter Engine remains COMPLETED / PASS. Module 7 — X Collector remains SCOPE APPROVED / PRE-IMPLEMENTATION under D-032. D-033 — SOURCE ACCESS PRECHECK — is FIXED / APPROVED. The precheck has not started. Collector implementation remains paused until the five-source SOURCE ACCESS PRECHECK is completed and verified. The current task is to complete the D-033 documentation milestone and return Git to a clean state.
 
 ## COMPLETED
 - Product requirements and Architecture v1.0 are fixed.
@@ -112,10 +112,10 @@ Module 6 — Filter Engine remains COMPLETED / PASS. Controlled execution has tr
 - Removed the synthetic real-delivery verification row from PostgreSQL and verified zero matching test rows remained.
 
 ## IN PROGRESS
-Module 7 — X Collector pre-implementation work. D-032 scope, official-access boundary, cost boundary and compliance gates are approved. Collector implementation has not started.
+D-033 documentation milestone synchronization. SOURCE ACCESS PRECHECK has not started. Module 7 collector implementation has not started.
 
 ## NEXT STEP
-Complete the D-032 milestone documentation sync and Git commit. After D-032 is fully closed and the working tree is clean, stop before collector implementation and prepare the separate SOURCE ACCESS PRECHECK requested for all approved V1 sources.
+Complete the D-033 documentation sync and Git commit. After the D-033 milestone is committed and the working tree is clean, stop and begin the SOURCE ACCESS PRECHECK as a separate controlled activity, one source at a time.
 
 ## BLOCKERS
 Module 5 — Reddit Collector is BLOCKED — DATA ACCESS NOT APPROVED. The Reddit Data Team did not approve the submitted access request. This blocker applies to Reddit Collector implementation and must not be bypassed. Under D-029 it does not block continued execution of the remaining approved roadmap.
@@ -164,4 +164,4 @@ D-031 fixes the exact Module 6 multilingual filtering rules, deterministic match
 - Module 4 — RSS Collector: COMPLETED / PASS.
 
 ## LAST VERIFIED STATE
-2026-09-16 — Module 6 — Filter Engine is COMPLETED / PASS. Controlled execution has transitioned to Module 7 — X Collector pre-implementation work. D-032 — Module 7 X Collector Scope, Access, Cost and Compliance Gate — is FIXED / APPROVED. Module 7 implementation has not started. Before the first persisted live X Content, an X-specific content compliance policy must be approved. Real X API collection remains gated by valid developer credentials, and paid live verification remains gated by a separately approved request-count and billable-resource budget. Module 5 — Reddit Collector remains BLOCKED — DATA ACCESS NOT APPROVED under D-028 and D-029. After the D-032 documentation milestone is committed and Git is clean, the next activity is the separate SOURCE ACCESS PRECHECK; collector implementation must not begin before that precheck.
+2026-09-16 — D-032 — Module 7 X Collector Scope, Access, Cost and Compliance Gate — is committed at a526924 and was verified with a clean working tree. Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION; collector implementation has not started. D-033 — SOURCE ACCESS PRECHECK — is now FIXED / APPROVED and is being synchronized into project documentation. The SOURCE ACCESS PRECHECK itself has not started. D-033 requires formal statuses, verification dates and evidence for Reddit, X / Twitter, Discord, Telegram and RSS / Atom before collector implementation resumes. Module 5 — Reddit Collector remains BLOCKED — DATA ACCESS NOT APPROVED.

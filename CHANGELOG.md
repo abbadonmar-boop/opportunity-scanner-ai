@@ -286,3 +286,18 @@ All notable verified project changes are recorded here.
 - X records must use stable source identity / deduplication and the existing common Module 6 Filter Engine; no parallel X-specific Filter Engine is introduced.
 - D-032 does not change the approved architecture, source list or roadmap order.
 - After the D-032 documentation milestone is committed and Git is clean, collector implementation remains paused pending the separate SOURCE ACCESS PRECHECK requested for all approved V1 sources.
+
+- D-033 — SOURCE ACCESS PRECHECK — FIXED / APPROVED.
+- SOURCE ACCESS PRECHECK must be completed before further collector implementation.
+- The precheck covers exactly the approved V1 sources: Reddit, X / Twitter, Discord, Telegram and RSS / Atom.
+- The precheck does not change the approved architecture, roadmap, module order or V1 source list and is not collector implementation.
+- Only officially permitted APIs, feeds and access paths may be used; scraping, unofficial mirrors, credential workarounds and restriction bypasses are prohibited.
+- Paid source access must not be purchased or activated without separate explicit user approval.
+- Each source must receive exactly one formal status: AVAILABLE, AVAILABLE WITH LIMITATIONS, BLOCKED, or UNKNOWN — REQUIRES APPROVAL.
+- Formal status criteria are fixed in D-033 and must not be assigned from unsupported assumptions.
+- Every source result must include a verification date in YYYY-MM-DD format and evidence sufficient to support and later audit the classification.
+- Evidence must use authoritative sources wherever available and must identify what fact it supports.
+- Secrets, tokens and sensitive authentication values must not be stored in evidence or tracked Git files.
+- Reddit retains the verified baseline status BLOCKED — DATA ACCESS NOT APPROVED unless new official evidence changes that state.
+- Collector implementation remains paused until all five approved V1 sources have a verified status, date, evidence, documented limitations or blockers, and a clear proceed / do-not-proceed conclusion.
+- SOURCE ACCESS PRECHECK itself has not started yet.

@@ -15,7 +15,7 @@ Current development state:
 - Module 7 — X Collector: SCOPE APPROVED / PRE-IMPLEMENTATION
 - Repository initialized
 - Mandatory project documentation: COMPLETED / VERIFIED
-- Application code: IN PROGRESS — implemented through verified Module 6; Module 5 remains BLOCKED — DATA ACCESS NOT APPROVED; Module 7 scope is approved under D-032 but collector implementation has not started; after the D-032 documentation milestone is committed and Git is clean, collector implementation remains paused pending the separate SOURCE ACCESS PRECHECK
+- Application code: IN PROGRESS — implemented through verified Module 6; Module 5 remains BLOCKED — DATA ACCESS NOT APPROVED; Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION under D-032; D-033 SOURCE ACCESS PRECHECK is FIXED / APPROVED but has not started; collector implementation remains paused until the five-source precheck is completed and verified
 
 See `PROJECT_STATE.md` for the latest verified state.
 
