@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Begin the controlled transition to Module 7 — X Collector from the verified Module 6 COMPLETED / PASS state, without changing the approved architecture or roadmap.
+Complete the D-032 milestone documentation sync and Git commit. After Git is clean, stop before collector implementation and prepare the separate SOURCE ACCESS PRECHECK for all approved V1 sources.
 
 ## FOUNDATION
 
@@ -85,7 +85,7 @@ Begin the controlled transition to Module 7 — X Collector from the verified Mo
 - [x] MODULE 4 — RSS Collector
 - [ ] MODULE 5 — Reddit Collector — BLOCKED — DATA ACCESS NOT APPROVED
 - [x] MODULE 6 — Filter Engine — COMPLETED / PASS
-- [ ] MODULE 7 — X Collector
+- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION
 - [ ] MODULE 8 — Telegram Sources
 - [ ] MODULE 9 — Discord Collector
 - [ ] MODULE 10 — AI Analyzer

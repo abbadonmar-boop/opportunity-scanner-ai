@@ -12,9 +12,10 @@ Current development state:
 - Module 4 — RSS Collector: COMPLETED / PASS
 - Module 5 — Reddit Collector: BLOCKED — DATA ACCESS NOT APPROVED
 - Module 6 — Filter Engine: COMPLETED / PASS
+- Module 7 — X Collector: SCOPE APPROVED / PRE-IMPLEMENTATION
 - Repository initialized
 - Mandatory project documentation: COMPLETED / VERIFIED
-- Application code: IN PROGRESS — implemented through verified Module 6; Module 5 remains BLOCKED — DATA ACCESS NOT APPROVED; next controlled roadmap transition is Module 7 — X Collector
+- Application code: IN PROGRESS — implemented through verified Module 6; Module 5 remains BLOCKED — DATA ACCESS NOT APPROVED; Module 7 scope is approved under D-032 but collector implementation has not started; after the D-032 documentation milestone is committed and Git is clean, collector implementation remains paused pending the separate SOURCE ACCESS PRECHECK
 
 See `PROJECT_STATE.md` for the latest verified state.
 

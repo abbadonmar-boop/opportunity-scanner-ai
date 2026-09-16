@@ -1304,3 +1304,62 @@ D-021 remains authoritative that Module 6 extends the same architectural FILTER 
 D-025 remains the verified Module 4 baseline whose behavior is superseded only where D-031 explicitly defines the approved Module 6 rules and matching semantics.
 
 D-031 does not change the fixed logical pipeline, architecture, roadmap definitions, source list, Module 6 scope or downstream module responsibilities.
+
+## D-032 — MODULE 7 X COLLECTOR SCOPE, ACCESS, COST AND COMPLIANCE GATE
+
+Status: FIXED / APPROVED
+
+1. Module 7 implements only the X / Twitter Collector as the existing `COLLECT → NORMALIZE → early PostgreSQL persistence → DEDUPLICATE` path, with saved records passed to the already implemented common Filter Engine.
+
+2. Only an officially permitted X API access path may be used. HTML/browser scraping, unofficial mirrors, credential workarounds and restriction bypasses are prohibited.
+
+3. The initial access path is the official X API v2 Recent Search endpoint (`/2/tweets/search/recent`) if it is available for the project developer account and approved use case at implementation time.
+
+4. Before real X API collection is implemented, valid X developer credentials must be obtained. Credentials and secrets must remain outside tracked Git files.
+
+5. Before any paid live verification, an explicit maximum verification budget must be approved.
+
+6. The live-verification cost boundary must limit both:
+   - the maximum number of API requests; and
+   - the maximum number of billable returned Posts / resources.
+
+7. X billing deduplication behavior, including any 24-hour billing deduplication, must not be treated as a guaranteed budget-control mechanism.
+
+8. The historical 10–15 minute collection interval is not automatically fixed as the Module 7 implementation interval. The actual polling interval must be decided only after evaluating current API pricing, returned-resource cost, applicable API limits and permitted usage conditions.
+
+9. The first live API verification must be strictly bounded by both request count and maximum returned Posts / resources.
+
+10. X search queries and source targets must be explicitly configured and deterministic. Module 7 must not perform arbitrary global X collection.
+
+11. Each collected X item must have a stable source identity / deduplication identity so that normal repeated collection of the same Post does not create a duplicate source-item record.
+
+12. Collected X records must use the common Module 6 Filter Engine. No parallel X-specific Filter Engine may be introduced.
+
+13. Module 7 does not implement AI Analyzer, Anti-Scam Engine, Risk, Score, Telegram Sources, Discord Collector or scheduler infrastructure.
+
+14. An X-specific content compliance policy must be explicitly defined and approved before the first real X Content is persistently stored.
+
+15. Before approval of the X-specific content compliance policy:
+   - fixtures and mocked X data may be used;
+   - bounded official API verification may be performed only without permanent persistence of real X Content.
+
+16. The X-specific content compliance policy must define the required handling of retained X Content, including synchronization or removal behavior for deleted or modified source content as required by the applicable X developer requirements.
+
+17. If X requirements for retained, deleted or modified content conflict with the current PostgreSQL persistence design, the conflict must be surfaced for a separate explicit project decision and must not be silently worked around.
+
+18. Module 7 receives PASS only when all of the following are verified with evidence:
+   - deterministic collector behavior;
+   - officially permitted X API access;
+   - bounded live API verification;
+   - approved request-count and billable-resource cost boundaries;
+   - X-specific content compliance policy approved before any persisted live X Content;
+   - PostgreSQL persistence behavior consistent with the approved X compliance policy;
+   - stable source identity and deduplication behavior;
+   - integration with the common Filter Engine;
+   - invalid, unauthorized or broken requests fail safely;
+   - secrets are not exposed in tracked Git files or diagnostic output;
+   - relevant repository documentation is synchronized;
+   - the Module 7 milestone is recorded in Git;
+   - the final Git working tree state is verified clean.
+
+19. D-032 does not change the approved architecture, source list or roadmap order.

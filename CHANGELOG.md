@@ -273,3 +273,16 @@ All notable verified project changes are recorded here.
 - Implementation milestone `bfa923a` and acceptance-test milestone `2dadbaa` verified.
 - Module 5 — Reddit Collector remains BLOCKED — DATA ACCESS NOT APPROVED under D-028 and D-029.
 - Next controlled roadmap transition: Module 7 — X Collector.
+
+- D-032 — Module 7 X Collector Scope, Access, Cost and Compliance Gate — FIXED / APPROVED.
+- Module 7 remains PRE-IMPLEMENTATION; X Collector implementation has not started.
+- Only officially permitted X API access is allowed; scraping, unofficial mirrors, credential workarounds and restriction bypasses are prohibited.
+- Before the first persisted live X Content, an X-specific content compliance policy must be explicitly approved.
+- Before that compliance policy is approved, fixtures / mocked data and bounded official API verification without permanent persistence of real X Content are allowed.
+- Real X API collection remains gated by valid developer credentials stored outside tracked Git files.
+- Any paid live verification requires a separately approved maximum budget covering both API request count and maximum billable returned Posts / resources.
+- X billing deduplication behavior, including any 24-hour billing deduplication, must not be treated as a guaranteed budget-control mechanism.
+- Historical 10–15 minute polling is not automatically fixed for Module 7; actual polling remains dependent on current pricing, returned-resource cost, API limits and permitted usage.
+- X records must use stable source identity / deduplication and the existing common Module 6 Filter Engine; no parallel X-specific Filter Engine is introduced.
+- D-032 does not change the approved architecture, source list or roadmap order.
+- After the D-032 documentation milestone is committed and Git is clean, collector implementation remains paused pending the separate SOURCE ACCESS PRECHECK requested for all approved V1 sources.
