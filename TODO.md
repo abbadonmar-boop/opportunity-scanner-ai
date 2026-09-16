@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Complete documentation synchronization for the verified Reddit access denial and D-029, then begin the controlled transition to Module 6 — Filter Engine. Module 5 remains BLOCKED — DATA ACCESS NOT APPROVED.
+Define and approve the exact Module 6 multilingual filtering rules and the hard-REJECT versus downstream risk / scoring boundary before any Filter Engine implementation.
 
 ## FOUNDATION
 
@@ -84,7 +84,7 @@ Complete documentation synchronization for the verified Reddit access denial and
 - [x] MODULE 3 — Telegram Bot
 - [x] MODULE 4 — RSS Collector
 - [ ] MODULE 5 — Reddit Collector — BLOCKED — DATA ACCESS NOT APPROVED
-- [ ] MODULE 6 — Filter Engine
+- [ ] MODULE 6 — Filter Engine — SCOPE APPROVED / IN PROGRESS
 - [ ] MODULE 7 — X Collector
 - [ ] MODULE 8 — Telegram Sources
 - [ ] MODULE 9 — Discord Collector

@@ -235,3 +235,12 @@ All notable verified project changes are recorded here.
 - D-029 — Reddit Access Denial Handling and Roadmap Continuation — FIXED / APPROVED.
 - D-029 permits controlled project execution to continue to Module 6 — Filter Engine while Module 5 remains blocked and incomplete.
 - A future official Reddit application or appeal remains possible only through an officially permitted path with a more complete compliant use case.
+
+- Controlled roadmap execution transitioned to Module 6 — Filter Engine while Module 5 — Reddit Collector remains BLOCKED — DATA ACCESS NOT APPROVED under D-029.
+- D-030 — Module 6 Filter Engine Scope and Acceptance Criteria — FIXED / APPROVED.
+- Module 6 extends the existing Module 4 FILTER implementation into one reusable deterministic rule-based Filter Engine rather than introducing a second filtering system.
+- Module 6 must support the approved EN / RU / UA / DE source languages.
+- Existing PASS / REJECT persistence compatibility and verified RSS Telegram delivery semantics must be preserved.
+- Module 6 does not implement AI, Anti-Scam, Risk, Score, source collection or Telegram delivery redesign.
+- Exact multilingual positive-keyword rules, stop-word rules and the hard-REJECT versus downstream risk / scoring boundary remain pending a separate explicit project decision before implementation.
+- Module 6 implementation has not started.

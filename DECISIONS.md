@@ -1007,3 +1007,79 @@ D-029 records the verified external Reddit access denial and the approved projec
 D-029 does not change the fixed logical architecture, approved source list, roadmap definitions, Module 5 scope or D-028 compliance boundaries.
 
 Module 6 remains the approved location of the full Filter Engine.
+
+## D-030 — MODULE 6 FILTER ENGINE SCOPE AND ACCEPTANCE CRITERIA
+Status: FIXED / APPROVED
+
+Module 6 extends the existing architectural FILTER component into the full deterministic rule-based Filter Engine.
+
+The Module 4 basic filter defined by D-021 and D-025 is not replaced by a second filtering system. Its verified behavior becomes the baseline that Module 6 generalizes into a reusable FILTER component.
+
+### SCOPE
+
+1. Module 6 implements one reusable deterministic rule-based Filter Engine.
+2. The Filter Engine remains before AI in the fixed logical pipeline.
+3. Module 6 extends the existing Module 4 filtering behavior rather than introducing a parallel or disposable filter.
+4. Filtering must support the approved source languages:
+   - EN
+   - RU
+   - UA
+   - DE
+5. The Filter Engine must remain usable by the existing RSS pipeline and by later approved source collectors without duplicating filtering logic inside each collector.
+6. Module 6 must preserve compatibility with the existing persisted filter states:
+   - PASS
+   - REJECT
+7. Existing verified RSS Telegram delivery behavior must remain unchanged: only items whose persisted filter_state is PASS are eligible for the current RSS Telegram delivery path.
+8. Filtering remains deterministic, inexpensive and rule-based before AI analysis.
+9. Module 6 does not introduce a second database, queue, Redis, Kafka, microservice, scheduler framework or other new infrastructure.
+
+### IMPLEMENTATION BOUNDARY
+
+10. RSS-specific filtering rules currently located in rss_collector.py may be moved or refactored into the common Filter Engine only through verified incremental changes.
+11. Such refactoring must preserve the already verified Module 4 behavior until an explicitly approved Module 6 rule change supersedes it.
+12. Module 6 does not implement:
+    - EXTRACT;
+    - AI Analyzer;
+    - Anti-Scam Engine;
+    - Risk Engine;
+    - Score Engine;
+    - source collection logic;
+    - Telegram delivery redesign.
+13. Module 6 must not silently classify uncertain scam, risk, quality or scoring signals as hard REJECT rules when their correct downstream treatment has not yet been approved.
+14. The exact multilingual positive-keyword rules, stop-word rules and the boundary between hard REJECT versus later risk / scoring treatment require a separate explicit project decision before those rules are implemented.
+15. No keyword, stop-word, language rule or rejection rule may be invented merely for convenience.
+
+### ACCEPTANCE CRITERIA
+
+Module 6 may receive COMPLETED / PASS only when all applicable criteria below are verified with evidence:
+
+- one reusable Filter Engine is implemented;
+- the existing Module 4 basic filter is integrated into that common engine rather than duplicated;
+- EN / RU / UA / DE filtering behavior required by the approved Module 6 rules is implemented and tested;
+- PASS and REJECT behavior is deterministic and tested;
+- filter results continue to persist through the approved PostgreSQL persistence layer;
+- existing RSS PASS / REJECT persistence behavior remains correct;
+- existing RSS Telegram delivery semantics remain correct after Filter Engine integration;
+- REJECT items remain ineligible for the current RSS Telegram delivery path;
+- normal repeated processing does not create a second filtering mechanism or duplicate source-item record;
+- invalid or unsupported input fails safely;
+- no AI, Anti-Scam, Risk or Score logic is introduced into Module 6;
+- no unapproved infrastructure or technology is introduced;
+- relevant local verification procedure is documented;
+- relevant repository documentation is synchronized;
+- the Module 6 milestone is recorded in Git;
+- the final Git working tree is verified clean.
+
+### ARCHITECTURE RELATION
+
+D-030 defines the Module 6 Filter Engine scope and acceptance criteria.
+
+D-021 remains authoritative for the relationship between the Module 4 basic filtering slice and the full Filter Engine.
+
+D-025 remains the baseline specification for the already verified Module 4 basic-filter behavior until an explicitly approved Module 6 rule decision changes that behavior.
+
+D-017 remains authoritative for PostgreSQL persistence.
+
+D-029 permits Module 6 execution while Module 5 — Reddit Collector remains BLOCKED — DATA ACCESS NOT APPROVED.
+
+D-030 does not change the fixed logical pipeline, approved architecture, roadmap definitions, source list or module order.
