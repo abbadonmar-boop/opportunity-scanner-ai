@@ -265,3 +265,11 @@ All notable verified project changes are recorded here.
 - 18 tests passed after RSS integration, including hard-REJECT priority over positive rules, multilingual matching, token-boundary behavior, default REJECT behavior and RSS wrapper delegation.
 - Implementation commit `bfa923a` was verified with a clean working tree.
 - Module 6 remains IN PROGRESS pending acceptance verification that RSS persistence and Telegram delivery eligibility semantics remain correct for PASS and REJECT results.
+
+- Module 6 — Filter Engine: COMPLETED / PASS.
+- Reusable deterministic multilingual Filter Engine implemented under D-030 and D-031.
+- RSS Collector now delegates filtering to the common Filter Engine without parallel rule logic.
+- 23 tests pass, including multilingual matching, hard-REJECT priority, token-boundary behavior, RSS integration, PASS / REJECT persistence, Telegram eligibility, delivery-state transition and duplicate-delivery prevention.
+- Implementation milestone `bfa923a` and acceptance-test milestone `2dadbaa` verified.
+- Module 5 — Reddit Collector remains BLOCKED — DATA ACCESS NOT APPROVED under D-028 and D-029.
+- Next controlled roadmap transition: Module 7 — X Collector.
