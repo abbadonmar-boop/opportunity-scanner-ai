@@ -11,6 +11,7 @@ from xml.etree import ElementTree
 
 import psycopg
 
+from .filter_engine import evaluate_filter
 from .telegram_bot import send_rss_candidate
 
 
@@ -310,38 +311,8 @@ def build_dedup_key(item: NormalizedFeedItem) -> str:
     return sha256(payload).hexdigest()
 
 
-BASIC_FILTER_POSITIVE_KEYWORDS = (
-    'freelance',
-    'remote',
-    'tester',
-    'testing',
-    'data annotation',
-    'data labeling',
-)
-
-BASIC_FILTER_STOP_WORDS = (
-    'unpaid',
-    'volunteer',
-    'giveaway',
-    'lottery',
-    'raffle',
-)
-
-
 def evaluate_basic_filter(item: NormalizedFeedItem) -> str:
-    text = '\n'.join(
-        value
-        for value in (item.title, item.content_text)
-        if value
-    ).casefold()
-
-    if any(stop_word in text for stop_word in BASIC_FILTER_STOP_WORDS):
-        return 'REJECT'
-
-    if any(keyword in text for keyword in BASIC_FILTER_POSITIVE_KEYWORDS):
-        return 'PASS'
-
-    return 'REJECT'
+    return evaluate_filter(item.title, item.content_text)
 
 
 def persist_basic_filter_result(
