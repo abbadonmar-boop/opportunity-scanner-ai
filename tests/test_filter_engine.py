@@ -3,6 +3,7 @@ from __future__ import annotations
 import sys
 import unittest
 from datetime import datetime, timezone
+from unittest.mock import MagicMock, patch
 from pathlib import Path
 
 
@@ -19,6 +20,7 @@ from opportunity_scanner.filter_engine import (  # noqa: E402
     FilterEngineError,
     evaluate_filter,
 )
+from opportunity_scanner import rss_collector  # noqa: E402
 from opportunity_scanner.rss_collector import (  # noqa: E402
     NormalizedFeedItem,
     evaluate_basic_filter,
@@ -157,6 +159,181 @@ class RssFilterIntegrationTests(unittest.TestCase):
         )
 
         self.assertEqual(evaluate_basic_filter(item), "PASS")
+
+
+class RssPersistenceAndDeliveryAcceptanceTests(unittest.TestCase):
+    def _database_config(self) -> rss_collector.DatabaseConfig:
+        return rss_collector.DatabaseConfig(
+            dbname="test_db",
+            user="test_user",
+            password="test_password",
+        )
+
+    def _mock_connection(
+        self,
+        fetchone_result: tuple[object, ...] | None,
+    ) -> tuple[MagicMock, MagicMock]:
+        cursor = MagicMock()
+        cursor.fetchone.return_value = fetchone_result
+
+        cursor_context = MagicMock()
+        cursor_context.__enter__.return_value = cursor
+
+        connection = MagicMock()
+        connection.cursor.return_value = cursor_context
+
+        connection_context = MagicMock()
+        connection_context.__enter__.return_value = connection
+
+        return connection_context, cursor
+
+    def test_pass_filter_state_is_persisted(self) -> None:
+        connection_context, cursor = self._mock_connection(("PASS",))
+        config = self._database_config()
+
+        with patch.object(
+            rss_collector.psycopg,
+            "connect",
+            return_value=connection_context,
+        ):
+            result = rss_collector.persist_basic_filter_result(
+                101,
+                "PASS",
+                config,
+            )
+
+        self.assertEqual(result, "PASS")
+        self.assertEqual(cursor.execute.call_args.args[1], ("PASS", 101))
+
+    def test_reject_filter_state_is_persisted(self) -> None:
+        connection_context, cursor = self._mock_connection(("REJECT",))
+        config = self._database_config()
+
+        with patch.object(
+            rss_collector.psycopg,
+            "connect",
+            return_value=connection_context,
+        ):
+            result = rss_collector.persist_basic_filter_result(
+                102,
+                "REJECT",
+                config,
+            )
+
+        self.assertEqual(result, "REJECT")
+        self.assertEqual(cursor.execute.call_args.args[1], ("REJECT", 102))
+
+    def test_reject_item_is_not_telegram_eligible(self) -> None:
+        connection_context, _ = self._mock_connection(
+            (
+                "REJECT",
+                "PENDING",
+                "Freelance tester opportunity",
+                "Example",
+                "https://example.com/item",
+            )
+        )
+        config = self._database_config()
+
+        with (
+            patch.object(
+                rss_collector.psycopg,
+                "connect",
+                return_value=connection_context,
+            ),
+            patch.object(rss_collector, "send_rss_candidate") as send_mock,
+            patch.object(
+                rss_collector,
+                "mark_telegram_delivered",
+            ) as delivered_mock,
+        ):
+            result = rss_collector.deliver_rss_candidate_if_pending(
+                103,
+                "token",
+                123456,
+                config,
+            )
+
+        self.assertFalse(result)
+        send_mock.assert_not_called()
+        delivered_mock.assert_not_called()
+
+    def test_pass_pending_item_is_sent_and_marked_delivered(self) -> None:
+        connection_context, _ = self._mock_connection(
+            (
+                "PASS",
+                "PENDING",
+                "Freelance tester opportunity",
+                "Example",
+                "https://example.com/item",
+            )
+        )
+        config = self._database_config()
+
+        with (
+            patch.object(
+                rss_collector.psycopg,
+                "connect",
+                return_value=connection_context,
+            ),
+            patch.object(rss_collector, "send_rss_candidate") as send_mock,
+            patch.object(
+                rss_collector,
+                "mark_telegram_delivered",
+                return_value="DELIVERED",
+            ) as delivered_mock,
+        ):
+            result = rss_collector.deliver_rss_candidate_if_pending(
+                104,
+                "token",
+                123456,
+                config,
+            )
+
+        self.assertTrue(result)
+        send_mock.assert_called_once_with(
+            "token",
+            123456,
+            "Freelance tester opportunity",
+            "Example",
+            "https://example.com/item",
+        )
+        delivered_mock.assert_called_once_with(104, config)
+
+    def test_delivered_pass_item_is_not_sent_again(self) -> None:
+        connection_context, _ = self._mock_connection(
+            (
+                "PASS",
+                "DELIVERED",
+                "Freelance tester opportunity",
+                "Example",
+                "https://example.com/item",
+            )
+        )
+        config = self._database_config()
+
+        with (
+            patch.object(
+                rss_collector.psycopg,
+                "connect",
+                return_value=connection_context,
+            ),
+            patch.object(rss_collector, "send_rss_candidate") as send_mock,
+            patch.object(
+                rss_collector,
+                "mark_telegram_delivered",
+            ) as delivered_mock,
+        ):
+            result = rss_collector.deliver_rss_candidate_if_pending(
+                105,
+                "token",
+                123456,
+                config,
+            )
+
+        self.assertFalse(result)
+        send_mock.assert_not_called()
+        delivered_mock.assert_not_called()
 
 
 if __name__ == "__main__":
