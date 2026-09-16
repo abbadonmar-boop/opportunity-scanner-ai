@@ -256,3 +256,12 @@ All notable verified project changes are recorded here.
 - The approved $5 minimum payout requirement remains downstream because payout handling requires extracted payment information.
 - The required Module 6 pre-implementation specification is now complete.
 - Module 6 implementation has not started.
+
+- Module 6 implementation milestone `bfa923a`: reusable deterministic Filter Engine foundation implemented.
+- Added `src/opportunity_scanner/filter_engine.py` with the approved D-031 EN / RU / UA / DE deterministic rules and matching semantics.
+- Existing RSS-local filter rule lists were removed; `rss_collector.py` now delegates filtering to the common Filter Engine while preserving the existing `evaluate_basic_filter()` integration point.
+- No parallel filtering mechanism was introduced.
+- Added Filter Engine and RSS integration tests.
+- 18 tests passed after RSS integration, including hard-REJECT priority over positive rules, multilingual matching, token-boundary behavior, default REJECT behavior and RSS wrapper delegation.
+- Implementation commit `bfa923a` was verified with a clean working tree.
+- Module 6 remains IN PROGRESS pending acceptance verification that RSS persistence and Telegram delivery eligibility semantics remain correct for PASS and REJECT results.

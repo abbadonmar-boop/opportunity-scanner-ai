@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Begin the first controlled Module 6 implementation step: create the reusable deterministic Filter Engine foundation while preserving the verified Module 4 RSS filter behavior.
+Verify that the common Module 6 Filter Engine preserves the existing RSS persistence and Telegram delivery eligibility semantics for PASS and REJECT results before Module 6 can be considered complete.
 
 ## FOUNDATION
 
