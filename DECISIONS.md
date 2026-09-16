@@ -978,3 +978,32 @@ Module 6 remains the approved location of the full Filter Engine.
 The future AI compliance gate applies only before Reddit User Content is later transmitted to an AI provider and does not move AI Analyzer work into Module 5.
 
 D-028 does not change the fixed logical pipeline, roadmap, product scope, module order or approved source list.
+
+## D-029 — REDDIT ACCESS DENIAL HANDLING AND ROADMAP CONTINUATION
+Status: FIXED / APPROVED
+
+The Reddit Data Access request submitted for Opportunity Scanner AI was not approved by the Reddit Data Team on 2026-09-12.
+
+Under D-028, Module 5 therefore enters:
+
+BLOCKED — DATA ACCESS NOT APPROVED
+
+### BLOCKED MODULE HANDLING
+
+1. Reddit Collector implementation must not begin while officially permitted Reddit data access is not approved.
+2. The access denial must not be bypassed through HTML scraping, browser scraping, unofficial mirrors, alternate accounts, credential workarounds or other unapproved access paths.
+3. Reddit remains an approved V1 source under D-005. The SOURCE layer, approved architecture and source list are not changed by this denial.
+4. Module 5 remains incomplete and BLOCKED. It must not be marked COMPLETED / PASS.
+5. Because the Module 5 blocker is external to the other approved modules, project execution may continue to Module 6 — Filter Engine while Module 5 remains blocked.
+6. Continuing with Module 6 does not rewrite or reorder the fixed roadmap. It records an execution exception caused by an external access blocker while preserving Module 5 in its approved roadmap position.
+7. The project may later return to an official Reddit application or appeal only through an officially permitted path after preparing a more complete compliant use case.
+8. Any future Reddit access approval, conditions or compliance requirements must be reviewed before Module 5 implementation resumes.
+9. No Reddit User Content may be collected through Module 5 before officially permitted access is confirmed.
+
+### ARCHITECTURE RELATION
+
+D-029 records the verified external Reddit access denial and the approved project-continuation handling required by D-028.
+
+D-029 does not change the fixed logical architecture, approved source list, roadmap definitions, Module 5 scope or D-028 compliance boundaries.
+
+Module 6 remains the approved location of the full Filter Engine.

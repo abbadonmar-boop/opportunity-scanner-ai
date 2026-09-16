@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Await Reddit's decision or follow-up on the successfully submitted API access request. Do not begin Reddit Collector implementation until officially permitted access is confirmed.
+Complete documentation synchronization for the verified Reddit access denial and D-029, then begin the controlled transition to Module 6 — Filter Engine. Module 5 remains BLOCKED — DATA ACCESS NOT APPROVED.
 
 ## FOUNDATION
 
@@ -83,7 +83,7 @@ Await Reddit's decision or follow-up on the successfully submitted API access re
 - [x] MODULE 2 — PostgreSQL
 - [x] MODULE 3 — Telegram Bot
 - [x] MODULE 4 — RSS Collector
-- [ ] MODULE 5 — Reddit Collector
+- [ ] MODULE 5 — Reddit Collector — BLOCKED — DATA ACCESS NOT APPROVED
 - [ ] MODULE 6 — Filter Engine
 - [ ] MODULE 7 — X Collector
 - [ ] MODULE 8 — Telegram Sources

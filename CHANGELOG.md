@@ -226,3 +226,12 @@ All notable verified project changes are recorded here.
 - Reddit Support confirmed successful receipt of the API access request.
 - Reddit approval has not yet been granted.
 - Module 5 — Reddit Collector implementation remains not started and is awaiting the external Reddit access decision.
+
+- Reddit Data Team denied the Opportunity Scanner AI Data Access request in its response dated 2026-09-12.
+- Module 5 — Reddit Collector entered BLOCKED — DATA ACCESS NOT APPROVED.
+- Reddit Collector implementation remains not started.
+- The Reddit denial must not be bypassed through scraping, unofficial mirrors, alternate accounts, credential workarounds or other unapproved access paths.
+- Reddit remains an approved V1 source; the SOURCE layer and approved architecture remain unchanged.
+- D-029 — Reddit Access Denial Handling and Roadmap Continuation — FIXED / APPROVED.
+- D-029 permits controlled project execution to continue to Module 6 — Filter Engine while Module 5 remains blocked and incomplete.
+- A future official Reddit application or appeal remains possible only through an officially permitted path with a more complete compliant use case.

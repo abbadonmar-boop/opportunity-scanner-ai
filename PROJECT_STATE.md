@@ -4,10 +4,10 @@
 Foundation
 
 ## CURRENT MODULE
-Module 5 — Reddit Collector — ACCESS GATE / AWAITING REDDIT APPROVAL
+Module 5 — Reddit Collector — BLOCKED — DATA ACCESS NOT APPROVED
 
 ## CURRENT STEP
-Module 4 — RSS Collector remains COMPLETED / PASS. The official Reddit API access request for Opportunity Scanner AI was successfully submitted on 2026-09-12 and receipt was confirmed by Reddit Support. Reddit approval has not yet been granted. Reddit Collector implementation has not started and must not start until an officially permitted Reddit developer access path is confirmed.
+The Reddit Data Team denied the Opportunity Scanner AI Reddit Data Access request in its response dated 2026-09-12. Module 5 — Reddit Collector is therefore BLOCKED — DATA ACCESS NOT APPROVED under D-028 and D-029. Reddit Collector implementation has not started and no unapproved access path may be used. The external Module 5 blocker does not change the approved architecture or source list and does not prevent controlled continuation to Module 6 — Filter Engine.
 
 ## COMPLETED
 - Product requirements and Architecture v1.0 are fixed.
@@ -112,13 +112,13 @@ Module 4 — RSS Collector remains COMPLETED / PASS. The official Reddit API acc
 - Removed the synthetic real-delivery verification row from PostgreSQL and verified zero matching test rows remained.
 
 ## IN PROGRESS
-Module 5 — Reddit Collector access gate is awaiting Reddit's response to the submitted API access request. Collector implementation has not started.
+Repository documentation synchronization for the verified Reddit access denial and D-029 roadmap-continuation handling is in progress. Reddit Collector implementation has not started.
 
 ## NEXT STEP
-Await Reddit's decision or follow-up on the submitted API access request. Do not begin Reddit Collector implementation until officially permitted access is confirmed.
+Complete repository documentation synchronization for D-029, record the verified Reddit access-denial state in Git, verify a clean working tree, then begin the controlled transition to Module 6 — Filter Engine.
 
 ## BLOCKERS
-Module 5 implementation is currently blocked on an external Reddit access decision. The API access request was successfully submitted on 2026-09-12, but approval has not yet been granted.
+Module 5 — Reddit Collector is BLOCKED — DATA ACCESS NOT APPROVED. The Reddit Data Team did not approve the submitted access request. This blocker applies to Reddit Collector implementation and must not be bypassed. Under D-029 it does not block continued execution of the remaining approved roadmap.
 
 ## KNOWN ISSUES
 - Conflict 1 — RESOLVED by D-017.
@@ -136,6 +136,7 @@ D-025 fixes the minimum deterministic Module 4 basic-filter rules without moving
 D-026 fixes the MAIN DEVELOPMENT session handoff workflow without changing architecture, roadmap, scope or module decisions.
 D-027 fixes the Module 4 initial live-feed safety mechanism: exactly one configured feed URL, at most one parser item entering persistence/downstream processing, deterministic first-item selection, and no uncontrolled historical backlog.
 D-028 fixes the Module 5 Reddit Collector scope, official-access gate, Reddit data compliance boundary, and future AI compliance gate without changing the approved architecture, roadmap, module order or source list.
+D-029 records the verified Reddit access denial and permits controlled roadmap execution to continue beyond blocked Module 5 without changing the approved architecture, source list, roadmap definitions or Module 5 scope.
 - D-027 bounded live-feed verification mode implemented in rss_collector.py.
 - Added deterministic first-parser-item processing with at most one item entering persistence and downstream processing.
 - Added allowlist enforcement before live feed retrieval.
@@ -161,4 +162,4 @@ D-028 fixes the Module 5 Reddit Collector scope, official-access gate, Reddit da
 - Module 4 — RSS Collector: COMPLETED / PASS.
 
 ## LAST VERIFIED STATE
-2026-09-12 — Module 4 — RSS Collector remains COMPLETED / PASS and milestone commit f817bd1 remains verified. D-028 remains FIXED / APPROVED and was committed as d341146. The official Reddit API access request for Opportunity Scanner AI was successfully submitted on 2026-09-12 and receipt was confirmed by Reddit Support. Reddit approval has not yet been granted. Module 5 — Reddit Collector implementation has not started and is awaiting the external Reddit access decision before implementation may proceed. The future Reddit-to-AI compliance gate remains fixed by D-028 and does not alter the current access-gate state.
+2026-09-16 — The Reddit Data Team access-denial response dated 2026-09-12 has been verified. Module 5 — Reddit Collector is BLOCKED — DATA ACCESS NOT APPROVED and remains incomplete; implementation has not started. D-029 is FIXED / APPROVED and records that the denial must not be bypassed, Reddit remains an approved V1 source, and the remaining roadmap may continue without changing the approved architecture. The current documentation-sync step must be completed before controlled transition to Module 6 — Filter Engine.

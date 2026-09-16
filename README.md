@@ -10,10 +10,10 @@ Current development state:
 - Module 2 — PostgreSQL: COMPLETED / PASS
 - Module 3 — Telegram Bot: COMPLETED / PASS
 - Module 4 — RSS Collector: COMPLETED / PASS
-- Module 5 — Reddit Collector: ACCESS GATE / AWAITING REDDIT APPROVAL
+- Module 5 — Reddit Collector: BLOCKED — DATA ACCESS NOT APPROVED
 - Repository initialized
 - Mandatory project documentation: COMPLETED / VERIFIED
-- Application code: IN PROGRESS — implemented through the verified Module 4 state; Module 5 implementation has not started and is awaiting Reddit access approval
+- Application code: IN PROGRESS — implemented through the verified Module 4 state; Module 5 implementation has not started and is BLOCKED — DATA ACCESS NOT APPROVED; controlled transition to Module 6 follows D-029
 
 See `PROJECT_STATE.md` for the latest verified state.
 
