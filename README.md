@@ -12,10 +12,13 @@ Current development state:
 - Module 4 — RSS Collector: COMPLETED / PASS
 - Module 5 — Reddit Collector: BLOCKED — DATA ACCESS NOT APPROVED
 - Module 6 — Filter Engine: COMPLETED / PASS
-- Module 7 — X Collector: SCOPE APPROVED / PRE-IMPLEMENTATION
+- Module 7 — X Collector: SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL
+- Module 8 — Telegram Sources: ACCESS PRECHECK BLOCKED — TELEGRAM CONTENT AI-USE TERMS CONFLICT
+- Module 9 — Discord Collector: ACCESS PRECHECK AVAILABLE WITH LIMITATIONS
 - Repository initialized
 - Mandatory project documentation: COMPLETED / VERIFIED
-- Application code: IN PROGRESS — implemented through verified Module 6; Module 5 remains BLOCKED — DATA ACCESS NOT APPROVED; Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION under D-032; D-033 SOURCE ACCESS PRECHECK is FIXED / APPROVED but has not started; collector implementation remains paused until the five-source precheck is completed and verified
+- SOURCE ACCESS PRECHECK: COMPLETE / VERIFIED under D-033
+- Application code: IN PROGRESS — implemented through verified Module 6; Module 5 remains BLOCKED — DATA ACCESS NOT APPROVED; Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED; collector implementation remains paused pending a separate explicit project decision on the unresolved X Pay Per Use approval gate and any roadmap consequences of the verified source statuses
 
 See `PROJECT_STATE.md` for the latest verified state.
 
@@ -118,6 +121,7 @@ See `ROADMAP.md` for the fixed module order.
 - `ROADMAP.md` — approved module sequence
 - `TODO.md` — active work and remaining tasks
 - `CHANGELOG.md` — verified project changes
+- `SOURCE_ACCESS_PRECHECK.md` — verified official-access state, evidence, limitations and proceed / do-not-proceed conclusion for every approved V1 source
 - `README.md` — repository overview
 - `SESSION_HANDOFF.md` — controlled MAIN DEVELOPMENT chat continuity template
 
@@ -159,7 +163,7 @@ They must not be silently resolved.
 
 ## Current Implementation
 
-Application code is implemented through the verified Module 4 state. Module 2, Module 3 and Module 4 are COMPLETED / PASS.
+Application code is implemented through the verified Module 6 state. Module 2, Module 3, Module 4 and Module 6 are COMPLETED / PASS. Module 5 remains BLOCKED — DATA ACCESS NOT APPROVED. Module 7 remains PRE-IMPLEMENTATION / ACCESS GATED.
 
 Module 2 — PostgreSQL is COMPLETED / PASS. The local PostgreSQL foundation is implemented, tested, documented and recorded in milestone commit d033d94.
 

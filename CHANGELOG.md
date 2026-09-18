@@ -301,3 +301,15 @@ All notable verified project changes are recorded here.
 - Reddit retains the verified baseline status BLOCKED — DATA ACCESS NOT APPROVED unless new official evidence changes that state.
 - Collector implementation remains paused until all five approved V1 sources have a verified status, date, evidence, documented limitations or blockers, and a clear proceed / do-not-proceed conclusion.
 - SOURCE ACCESS PRECHECK itself has not started yet.
+
+- SOURCE ACCESS PRECHECK completed and verified on 2026-09-18 under D-033.
+- All five approved V1 sources now have a formal status, verification date, supporting evidence, documented limitations / blockers, and a collector proceed / do-not-proceed conclusion in SOURCE_ACCESS_PRECHECK.md.
+- Reddit: BLOCKED — DATA ACCESS NOT APPROVED.
+- X / Twitter: UNKNOWN — REQUIRES APPROVAL. Developer onboarding and App creation are complete, but the active App remains disconnected from the verified Default Project — Pay Per Use. No paid access, credits or billable API use were activated.
+- Discord: AVAILABLE WITH LIMITATIONS. Official application / bot access is available for controlled personal-scale use subject to guild installation, permissions, Message Content Intent, rate limits, data-handling requirements and future scale-related verification gates.
+- Telegram: BLOCKED under the currently approved end-to-end architecture because the verified Telegram AI-use terms conflict with downstream AI processing of Telegram-derived content. No Telegram API credentials were created because credentials would not resolve the compliance conflict.
+- RSS / Atom: AVAILABLE WITH LIMITATIONS. The configured official OpenAI RSS feed was verified by bounded direct HTTP access with HTTP 200, Content-Type `text/xml; charset=utf-8`, and XML root element `rss`; no collector execution, PostgreSQL persistence or Telegram delivery was performed during this precheck.
+- SOURCE ACCESS PRECHECK status is COMPLETE / VERIFIED.
+- Module 7 — X Collector remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED.
+- Collector implementation remains paused pending a separate explicit project decision on the unresolved X Pay Per Use approval gate and any roadmap consequences of the verified source statuses.
+- No approved V1 source was removed, replaced or reordered by the precheck.

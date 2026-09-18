@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Complete the D-033 documentation sync and Git commit. After Git is clean, begin the SOURCE ACCESS PRECHECK as a separate controlled activity, one approved V1 source at a time.
+Complete the SOURCE ACCESS PRECHECK documentation sync and Git commit. After Git is clean, stop before collector implementation and make a separate explicit project decision on the unresolved X Pay Per Use approval gate and on any roadmap consequences of the verified source statuses.
 
 ## FOUNDATION
 
@@ -78,6 +78,17 @@ Complete the D-033 documentation sync and Git commit. After Git is clean, begin 
 
 - [x] Resolve the documented early basic-filter versus Module 6 Filter Engine contradiction — RESOLVED by D-021.
 
+## SOURCE ACCESS PRECHECK
+
+- [x] Reddit — BLOCKED — DATA ACCESS NOT APPROVED.
+- [x] X / Twitter — UNKNOWN — REQUIRES APPROVAL — active App remains disconnected from Default Project — Pay Per Use.
+- [x] Discord — AVAILABLE WITH LIMITATIONS.
+- [x] Telegram — BLOCKED — current AI-use terms conflict with the approved downstream AI stage.
+- [x] RSS / Atom — AVAILABLE WITH LIMITATIONS.
+- [x] Verify date and evidence for all five approved V1 sources.
+- [x] Record collector proceed / do-not-proceed result for all five sources.
+- [x] Mark SOURCE ACCESS PRECHECK COMPLETE / VERIFIED under D-033.
+
 ## ROADMAP
 
 - [x] MODULE 2 — PostgreSQL
@@ -85,9 +96,9 @@ Complete the D-033 documentation sync and Git commit. After Git is clean, begin 
 - [x] MODULE 4 — RSS Collector
 - [ ] MODULE 5 — Reddit Collector — BLOCKED — DATA ACCESS NOT APPROVED
 - [x] MODULE 6 — Filter Engine — COMPLETED / PASS
-- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION
-- [ ] MODULE 8 — Telegram Sources
-- [ ] MODULE 9 — Discord Collector
+- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL
+- [ ] MODULE 8 — Telegram Sources — BLOCKED — TELEGRAM CONTENT AI-USE TERMS CONFLICT
+- [ ] MODULE 9 — Discord Collector — ACCESS PRECHECK: AVAILABLE WITH LIMITATIONS
 - [ ] MODULE 10 — AI Analyzer
 - [ ] MODULE 11 — Anti-Scam Engine
 - [ ] MODULE 12 — Score Engine

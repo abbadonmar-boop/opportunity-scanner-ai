@@ -4,10 +4,10 @@
 Foundation
 
 ## CURRENT MODULE
-Module 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION
+Module 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED
 
 ## CURRENT STEP
-Module 6 — Filter Engine remains COMPLETED / PASS. Module 7 — X Collector remains SCOPE APPROVED / PRE-IMPLEMENTATION under D-032. D-033 — SOURCE ACCESS PRECHECK — is FIXED / APPROVED. The precheck has not started. Collector implementation remains paused until the five-source SOURCE ACCESS PRECHECK is completed and verified. The current task is to complete the D-033 documentation milestone and return Git to a clean state.
+SOURCE ACCESS PRECHECK is COMPLETE / VERIFIED under D-033. Verified results: Reddit — BLOCKED; X / Twitter — UNKNOWN — REQUIRES APPROVAL; Discord — AVAILABLE WITH LIMITATIONS; Telegram — BLOCKED; RSS / Atom — AVAILABLE WITH LIMITATIONS. Module 7 — X Collector remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED. Collector implementation has not started and must not proceed while the X Pay Per Use access gate remains unresolved. No paid X access, credits or billable API use have been activated.
 
 ## COMPLETED
 - Product requirements and Architecture v1.0 are fixed.
@@ -110,15 +110,22 @@ Module 6 — Filter Engine remains COMPLETED / PASS. Module 7 — X Collector re
 - Verified the real Открыть inline button opens the configured source URL.
 - Live RSS feed retrieval remained disabled during this verification.
 - Removed the synthetic real-delivery verification row from PostgreSQL and verified zero matching test rows remained.
+- D-033 — SOURCE ACCESS PRECHECK — completed and verified for all five approved V1 sources.
+- Verified source statuses: Reddit — BLOCKED; X / Twitter — UNKNOWN — REQUIRES APPROVAL; Discord — AVAILABLE WITH LIMITATIONS; Telegram — BLOCKED; RSS / Atom — AVAILABLE WITH LIMITATIONS.
+- SOURCE_ACCESS_PRECHECK.md contains the verification dates, evidence, limitations / blockers and collector proceed / do-not-proceed result for every approved V1 source.
 
 ## IN PROGRESS
-D-033 documentation milestone synchronization. SOURCE ACCESS PRECHECK has not started. Module 7 collector implementation has not started.
+Post-precheck documentation synchronization. SOURCE ACCESS PRECHECK is COMPLETE / VERIFIED. Module 7 collector implementation has not started and remains access-gated.
 
 ## NEXT STEP
-Complete the D-033 documentation sync and Git commit. After the D-033 milestone is committed and the working tree is clean, stop and begin the SOURCE ACCESS PRECHECK as a separate controlled activity, one source at a time.
+Complete the SOURCE ACCESS PRECHECK documentation sync and Git commit. After Git is clean, stop before collector implementation and make a separate explicit project decision on the unresolved X Pay Per Use approval gate and on any roadmap consequences of the verified source statuses. Sources must not be silently removed, replaced or reordered.
 
 ## BLOCKERS
-Module 5 — Reddit Collector is BLOCKED — DATA ACCESS NOT APPROVED. The Reddit Data Team did not approve the submitted access request. This blocker applies to Reddit Collector implementation and must not be bypassed. Under D-029 it does not block continued execution of the remaining approved roadmap.
+Module 5 — Reddit Collector is BLOCKED — DATA ACCESS NOT APPROVED. The Reddit Data Team did not approve the submitted access request. This blocker applies to Reddit Collector implementation and must not be bypassed.
+
+Module 7 — X Collector is not formally BLOCKED, but its verified D-033 status is UNKNOWN — REQUIRES APPROVAL. Developer onboarding and App creation are complete, but the active X App is not connected to the verified Default Project — Pay Per Use. Connection / cost exposure requires separate explicit user approval.
+
+Module 8 — Telegram Sources has a verified D-033 status of BLOCKED under the currently approved end-to-end architecture because Telegram's current AI-use terms conflict with downstream use of Telegram-derived content in the approved AI stage. Resolution requires a separate explicit project decision and must not be bypassed.
 
 ## KNOWN ISSUES
 - Conflict 1 — RESOLVED by D-017.
@@ -139,6 +146,8 @@ D-028 fixes the Module 5 Reddit Collector scope, official-access gate, Reddit da
 D-029 records the verified Reddit access denial and permits controlled roadmap execution to continue beyond blocked Module 5 without changing the approved architecture, source list, roadmap definitions or Module 5 scope.
 D-030 fixes the Module 6 Filter Engine scope and acceptance criteria without changing the fixed logical pipeline, approved architecture, roadmap definitions, source list or module order.
 D-031 fixes the exact Module 6 multilingual filtering rules, deterministic matching semantics and downstream responsibility boundaries without changing the approved architecture or Module 6 scope.
+D-032 fixes the Module 7 X Collector scope, official-access boundary, cost boundary and pre-persistence compliance gate without changing the approved architecture, source list or roadmap order.
+D-033 fixes the SOURCE ACCESS PRECHECK process, formal source-status criteria, verification-date requirement and evidence requirement without changing the approved architecture, roadmap, module order or V1 source list.
 - D-027 bounded live-feed verification mode implemented in rss_collector.py.
 - Added deterministic first-parser-item processing with at most one item entering persistence and downstream processing.
 - Added allowlist enforcement before live feed retrieval.
@@ -164,4 +173,4 @@ D-031 fixes the exact Module 6 multilingual filtering rules, deterministic match
 - Module 4 — RSS Collector: COMPLETED / PASS.
 
 ## LAST VERIFIED STATE
-2026-09-16 — D-032 — Module 7 X Collector Scope, Access, Cost and Compliance Gate — is committed at a526924 and was verified with a clean working tree. Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION; collector implementation has not started. D-033 — SOURCE ACCESS PRECHECK — is now FIXED / APPROVED and is being synchronized into project documentation. The SOURCE ACCESS PRECHECK itself has not started. D-033 requires formal statuses, verification dates and evidence for Reddit, X / Twitter, Discord, Telegram and RSS / Atom before collector implementation resumes. Module 5 — Reddit Collector remains BLOCKED — DATA ACCESS NOT APPROVED.
+2026-09-18 — SOURCE ACCESS PRECHECK is COMPLETE / VERIFIED under D-033. Reddit is BLOCKED — DATA ACCESS NOT APPROVED. X / Twitter is UNKNOWN — REQUIRES APPROVAL because the active App remains disconnected from Default Project — Pay Per Use and no cost exposure is approved. Discord is AVAILABLE WITH LIMITATIONS. Telegram is BLOCKED under the currently approved end-to-end architecture because verified Telegram AI-use terms conflict with downstream AI processing of Telegram-derived content. RSS / Atom is AVAILABLE WITH LIMITATIONS. Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED; no collector implementation has resumed.
