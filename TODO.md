@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Complete the D-034 and D-035 documentation sync and Git commit. After Git is clean, define and explicitly approve the exact bounded X live-access envelope from verified current X pricing and endpoint behavior: maximum spend, maximum requests, maximum billable returned Posts / resources, and deterministic safe-stop conditions. Until that envelope is approved, do not connect the App to Pay Per Use, purchase credits, enable Auto-recharge, make paid live requests or begin X Collector implementation.
+Complete D-036 documentation synchronization and Git commit. After Git is clean, perform a separate controlled activation-readiness step before any Pay Per Use connection, credit purchase or paid live API request. X Collector implementation must not begin automatically.
 
 ## FOUNDATION
 
@@ -89,7 +89,7 @@ Complete the D-034 and D-035 documentation sync and Git commit. After Git is cle
 - [x] Record collector proceed / do-not-proceed result for all five sources.
 - [x] Mark SOURCE ACCESS PRECHECK COMPLETE / VERIFIED under D-033.
 
-## D-034 / D-035 POLICY MILESTONE
+## D-034 / D-035 / D-036 POLICY MILESTONE
 
 - [x] Approve official X API Pay Per Use use in principle — D-034.
 - [x] Fix maximum initial personal-funded X API budget at USD $15.
@@ -97,9 +97,9 @@ Complete the D-034 and D-035 documentation sync and Git commit. After Git is cle
 - [x] Prohibit automatic top-up and automatic budget increase.
 - [x] Require separate explicit approval for every later top-up.
 - [x] Require paid X collection to stop rather than consume additional personal funds after the approved personal-funded allocation is exhausted.
-- [ ] Define and approve exact maximum X API request count before paid activation.
-- [ ] Define and approve exact maximum billable returned Posts / resources before paid activation.
-- [ ] Define and approve deterministic safe-stop conditions before paid activation.
+- [x] Define and approve exact maximum X API request count before paid activation — D-036: 20.
+- [x] Define and approve exact maximum billable returned Posts / resources before paid activation — D-036: 200.
+- [x] Define and approve deterministic safe-stop conditions before paid activation — D-036.
 - [x] Approve cross-module Quality / Noise / Dedup Policy — D-035.
 - [x] Fix governing objective: MINIMUM NOISE → MAXIMUM ACTIONABLE OPPORTUNITIES.
 - [x] Require stable source identity and deterministic deduplication.
@@ -107,6 +107,7 @@ Complete the D-034 and D-035 documentation sync and Git commit. After Git is cle
 - [x] Prevent repeated production Telegram delivery of the same logical opportunity without a separately specified substantial-change rule.
 - [x] Exclude expired / closed opportunities from the normal production Telegram flow.
 - [x] Require applicable quality / risk / scoring gates before final production Telegram delivery.
+- [x] Approve D-036 bounded live-access envelope: maximum USD $1.00 spend, 20 paid requests, 10 Posts per Recent Search request, 200 maximum billable returned Posts / resources.
 
 ## ROADMAP
 
@@ -115,7 +116,7 @@ Complete the D-034 and D-035 documentation sync and Git commit. After Git is cle
 - [x] MODULE 4 — RSS Collector
 - [ ] MODULE 5 — Reddit Collector — BLOCKED — DATA ACCESS NOT APPROVED
 - [x] MODULE 6 — Filter Engine — COMPLETED / PASS
-- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-034 Pay Per Use approved in principle; bounded live-access envelope pending
+- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; Pay Per Use remains inactive
 - [ ] MODULE 8 — Telegram Sources — BLOCKED — TELEGRAM CONTENT AI-USE TERMS CONFLICT
 - [ ] MODULE 9 — Discord Collector — ACCESS PRECHECK: AVAILABLE WITH LIMITATIONS
 - [ ] MODULE 10 — AI Analyzer

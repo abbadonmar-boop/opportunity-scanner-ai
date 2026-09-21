@@ -345,3 +345,18 @@ All notable verified project changes are recorded here.
 - Final production Telegram delivery requires all applicable approved quality, risk and scoring gates.
 - Existing Module 4 controlled RSS → Filter → Telegram verification remains valid development evidence and is not reclassified as the final production eligibility policy.
 - D-034 and D-035 do not change the approved architecture, roadmap, source list or module order.
+
+- D-036 — X Bounded Live-Access Envelope — FIXED / APPROVED on 2026-09-21.
+- The first controlled paid X verification envelope is bounded to maximum USD $1.00 spend.
+- Maximum paid X API requests for this envelope: 20.
+- Maximum `max_results` per approved Recent Search request: 10 Posts.
+- Maximum billable returned Posts / resources for this envelope: 200.
+- Paid X activity must stop before or when any approved spend, request-count or billable-resource limit is reached or would be exceeded.
+- Paid activity must also stop if pricing differs from the verified basis, an unexpected billable resource appears, remaining cost exposure cannot be bounded, billing / usage information cannot be verified, or an operation falls outside the approved endpoint scope.
+- Billing deduplication or any soft billing guarantee must not be relied upon for budget control.
+- Auto-recharge remains OFF.
+- D-036 authorizes at most USD $1.00 of the D-034 maximum initial personal-funded USD $15 ceiling; the remaining USD $14 is not automatically authorized for live use.
+- D-036 does not by itself authorize credit purchase, Pay Per Use connection, credential generation, paid live API requests or X Collector implementation.
+- Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED.
+- The X App remains disconnected from Pay Per Use, no credits have been purchased, no paid live API request has been made, and X Collector implementation has not started.
+- D-036 does not change the approved architecture, roadmap, source list or module order.

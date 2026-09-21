@@ -7,7 +7,7 @@ Foundation
 Module 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED
 
 ## CURRENT STEP
-SOURCE ACCESS PRECHECK remains COMPLETE / VERIFIED under D-033. D-034 — X API Budget and Paid Access Policy — is FIXED / APPROVED. Official X Pay Per Use use is approved in principle with a maximum initial personal-funded budget of USD $15, Auto-recharge OFF, no automatic top-up, and no future personal funding beyond that initial allocation. D-035 — Quality / Noise / Dedup Policy — is FIXED / APPROVED with the governing objective MINIMUM NOISE → MAXIMUM ACTIONABLE OPPORTUNITIES. Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED. The App remains disconnected from Pay Per Use, no credits have been purchased, no paid live API request has been made, and collector implementation has not started. Before paid activation, exact maximum request count, maximum billable returned Posts / resources and deterministic safe-stop conditions must be separately approved.
+SOURCE ACCESS PRECHECK remains COMPLETE / VERIFIED under D-033. D-034 — X API Budget and Paid Access Policy — and D-035 — Quality / Noise / Dedup Policy — remain FIXED / APPROVED. D-036 — X Bounded Live-Access Envelope — is FIXED / APPROVED: maximum spend USD $1.00, maximum 20 paid API requests, maximum 10 Posts per Recent Search request, and maximum 200 billable returned Posts / resources, with deterministic hard safe-stop conditions. Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED. The App remains disconnected from Pay Per Use, no credits have been purchased, no paid live API request has been made, and collector implementation has not started.
 
 ## COMPLETED
 - Product requirements and Architecture v1.0 are fixed.
@@ -117,17 +117,19 @@ SOURCE ACCESS PRECHECK remains COMPLETE / VERIFIED under D-033. D-034 — X API 
 - D-034 approves official X Pay Per Use use in principle, fixes the initial personal-funded maximum at USD $15, requires Auto-recharge OFF, prohibits automatic top-up, and requires separately approved request-count / billable-resource / safe-stop limits before activation.
 - D-035 — Quality / Noise / Dedup Policy — FIXED / APPROVED.
 - D-035 fixes the cross-module objective MINIMUM NOISE → MAXIMUM ACTIONABLE OPPORTUNITIES, stable source identity, deterministic deduplication, Filter-before-AI behavior, duplicate-delivery prevention, expired / closed exclusion from the normal production Telegram flow, and final quality / risk / scoring gates for production Telegram delivery.
+- D-036 — X Bounded Live-Access Envelope — FIXED / APPROVED.
+- D-036 fixes the first controlled paid X verification envelope at maximum USD $1.00 spend, 20 paid API requests, 10 Posts maximum per Recent Search request and 200 maximum billable returned Posts / resources, with hard fail-safe stop conditions and Auto-recharge OFF.
 
 ## IN PROGRESS
-D-034 and D-035 documentation synchronization. Module 7 collector implementation has not started and remains access-gated. Pay Per Use is approved only in principle; paid activation remains prohibited until the exact bounded live-access envelope is separately approved.
+D-036 documentation synchronization. Module 7 collector implementation has not started and remains access-gated. The bounded live-access envelope is now approved, but Pay Per Use remains inactive and no paid live request is authorized yet.
 
 ## NEXT STEP
-Complete the D-034 and D-035 documentation sync and Git commit. After Git is clean, define and explicitly approve the exact bounded X live-access envelope using verified current X pricing and endpoint behavior: maximum spend, maximum requests, maximum billable returned Posts / resources, and deterministic safe-stop conditions. Do not connect the App to Pay Per Use, purchase credits, enable Auto-recharge, make paid live requests or begin X Collector implementation before that approval.
+Complete D-036 documentation synchronization and Git commit. After Git is clean, perform a separate controlled activation-readiness step before any Pay Per Use connection, credit purchase or paid live API request. X Collector implementation must not begin automatically.
 
 ## BLOCKERS
 Module 5 — Reddit Collector is BLOCKED — DATA ACCESS NOT APPROVED. The Reddit Data Team did not approve the submitted access request. This blocker applies to Reddit Collector implementation and must not be bypassed.
 
-Module 7 — X Collector is not formally BLOCKED, but remains PRE-IMPLEMENTATION / ACCESS GATED. D-034 approves official X Pay Per Use use in principle and caps the initial personal-funded budget at USD $15 with Auto-recharge OFF. The active X App remains disconnected from the verified Default Project — Pay Per Use. Exact maximum request count, maximum billable returned Posts / resources and deterministic safe-stop conditions remain unresolved and require separate explicit approval before paid activation.
+Module 7 — X Collector is not formally BLOCKED, but remains PRE-IMPLEMENTATION / ACCESS GATED. D-034 approves official X Pay Per Use use in principle and caps the initial personal-funded budget at USD $15 with Auto-recharge OFF. D-036 now approves the first bounded live-access envelope at USD $1.00 / 20 requests / 10 Posts per request / 200 billable returned Posts or resources with deterministic safe-stop conditions. The active X App remains disconnected from the verified Default Project — Pay Per Use, no credits have been purchased, and no paid live request has been made.
 
 Module 8 — Telegram Sources has a verified D-033 status of BLOCKED under the currently approved end-to-end architecture because Telegram's current AI-use terms conflict with downstream use of Telegram-derived content in the approved AI stage. Resolution requires a separate explicit project decision and must not be bypassed.
 
@@ -154,6 +156,7 @@ D-032 fixes the Module 7 X Collector scope, official-access boundary, cost bound
 D-033 fixes the SOURCE ACCESS PRECHECK process, formal source-status criteria, verification-date requirement and evidence requirement without changing the approved architecture, roadmap, module order or V1 source list.
 D-034 fixes the X API budget, paid-access and fail-safe cost boundaries without changing the approved architecture, roadmap, module order or V1 source list.
 D-035 fixes the cross-module quality, noise and deduplication policy without changing the approved architecture, roadmap, source list or module order.
+D-036 fixes the first bounded X live-access envelope without changing the approved architecture, roadmap, source list or module order.
 - D-027 bounded live-feed verification mode implemented in rss_collector.py.
 - Added deterministic first-parser-item processing with at most one item entering persistence and downstream processing.
 - Added allowlist enforcement before live feed retrieval.
@@ -179,4 +182,4 @@ D-035 fixes the cross-module quality, noise and deduplication policy without cha
 - Module 4 — RSS Collector: COMPLETED / PASS.
 
 ## LAST VERIFIED STATE
-2026-09-21 — SOURCE ACCESS PRECHECK remains COMPLETE / VERIFIED under D-033. Documentation milestone 64056bd was previously committed with a clean working tree. D-034 — X API Budget and Paid Access Policy — and D-035 — Quality / Noise / Dedup Policy — are now FIXED / APPROVED and are being synchronized into project documentation. X Pay Per Use is approved only in principle: initial personal-funded maximum USD $15, Auto-recharge OFF, no automatic top-up, and no paid activation until exact request-count, billable-resource and safe-stop limits are separately approved. Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED; no credits have been purchased, the App remains disconnected from Pay Per Use, no paid live API request has been made, and collector implementation has not started.
+2026-09-21 — SOURCE ACCESS PRECHECK remains COMPLETE / VERIFIED under D-033. GitHub main synchronization is complete and clean at 94891f7. D-034 and D-035 are FIXED / APPROVED. D-036 — X Bounded Live-Access Envelope — is FIXED / APPROVED at maximum USD $1.00 spend, 20 paid API requests, 10 Posts per Recent Search request and 200 billable returned Posts / resources, with hard safe-stop conditions. Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED; no credits have been purchased, the App remains disconnected from Pay Per Use, no paid live API request has been made, and X Collector implementation has not started.

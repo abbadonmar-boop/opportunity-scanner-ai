@@ -1696,3 +1696,92 @@ Status: FIXED / APPROVED
 27. D-035 does not change the approved architecture, roadmap, source list or module order.
 
 28. Exact future scoring thresholds, risk thresholds, substantial-change semantics, expiry rules and canonical cross-source opportunity identity remain subject to their relevant formal implementation decisions and must not be invented prematurely.
+
+## D-036 — X BOUNDED LIVE-ACCESS ENVELOPE
+
+Status: FIXED / APPROVED
+
+### PURPOSE
+
+1. D-036 defines the first bounded live-access envelope required by D-034 before any controlled paid X API verification.
+
+2. D-036 does not by itself authorize X Collector implementation or production polling.
+
+### APPROVED LIVE-ACCESS ENVELOPE
+
+3. Maximum spend for the first controlled live-verification envelope:
+
+`USD $1.00`
+
+4. Maximum number of paid X API requests:
+
+`20`
+
+5. Maximum `max_results` per Recent Search request:
+
+`10 Posts`
+
+6. Maximum billable returned Posts / resources for this envelope:
+
+`200`
+
+7. The approved endpoint scope for this first controlled verification is limited to the official X API v2 Recent Search path defined by D-032.
+
+8. Additional User lookups, expansions, unrelated endpoints or broad data collection are not authorized by this envelope.
+
+### HARD SAFE-STOP CONDITIONS
+
+9. Paid X activity must stop before or when any one of the following limits is reached or would be exceeded:
+
+- USD $1.00 maximum spend;
+- 20 paid API requests;
+- 200 billable returned Posts / resources.
+
+10. Paid activity must also stop immediately if:
+
+- actual pricing differs from the verified pricing basis used to define this envelope;
+- an unexpected billable resource or charge appears;
+- remaining cost exposure cannot be bounded before the next request;
+- usage / billing information is inconsistent or cannot be verified;
+- the request would require an endpoint or paid resource outside the approved envelope.
+
+11. Billing deduplication or any soft billing guarantee must not be relied upon to remain within budget.
+
+### FUNDING AND BILLING SAFETY
+
+12. Auto-recharge must remain OFF.
+
+13. This envelope authorizes at most USD $1.00 of the D-034 maximum initial personal-funded USD $15 allocation.
+
+14. The remaining USD $14 of the D-034 personal-funded ceiling is not automatically authorized for live use by D-036.
+
+15. No automatic top-up, automatic budget increase or additional personal funding is permitted.
+
+### ACTIVATION BOUNDARY
+
+16. D-036 approves the numerical bounded live-access envelope required by D-034.
+
+17. D-036 does NOT by itself authorize:
+
+- purchasing credits;
+- connecting the X App to the Pay Per Use Project;
+- enabling Auto-recharge;
+- generating or exposing credentials;
+- making a paid live API request;
+- starting X Collector implementation.
+
+18. Any actual activation action remains a separate controlled development step and requires verification before proceeding.
+
+### RELATION TO EXISTING DECISIONS
+
+19. D-032 remains authoritative for Module 7 scope, official X API access and content-compliance requirements.
+
+20. D-033 remains authoritative for the formal SOURCE ACCESS PRECHECK status model.
+
+21. D-034 remains authoritative for the total personal-funded ceiling, future funding rules and paid-access safety policy.
+
+22. D-035 remains authoritative for quality, noise reduction and deduplication.
+
+23. D-036 does not change the approved architecture, roadmap, source list or module order.
+
+24. Module 7 remains PRE-IMPLEMENTATION / ACCESS GATED. X Collector implementation has not started.
