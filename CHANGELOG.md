@@ -313,3 +313,35 @@ All notable verified project changes are recorded here.
 - Module 7 — X Collector remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED.
 - Collector implementation remains paused pending a separate explicit project decision on the unresolved X Pay Per Use approval gate and any roadmap consequences of the verified source statuses.
 - No approved V1 source was removed, replaced or reordered by the precheck.
+
+- D-034 — X API Budget and Paid Access Policy — FIXED / APPROVED on 2026-09-21.
+- Official X API Pay Per Use use is approved in principle for Module 7.
+- The maximum initial personal-funded X API budget is USD $15 total.
+- Auto-recharge must remain OFF.
+- Automatic credit purchase, automatic top-up and automatic budget increase are prohibited.
+- Any later X API top-up requires separate explicit user approval.
+- After the initial personal-funded $15 is exhausted, further X API funding may be authorized only from actual realized income obtained from opportunities found by Opportunity Scanner AI and only after separate explicit approval.
+- If sufficient approved realized income is unavailable, paid X collection must stop rather than consume additional personal funds.
+- Pay Per Use activation remains prohibited until the exact bounded live-access envelope is separately approved.
+- That remaining envelope must define maximum spend, maximum API requests, maximum billable returned Posts / resources, and deterministic safe-stop conditions.
+- The exact request-count and billable-resource limits are not yet approved and must be derived from verified current X pricing, billing behavior and endpoint behavior before paid activation.
+- The X App remains disconnected from Pay Per Use.
+- No credits have been purchased.
+- No paid live X API request has been made.
+- X Collector implementation has not started.
+- X queries must remain deterministic, intentionally narrow and focused on realistic paid opportunities rather than broad Post collection.
+- X effectiveness is measured by actionable opportunities surviving the complete pipeline, not by raw Post volume.
+
+- D-035 — Quality / Noise / Dedup Policy — FIXED / APPROVED on 2026-09-21.
+- Governing objective fixed as: MINIMUM NOISE → MAXIMUM ACTIONABLE OPPORTUNITIES.
+- Stable source identity and deterministic deduplication are mandatory.
+- Normal repeated collection of the same source item must not create a new logical opportunity.
+- Obvious deterministic duplicates should be removed or merged as early as reasonably possible.
+- Deterministic Filter remains before AI.
+- AI is invoked only for candidates that pass applicable cheap deterministic filtering.
+- The same logical opportunity must not be repeatedly delivered to production Telegram merely because it was collected again.
+- Re-delivery after a substantial change requires a separately specified deterministic rule; that rule is not yet defined.
+- Expired / closed opportunities must not return to the normal production Telegram flow.
+- Final production Telegram delivery requires all applicable approved quality, risk and scoring gates.
+- Existing Module 4 controlled RSS → Filter → Telegram verification remains valid development evidence and is not reclassified as the final production eligibility policy.
+- D-034 and D-035 do not change the approved architecture, roadmap, source list or module order.

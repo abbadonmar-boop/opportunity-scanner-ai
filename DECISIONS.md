@@ -1518,3 +1518,181 @@ No paid action or irreversible approval-dependent action may be taken automatica
 21. Collector implementation must not resume until the SOURCE ACCESS PRECHECK is completed and its results are verified.
 
 22. D-033 does not change the approved architecture, roadmap, module order or V1 source list.
+
+## D-034 — X API BUDGET AND PAID ACCESS POLICY
+
+Status: FIXED / APPROVED
+
+### PURPOSE
+
+1. D-034 defines the financial, budget-control and paid-access safety policy for official X API Pay Per Use use in Module 7.
+
+2. D-034 extends the cost-control requirements already established by D-032. It does not authorize collector implementation by itself.
+
+### OFFICIAL PAID ACCESS
+
+3. Use of the official X API Pay Per Use access path for Module 7 is approved in principle.
+
+4. This approval does NOT by itself authorize:
+   - purchasing credits;
+   - connecting the X App to the Pay Per Use Project;
+   - enabling Auto-recharge;
+   - making live paid API requests;
+   - starting X Collector implementation.
+
+5. Any activation step remains prohibited until the remaining D-034 activation gates are explicitly satisfied.
+
+### INITIAL PERSONAL BUDGET
+
+6. The maximum initial personal-funded X API budget is USD $15 total.
+
+7. The user funds this initial maximum $15 allocation personally one time only.
+
+8. The project must never automatically increase this personal-funded budget.
+
+9. Auto-recharge must remain OFF.
+
+10. No automatic credit purchase, automatic top-up or automatic budget increase is permitted.
+
+### FUTURE FUNDING
+
+11. After the initially approved $15 has been consumed, additional X API funding may be authorized only from actual realized income obtained from opportunities found by Opportunity Scanner AI.
+
+12. Every later top-up requires separate explicit user approval.
+
+13. The system must not infer that future funds are available and must not automatically authorize a later top-up.
+
+14. If sufficient realized Opportunity Scanner AI income is not available or has not been explicitly approved for reuse, paid X collection must stop rather than consume additional personal funds.
+
+### HARD LIVE-ACCESS BOUNDARIES
+
+15. Before any Pay Per Use activation or live paid API request, one explicit bounded live-access envelope must be separately defined and approved.
+
+16. That envelope must define all of the following:
+   - maximum spend;
+   - maximum number of API requests;
+   - maximum number of billable returned Posts / resources;
+   - deterministic safe-stop conditions.
+
+17. For the initial personal-funded period, maximum spend must never exceed the approved $15 total personal-funded budget.
+
+18. Exact numerical values for:
+   - maximum API requests; and
+   - maximum billable returned Posts / resources
+
+   are NOT fixed by D-034 and must not be invented.
+
+19. Those numerical limits must be decided from verified current X pricing, billing behavior, endpoint behavior and applicable API limits before paid activation.
+
+20. Until those exact numerical limits are separately approved, the X App must remain disconnected from Pay Per Use and no paid live request may be made.
+
+### SAFE STOP
+
+21. Paid collection must fail safe when any approved spend, request-count or billable-resource boundary is reached or would be exceeded.
+
+22. If remaining cost exposure cannot be bounded sufficiently before the next paid operation, the operation must not proceed.
+
+23. Exhausting an approved budget must stop paid collection. It must not trigger automatic recharge, fallback personal spending or an unapproved paid access path.
+
+24. X billing deduplication behavior, including any time-based billing deduplication, must not be relied upon as a budget-control guarantee.
+
+### QUERY EFFICIENCY
+
+25. X search queries must be explicitly configured, deterministic and intentionally narrow.
+
+26. Queries must target realistic paid earning opportunities relevant to the approved Opportunity Scanner AI categories rather than collect a broad general X stream.
+
+27. Paid API budget must not be consumed merely to maximize collected Post volume.
+
+28. X effectiveness is evaluated primarily by useful actionable opportunities surviving the complete approved pipeline, not by raw Posts collected.
+
+### RELATION TO OTHER DECISIONS
+
+29. D-032 remains authoritative for Module 7 collector scope, official API access, stable source identity, bounded live verification and X-specific content-compliance requirements.
+
+30. D-033 remains authoritative for the SOURCE ACCESS PRECHECK evidence and formal-status model.
+
+31. D-034 does not change the approved architecture, roadmap, module order or V1 source list.
+
+32. Module 7 remains PRE-IMPLEMENTATION / ACCESS GATED until the remaining activation gates are separately satisfied.
+
+
+## D-035 — QUALITY / NOISE / DEDUP POLICY
+
+Status: FIXED / APPROVED
+
+### PURPOSE
+
+1. D-035 defines a cross-module product policy for opportunity quality, noise reduction, deduplication and production Telegram eligibility.
+
+2. The governing objective is:
+
+`MINIMUM NOISE → MAXIMUM ACTIONABLE OPPORTUNITIES`
+
+3. D-035 applies across approved sources and downstream processing. It does not introduce a second pipeline or a source-specific replacement for existing common components.
+
+### SOURCE IDENTITY AND DEDUPLICATION
+
+4. Every collected source item must use stable source identity and deterministic deduplication wherever the source provides sufficient stable identity.
+
+5. Normal repeated collection of the same source item must not create a new logical source item or a new opportunity.
+
+6. Obvious deterministic duplicates must be rejected or merged as early as reasonably possible rather than consuming unnecessary downstream processing.
+
+7. The system must prevent the same logical opportunity from being repeatedly delivered merely because it was collected more than once.
+
+8. Opportunity-level duplicate handling across equivalent source records must be deterministic before production Telegram delivery.
+
+9. The exact canonical cross-source opportunity identity algorithm is not invented by D-035. It must be specified and tested when the relevant implementation step requires it.
+
+### FILTER BEFORE AI
+
+10. The existing deterministic Filter remains before AI in the fixed logical pipeline.
+
+11. Cheap deterministic filtering must reject clearly irrelevant or low-value candidates before expensive AI processing.
+
+12. AI must be invoked only for candidates that pass the applicable deterministic pre-AI filtering rules.
+
+13. D-035 does not create a parallel source-specific Filter Engine.
+
+### REPEATED TELEGRAM DELIVERY
+
+14. An opportunity already delivered to the production Telegram flow must not be delivered again merely because the same source item or equivalent opportunity is collected again.
+
+15. Re-delivery may occur only when a separately specified deterministic rule establishes that the opportunity has changed substantially enough to justify a new notification.
+
+16. D-035 does not invent the exact definition of `substantial change`.
+
+17. That definition must be formally specified and tested before substantial-change re-delivery behavior is enabled.
+
+### EXPIRED / CLOSED OPPORTUNITIES
+
+18. Opportunities determined to be expired or closed must not return to the normal production Telegram opportunity flow.
+
+19. The exact deterministic rules for determining expired / closed state must be defined in the relevant implementation stage and must not be guessed by the collector or AI.
+
+### PRODUCTION TELEGRAM QUALITY GATE
+
+20. Production Telegram opportunity delivery must contain only opportunities that have passed all applicable approved quality, risk and scoring gates required by the completed end-to-end pipeline.
+
+21. High raw collection volume is not a success metric by itself.
+
+22. Product quality is measured by useful actionable opportunities reaching the user with minimum duplicate and irrelevant noise.
+
+### EXISTING DEVELOPMENT PIPELINE BOUNDARY
+
+23. Existing Module 4 controlled RSS → Filter → Telegram verification remains valid development and integration evidence.
+
+24. The preliminary Module 4 Telegram delivery path must not be interpreted as the final production eligibility policy after AI, Risk and Score modules are implemented.
+
+25. D-035 therefore does not invalidate completed Module 4 verification and does not retroactively change its acceptance result.
+
+### ARCHITECTURE BOUNDARY
+
+26. D-035 reinforces the existing fixed pipeline ordering:
+
+`SOURCE → COLLECT → NORMALIZE → DEDUPLICATE → FILTER → EXTRACT → AI → RISK → SCORE → DATABASE → TELEGRAM`
+
+27. D-035 does not change the approved architecture, roadmap, source list or module order.
+
+28. Exact future scoring thresholds, risk thresholds, substantial-change semantics, expiry rules and canonical cross-source opportunity identity remain subject to their relevant formal implementation decisions and must not be invented prematurely.

@@ -12,13 +12,15 @@ Current development state:
 - Module 4 — RSS Collector: COMPLETED / PASS
 - Module 5 — Reddit Collector: BLOCKED — DATA ACCESS NOT APPROVED
 - Module 6 — Filter Engine: COMPLETED / PASS
-- Module 7 — X Collector: SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL
+- Module 7 — X Collector: SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-034 Pay Per Use approved in principle; bounded live-access envelope pending
 - Module 8 — Telegram Sources: ACCESS PRECHECK BLOCKED — TELEGRAM CONTENT AI-USE TERMS CONFLICT
 - Module 9 — Discord Collector: ACCESS PRECHECK AVAILABLE WITH LIMITATIONS
 - Repository initialized
 - Mandatory project documentation: COMPLETED / VERIFIED
 - SOURCE ACCESS PRECHECK: COMPLETE / VERIFIED under D-033
-- Application code: IN PROGRESS — implemented through verified Module 6; Module 5 remains BLOCKED — DATA ACCESS NOT APPROVED; Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED; collector implementation remains paused pending a separate explicit project decision on the unresolved X Pay Per Use approval gate and any roadmap consequences of the verified source statuses
+- D-034 — X API Budget and Paid Access Policy: FIXED / APPROVED — initial personal-funded maximum USD $15; Auto-recharge OFF; paid activation envelope pending
+- D-035 — Quality / Noise / Dedup Policy: FIXED / APPROVED — MINIMUM NOISE → MAXIMUM ACTIONABLE OPPORTUNITIES
+- Application code: IN PROGRESS — implemented through verified Module 6; Module 5 remains BLOCKED — DATA ACCESS NOT APPROVED; Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED; D-034 and D-035 are FIXED / APPROVED; X paid activation and collector implementation remain paused until the exact bounded live-access envelope is separately approved
 
 See `PROJECT_STATE.md` for the latest verified state.
 
@@ -163,7 +165,7 @@ They must not be silently resolved.
 
 ## Current Implementation
 
-Application code is implemented through the verified Module 6 state. Module 2, Module 3, Module 4 and Module 6 are COMPLETED / PASS. Module 5 remains BLOCKED — DATA ACCESS NOT APPROVED. Module 7 remains PRE-IMPLEMENTATION / ACCESS GATED.
+Application code is implemented through the verified Module 6 state. Module 2, Module 3, Module 4 and Module 6 are COMPLETED / PASS. Module 5 remains BLOCKED — DATA ACCESS NOT APPROVED. Module 7 remains PRE-IMPLEMENTATION / ACCESS GATED. D-034 approves official X Pay Per Use use in principle with a maximum initial personal-funded budget of USD $15 and Auto-recharge OFF; exact request-count, billable-resource and safe-stop limits remain pending before activation. D-035 fixes the cross-module objective MINIMUM NOISE → MAXIMUM ACTIONABLE OPPORTUNITIES.
 
 Module 2 — PostgreSQL is COMPLETED / PASS. The local PostgreSQL foundation is implemented, tested, documented and recorded in milestone commit d033d94.
 

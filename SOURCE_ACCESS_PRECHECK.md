@@ -100,7 +100,7 @@ Auto-recharge was not enabled.
 No paid API request was made.
 The App was not connected to the Pay Per Use Project.
 
-Under D-032 and D-033, Pay Per Use / credit purchase / cost exposure requires separate explicit user approval before activation.
+Under D-034, official X Pay Per Use use is approved in principle, but activation remains prohibited until the exact bounded live-access envelope is separately defined and explicitly approved. That envelope must include maximum spend, maximum API requests, maximum billable returned Posts / resources, and deterministic safe-stop conditions. The initial personal-funded maximum is USD $15 and Auto-recharge must remain OFF.
 
 Technical limitations relevant to the approved use case:
 - The approved initial collector path under D-032 remains the official X API v2 Recent Search path.
@@ -137,14 +137,14 @@ Evidence:
 Collector implementation may proceed:
 NO.
 
-Developer onboarding and App creation are complete, but the App remains disconnected from the Pay Per Use Project. Activating that access path crosses the unresolved user-controlled Pay Per Use / cost-exposure gate and therefore requires separate explicit approval.
+Developer onboarding and App creation are complete. D-034 approves the official Pay Per Use path in principle, but the App remains disconnected because the exact bounded live-access envelope has not yet been separately approved.
 
 No collector implementation, paid activation, credit purchase or live API collection is authorized by this precheck result.
 
 Conclusion:
 X / Twitter satisfies the D-033 criteria for `UNKNOWN — REQUIRES APPROVAL`.
 
-The unresolved prerequisite is no longer developer onboarding or App creation. The unresolved prerequisite is explicit user approval before connecting the App to the verified `Default Project — Pay Per Use` access path.
+The unresolved prerequisite is no longer developer onboarding, App creation or principle-level approval of the official Pay Per Use path. The remaining prerequisite is separate explicit approval of the bounded live-access envelope required by D-034 before connecting the App to `Default Project — Pay Per Use` or making any paid live API request.
 
 The X source precheck is complete at the current authorization boundary.
 

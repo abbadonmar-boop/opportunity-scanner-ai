@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Complete the SOURCE ACCESS PRECHECK documentation sync and Git commit. After Git is clean, stop before collector implementation and make a separate explicit project decision on the unresolved X Pay Per Use approval gate and on any roadmap consequences of the verified source statuses.
+Complete the D-034 and D-035 documentation sync and Git commit. After Git is clean, define and explicitly approve the exact bounded X live-access envelope from verified current X pricing and endpoint behavior: maximum spend, maximum requests, maximum billable returned Posts / resources, and deterministic safe-stop conditions. Until that envelope is approved, do not connect the App to Pay Per Use, purchase credits, enable Auto-recharge, make paid live requests or begin X Collector implementation.
 
 ## FOUNDATION
 
@@ -89,6 +89,25 @@ Complete the SOURCE ACCESS PRECHECK documentation sync and Git commit. After Git
 - [x] Record collector proceed / do-not-proceed result for all five sources.
 - [x] Mark SOURCE ACCESS PRECHECK COMPLETE / VERIFIED under D-033.
 
+## D-034 / D-035 POLICY MILESTONE
+
+- [x] Approve official X API Pay Per Use use in principle — D-034.
+- [x] Fix maximum initial personal-funded X API budget at USD $15.
+- [x] Require Auto-recharge OFF.
+- [x] Prohibit automatic top-up and automatic budget increase.
+- [x] Require separate explicit approval for every later top-up.
+- [x] Require paid X collection to stop rather than consume additional personal funds after the approved personal-funded allocation is exhausted.
+- [ ] Define and approve exact maximum X API request count before paid activation.
+- [ ] Define and approve exact maximum billable returned Posts / resources before paid activation.
+- [ ] Define and approve deterministic safe-stop conditions before paid activation.
+- [x] Approve cross-module Quality / Noise / Dedup Policy — D-035.
+- [x] Fix governing objective: MINIMUM NOISE → MAXIMUM ACTIONABLE OPPORTUNITIES.
+- [x] Require stable source identity and deterministic deduplication.
+- [x] Require deterministic Filter before AI.
+- [x] Prevent repeated production Telegram delivery of the same logical opportunity without a separately specified substantial-change rule.
+- [x] Exclude expired / closed opportunities from the normal production Telegram flow.
+- [x] Require applicable quality / risk / scoring gates before final production Telegram delivery.
+
 ## ROADMAP
 
 - [x] MODULE 2 — PostgreSQL
@@ -96,7 +115,7 @@ Complete the SOURCE ACCESS PRECHECK documentation sync and Git commit. After Git
 - [x] MODULE 4 — RSS Collector
 - [ ] MODULE 5 — Reddit Collector — BLOCKED — DATA ACCESS NOT APPROVED
 - [x] MODULE 6 — Filter Engine — COMPLETED / PASS
-- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL
+- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-034 Pay Per Use approved in principle; bounded live-access envelope pending
 - [ ] MODULE 8 — Telegram Sources — BLOCKED — TELEGRAM CONTENT AI-USE TERMS CONFLICT
 - [ ] MODULE 9 — Discord Collector — ACCESS PRECHECK: AVAILABLE WITH LIMITATIONS
 - [ ] MODULE 10 — AI Analyzer
