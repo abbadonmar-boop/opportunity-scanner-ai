@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Complete D-037 documentation synchronization and Git commit. After Git is clean, execute only the separately approved one-time USD $5.00 prepaid credit purchase while preserving Billing Cycle Cap USD $1.00, Auto-recharge OFF and all D-036 limits. Do not connect the App to Pay Per Use, generate credentials, make a paid live API request or begin X Collector implementation automatically.
+Complete documentation synchronization and Git commit for the executed D-037 USD $5.00 prepaid credit purchase. After Git is clean, perform the next separate controlled Project Access connection-readiness step. Do not connect the App to Pay Per Use, generate credentials, make a paid live API request or begin X Collector implementation automatically.
 
 ## FOUNDATION
 
@@ -111,6 +111,11 @@ Complete D-037 documentation synchronization and Git commit. After Git is clean,
 - [x] Verify X Developer Console accepts and saves Billing Cycle Cap at USD $1.00.
 - [x] Verify X Developer Console minimum prepaid credit purchase is USD $5.00.
 - [x] Approve D-037 one-time USD $5.00 prepaid credit purchase without increasing D-036 live-spend authorization above USD $1.00.
+- [x] Execute D-037 authorized USD $5.00 prepaid credit purchase.
+- [x] Verify credited Remaining Balance USD $5.00.
+- [x] Verify Auto Recharge remains OFF after purchase.
+- [x] Verify Billing Cycle Cap remains USD $1.00 after purchase.
+- [x] Verify Current Spend remains USD $0.00 after purchase.
 - [x] Require unused prepaid credit balance to remain unauthorized for further spend without separate explicit approval.
 
 ## ROADMAP
@@ -120,7 +125,7 @@ Complete D-037 documentation synchronization and Git commit. After Git is clean,
 - [x] MODULE 4 — RSS Collector
 - [ ] MODULE 5 — Reddit Collector — BLOCKED — DATA ACCESS NOT APPROVED
 - [x] MODULE 6 — Filter Engine — COMPLETED / PASS
-- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 one-time USD $5.00 prepaid credit purchase approved; Billing Cycle Cap USD $1.00; credits not yet purchased
+- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 USD $5.00 prepaid credit purchase completed; Remaining Balance USD $5.00; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.00
 - [ ] MODULE 8 — Telegram Sources — BLOCKED — TELEGRAM CONTENT AI-USE TERMS CONFLICT
 - [ ] MODULE 9 — Discord Collector — ACCESS PRECHECK: AVAILABLE WITH LIMITATIONS
 - [ ] MODULE 10 — AI Analyzer

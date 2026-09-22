@@ -12,7 +12,7 @@ Current development state:
 - Module 4 — RSS Collector: COMPLETED / PASS
 - Module 5 — Reddit Collector: BLOCKED — DATA ACCESS NOT APPROVED
 - Module 6 — Filter Engine: COMPLETED / PASS
-- Module 7 — X Collector: SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 minimum USD $5.00 prepaid credit purchase approved; Billing Cycle Cap saved at USD $1.00; credits not yet purchased
+- Module 7 — X Collector: SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 USD $5.00 prepaid credit purchase completed; Remaining Balance USD $5.00; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.00
 - Module 8 — Telegram Sources: ACCESS PRECHECK BLOCKED — TELEGRAM CONTENT AI-USE TERMS CONFLICT
 - Module 9 — Discord Collector: ACCESS PRECHECK AVAILABLE WITH LIMITATIONS
 - Repository initialized
@@ -22,7 +22,7 @@ Current development state:
 - D-035 — Quality / Noise / Dedup Policy: FIXED / APPROVED — MINIMUM NOISE → MAXIMUM ACTIONABLE OPPORTUNITIES
 - D-036 — X Bounded Live-Access Envelope: FIXED / APPROVED — maximum USD $1.00 spend; 20 paid requests; 10 Posts per Recent Search request; 200 maximum billable returned Posts / resources
 - D-037 — X Minimum Credit Purchase Authorization: FIXED / APPROVED — one-time USD $5.00 prepaid purchase authorized; live-spend remains capped at USD $1.00; unused credits require separate explicit approval
-- Application code: IN PROGRESS — implemented through verified Module 6; Module 5 remains BLOCKED — DATA ACCESS NOT APPROVED; Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED; D-034 through D-037 are FIXED / APPROVED; Billing Cycle Cap is saved at USD $1.00; the one-time USD $5.00 prepaid credit purchase is approved but has not yet been executed; X Collector implementation has not started
+- Application code: IN PROGRESS — implemented through verified Module 6; Module 5 remains BLOCKED — DATA ACCESS NOT APPROVED; Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED; D-034 through D-037 are FIXED / APPROVED; the authorized USD $5.00 prepaid credit purchase has been completed and credited; Remaining Balance is USD $5.00, Billing Cycle Cap is USD $1.00, Auto Recharge is OFF and Current Spend is USD $0.00; X Collector implementation has not started
 
 See `PROJECT_STATE.md` for the latest verified state.
 
@@ -167,7 +167,7 @@ They must not be silently resolved.
 
 ## Current Implementation
 
-Application code is implemented through the verified Module 6 state. Module 2, Module 3, Module 4 and Module 6 are COMPLETED / PASS. Module 5 remains BLOCKED — DATA ACCESS NOT APPROVED. Module 7 remains PRE-IMPLEMENTATION / ACCESS GATED. D-034 approves official X Pay Per Use use in principle with a maximum initial personal-funded budget of USD $15 and Auto-recharge OFF. D-035 fixes the cross-module objective MINIMUM NOISE → MAXIMUM ACTIONABLE OPPORTUNITIES. D-036 approves the first bounded live-access envelope at maximum USD $1.00 spend, 20 paid requests, 10 Posts per Recent Search request and 200 maximum billable returned Posts / resources. D-037 authorizes the verified minimum one-time prepaid credit purchase of USD $5.00 without increasing the D-036 live-spend limit. Billing Cycle Cap is saved at USD $1.00. Credits have not yet been purchased, Pay Per Use activation remains controlled, and X Collector implementation has not started.
+Application code is implemented through the verified Module 6 state. Module 2, Module 3, Module 4 and Module 6 are COMPLETED / PASS. Module 5 remains BLOCKED — DATA ACCESS NOT APPROVED. Module 7 remains PRE-IMPLEMENTATION / ACCESS GATED. D-034 approves official X Pay Per Use use in principle with a maximum initial personal-funded budget of USD $15 and Auto-recharge OFF. D-035 fixes the cross-module objective MINIMUM NOISE → MAXIMUM ACTIONABLE OPPORTUNITIES. D-036 approves the first bounded live-access envelope at maximum USD $1.00 spend, 20 paid requests, 10 Posts per Recent Search request and 200 maximum billable returned Posts / resources. D-037 authorizes the verified minimum one-time prepaid credit purchase of USD $5.00 without increasing the D-036 live-spend limit. That purchase has now been completed and credited. Verified X Developer Console state: Remaining Balance USD $5.00, Billing Cycle Cap USD $1.00, Auto Recharge OFF and Current Spend USD $0.00. Project connection remains a separate controlled step and X Collector implementation has not started.
 
 Module 2 — PostgreSQL is COMPLETED / PASS. The local PostgreSQL foundation is implemented, tested, documented and recorded in milestone commit d033d94.
 

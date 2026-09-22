@@ -375,3 +375,15 @@ All notable verified project changes are recorded here.
 - No paid live X API request has been made.
 - X Collector implementation has not started.
 - D-037 does not change the approved architecture, roadmap, source list or module order.
+
+- D-037 authorized X prepaid credit purchase executed on 2026-09-22.
+- Payment completed successfully and the prepaid credits were credited to the X Developer account.
+- Verified Remaining Balance: USD $5.00.
+- Verified Billing Cycle Cap remains USD $1.00.
+- Verified Auto Recharge remains OFF.
+- Verified Current Spend remains USD $0.00.
+- The credited USD $5.00 balance does not expand the D-036 authorized live-verification spend above USD $1.00.
+- Unused prepaid credits remain unauthorized for additional spend without separate explicit approval.
+- The X App remains disconnected from the Pay Per Use Project.
+- No paid live X API request has been made.
+- X Collector implementation has not started.
