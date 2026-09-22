@@ -431,3 +431,15 @@ All notable verified project changes are recorded here.
 - X Collector implementation remains not started.
 - Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED.
 - D-039 does not change the approved architecture, roadmap, source list or module order.
+
+- Security remediation completed on 2026-09-22 after local `.env` contents were inadvertently exposed during credential preparation.
+- The affected Telegram Bot Token was revoked and replaced.
+- The replacement Telegram Bot Token was verified successfully through the Telegram Bot API without exposing the token value.
+- `APP_DB_PASSWORD` was rotated in PostgreSQL and in the local Git-ignored `.env`.
+- The replacement application PostgreSQL credential was verified successfully through an authenticated connection as `opportunity_scanner_app`.
+- `POSTGRES_PASSWORD` was rotated in PostgreSQL and in the local Git-ignored `.env`.
+- The replacement PostgreSQL admin credential was verified successfully through an authenticated connection as `postgres`.
+- Replacement secret values were not recorded in Git, tracked project files, project documentation or verification output.
+- Git remained clean and synchronized after the local secret rotations.
+- X Bearer Token generation under D-039 has not yet been executed.
+- No X API request has been made.

@@ -129,6 +129,7 @@ SOURCE ACCESS PRECHECK remains COMPLETE / VERIFIED under D-033. D-034 through D-
 - D-039 — X Bearer Token Generation and Local Secret Handling — FIXED / APPROVED.
 - D-039 authorizes only Bearer Token generation and local storage as `X_BEARER_TOKEN` in the Git-ignored `.env`; it does not authorize any X API request or X Collector implementation.
 - Credential-storage readiness verified: `.env` is ignored and untracked, `.env.example` contains the safe X placeholder, and local `.env` contains exactly one empty `X_BEARER_TOKEN` key before generation.
+- Security remediation completed on 2026-09-22 after local `.env` contents were inadvertently exposed during credential preparation: the affected Telegram Bot Token, `APP_DB_PASSWORD`, and `POSTGRES_PASSWORD` were rotated; Telegram token validity and both PostgreSQL credential paths were successfully verified; replacement secret values remain only in the local Git-ignored `.env` and were not recorded in Git or project documentation.
 
 ## IN PROGRESS
 D-039 documentation synchronization. Bearer Token generation is explicitly authorized but has not yet been executed. No X API request, paid API request or X Collector implementation is authorized by D-039.
