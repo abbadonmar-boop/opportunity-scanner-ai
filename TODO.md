@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Complete D-038 documentation synchronization and Git commit. After Git is clean, execute only the approved `Connect · Development` action to `Default Project — Pay Per Use` and verify the resulting Project Access and billing-safety state. Do not connect to Staging or Production, generate credentials, make a paid live API request or begin X Collector implementation.
+Complete documentation synchronization and Git commit for executed D-038 Development Project Access. After Git is clean, perform the next separate credential-readiness step without generating or exposing credentials and without making any paid API request. Staging and Production remain unauthorized and X Collector implementation must not begin automatically.
 
 ## FOUNDATION
 
@@ -81,7 +81,7 @@ Complete D-038 documentation synchronization and Git commit. After Git is clean,
 ## SOURCE ACCESS PRECHECK
 
 - [x] Reddit — BLOCKED — DATA ACCESS NOT APPROVED.
-- [x] X / Twitter — UNKNOWN — REQUIRES APPROVAL — active App remains disconnected from Default Project — Pay Per Use.
+- [x] X / Twitter — UNKNOWN — REQUIRES APPROVAL — active App is connected to Default Project — Pay Per Use in the authorized Development environment; no paid live API request has been made.
 - [x] Discord — AVAILABLE WITH LIMITATIONS.
 - [x] Telegram — BLOCKED — current AI-use terms conflict with the approved downstream AI stage.
 - [x] RSS / Atom — AVAILABLE WITH LIMITATIONS.
@@ -119,6 +119,13 @@ Complete D-038 documentation synchronization and Git commit. After Git is clean,
 - [x] Approve D-038 Development-only Project Access to existing `Default Project — Pay Per Use`.
 - [x] Keep Staging and Production Project Access unauthorized.
 - [x] Keep credential generation, paid API requests and X Collector implementation outside D-038 authorization.
+- [x] Execute authorized D-038 `Connect · Development` action.
+- [x] Verify Development Project Access is connected to `Default Project — Pay Per Use`.
+- [x] Verify post-connection Remaining Balance remains USD $5.00.
+- [x] Verify post-connection Billing Cycle Cap remains USD $1.00.
+- [x] Verify post-connection Auto Recharge remains OFF.
+- [x] Verify post-connection Current Spend remains USD $0.00.
+- [x] Verify no new credentials were generated and no paid live API request was made.
 - [x] Require unused prepaid credit balance to remain unauthorized for further spend without separate explicit approval.
 
 ## ROADMAP
@@ -128,7 +135,7 @@ Complete D-038 documentation synchronization and Git commit. After Git is clean,
 - [x] MODULE 4 — RSS Collector
 - [ ] MODULE 5 — Reddit Collector — BLOCKED — DATA ACCESS NOT APPROVED
 - [x] MODULE 6 — Filter Engine — COMPLETED / PASS
-- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 USD $5.00 prepaid credit purchase completed; D-038 Development Project Access approved but not yet executed; Remaining Balance USD $5.00; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.00
+- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 USD $5.00 prepaid credit purchase completed; D-038 Development Project Access executed and verified; Remaining Balance USD $5.00; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.00; no paid live API request made
 - [ ] MODULE 8 — Telegram Sources — BLOCKED — TELEGRAM CONTENT AI-USE TERMS CONFLICT
 - [ ] MODULE 9 — Discord Collector — ACCESS PRECHECK: AVAILABLE WITH LIMITATIONS
 - [ ] MODULE 10 — AI Analyzer

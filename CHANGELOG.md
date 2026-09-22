@@ -401,3 +401,18 @@ All notable verified project changes are recorded here.
 - No paid live X API request has been made.
 - X Collector implementation has not started.
 - D-038 does not change the approved architecture, roadmap, source list or module order.
+
+- D-038 authorized Development Project Access executed successfully on 2026-09-22.
+- The existing X App is now connected to the existing `Default Project — Pay Per Use` in the authorized `Development` environment.
+- `Staging` and `Production` remain unauthorized.
+- Post-connection billing verification confirmed Remaining Balance USD $5.00.
+- Billing Cycle Cap remains USD $1.00.
+- Auto Recharge remains OFF.
+- Current Spend remains USD $0.00.
+- No new Bearer Token or Access Token was generated during the connection step.
+- No paid live X API request has been made.
+- D-036 bounded live-verification limits remain unchanged: maximum USD $1.00 spend, 20 paid API requests, 10 Posts per Recent Search request and 200 maximum billable returned Posts / resources.
+- Unused prepaid credits remain unauthorized for additional spend without separate explicit approval.
+- X Collector implementation has not started.
+- Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED.
+- D-038 execution does not change the approved architecture, roadmap, source list or module order.
