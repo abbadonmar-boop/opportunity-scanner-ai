@@ -1785,3 +1785,87 @@ Status: FIXED / APPROVED
 23. D-036 does not change the approved architecture, roadmap, source list or module order.
 
 24. Module 7 remains PRE-IMPLEMENTATION / ACCESS GATED. X Collector implementation has not started.
+
+## D-037 — X MINIMUM CREDIT PURCHASE AUTHORIZATION
+
+Status: FIXED / APPROVED
+
+### PURPOSE
+
+1. D-037 authorizes the minimum prepaid X API credit purchase required by the currently verified X Developer Console purchase flow.
+
+2. The verified console does not accept a USD $1.00 credit purchase and reports a minimum purchase amount of USD $5.00.
+
+3. D-037 resolves only the credit-purchase amount mismatch discovered during controlled activation-readiness verification.
+
+### PURCHASE AUTHORIZATION
+
+4. A one-time prepaid X API credit purchase of:
+
+`USD $5.00`
+
+is explicitly approved.
+
+5. This USD $5.00 purchase remains within the D-034 maximum initial personal-funded ceiling of USD $15.
+
+6. This purchase authorization does not increase the D-034 personal-funded ceiling.
+
+### LIVE-SPEND BOUNDARY
+
+7. Purchasing USD $5.00 of prepaid credits does NOT authorize spending the full USD $5.00.
+
+8. The maximum authorized spend for the current bounded live verification remains:
+
+`USD $1.00`
+
+as fixed by D-036.
+
+9. The X Billing Cycle Spending Limit must remain set to:
+
+`USD $1.00`
+
+before any paid live API request.
+
+10. The remaining unused prepaid credit balance is not authorized for further live spend without separate explicit approval.
+
+11. Credit availability must never be interpreted as permission to spend beyond the currently approved live-access envelope.
+
+### BILLING SAFETY
+
+12. Auto-recharge must remain OFF.
+
+13. Automatic credit purchase, automatic top-up and automatic budget increase remain prohibited.
+
+14. D-036 request and billable-resource limits remain unchanged:
+
+- maximum 20 paid API requests;
+- maximum 10 Posts per Recent Search request;
+- maximum 200 billable returned Posts / resources;
+- all D-036 hard safe-stop conditions remain mandatory.
+
+### ACTIVATION BOUNDARY
+
+15. D-037 authorizes only the one-time USD $5.00 prepaid credit purchase.
+
+16. D-037 does NOT by itself authorize:
+
+- connecting the X App to the Pay Per Use Project;
+- generating or exposing credentials;
+- making a paid live API request;
+- starting X Collector implementation;
+- increasing the Billing Cycle Spending Limit above USD $1.00;
+- spending unused credits beyond the D-036 live-verification envelope.
+
+17. Project connection, credential handling and the first paid live request remain separate controlled development steps and require their own verification before execution.
+
+### RELATION TO EXISTING DECISIONS
+
+18. D-034 remains authoritative for the total personal-funded ceiling and future funding rules.
+
+19. D-036 remains authoritative for the current bounded live-access spend, request, resource and safe-stop limits.
+
+20. D-037 changes only the permitted prepaid credit purchase amount required by the verified X purchase interface.
+
+21. D-037 does not change the approved architecture, roadmap, source list or module order.
+
+22. Module 7 remains PRE-IMPLEMENTATION / ACCESS GATED. X Collector implementation has not started.

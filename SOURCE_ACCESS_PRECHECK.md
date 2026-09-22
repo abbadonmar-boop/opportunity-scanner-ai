@@ -100,7 +100,7 @@ Auto-recharge was not enabled.
 No paid API request was made.
 The App was not connected to the Pay Per Use Project.
 
-Under D-034, official X Pay Per Use use is approved in principle. D-036 now fixes the first bounded live-access envelope at maximum USD $1.00 spend, 20 paid API requests, 10 Posts per Recent Search request and 200 maximum billable returned Posts / resources, with deterministic hard safe-stop conditions. Auto-recharge must remain OFF. Pay Per Use remains inactive and no paid live API request has been authorized or made.
+Under D-034, official X Pay Per Use use is approved in principle. D-036 fixes the first bounded live-access envelope at maximum USD $1.00 spend, 20 paid API requests, 10 Posts per Recent Search request and 200 maximum billable returned Posts / resources, with deterministic hard safe-stop conditions. Controlled activation-readiness verification confirmed that the X Developer Console accepts and saves Billing Cycle Cap at USD $1.00. D-037 authorizes the verified minimum one-time prepaid credit purchase of USD $5.00 without increasing the D-036 live-spend limit. Auto-recharge remains OFF. No credits have yet been purchased and no paid live API request has been made.
 
 Technical limitations relevant to the approved use case:
 - The approved initial collector path under D-032 remains the official X API v2 Recent Search path.
@@ -137,14 +137,14 @@ Evidence:
 Collector implementation may proceed:
 NO.
 
-Developer onboarding and App creation are complete. D-034 approves the official Pay Per Use path in principle and D-036 approves the first bounded live-access envelope. The App remains disconnected because actual Pay Per Use activation is still a separate controlled development step.
+Developer onboarding and App creation are complete. D-034 approves the official Pay Per Use path in principle, D-036 approves the first bounded live-access envelope, and D-037 authorizes the verified minimum one-time USD $5.00 prepaid credit purchase. Billing Cycle Cap is saved at USD $1.00. The App remains disconnected because Project connection and paid live API use remain separate controlled development steps.
 
-No collector implementation, paid activation, credit purchase or live API collection is authorized by this precheck result.
+No collector implementation, Project connection or live API collection is authorized by this precheck result. The one-time USD $5.00 prepaid credit purchase is separately authorized by D-037, but has not yet been executed.
 
 Conclusion:
 X / Twitter satisfies the D-033 criteria for `UNKNOWN — REQUIRES APPROVAL`.
 
-The unresolved prerequisite is no longer developer onboarding, App creation, principle-level Pay Per Use approval or bounded-envelope definition. D-036 fixes the bounded envelope. The remaining prerequisite is the separate controlled activation-readiness and activation step before connecting the App to `Default Project — Pay Per Use`, purchasing credits or making any paid live API request.
+The unresolved prerequisite is no longer developer onboarding, App creation, principle-level Pay Per Use approval, bounded-envelope definition or credit-purchase authorization. D-036 fixes the bounded envelope and D-037 authorizes the minimum one-time USD $5.00 prepaid credit purchase. The remaining prerequisites are controlled execution of that purchase, separate Project connection verification and separate authorization before any paid live API request.
 
 The X source precheck is complete at the current authorization boundary.
 

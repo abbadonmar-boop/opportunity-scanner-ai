@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Complete D-036 documentation synchronization and Git commit. After Git is clean, perform a separate controlled activation-readiness step before any Pay Per Use connection, credit purchase or paid live API request. X Collector implementation must not begin automatically.
+Complete D-037 documentation synchronization and Git commit. After Git is clean, execute only the separately approved one-time USD $5.00 prepaid credit purchase while preserving Billing Cycle Cap USD $1.00, Auto-recharge OFF and all D-036 limits. Do not connect the App to Pay Per Use, generate credentials, make a paid live API request or begin X Collector implementation automatically.
 
 ## FOUNDATION
 
@@ -89,7 +89,7 @@ Complete D-036 documentation synchronization and Git commit. After Git is clean,
 - [x] Record collector proceed / do-not-proceed result for all five sources.
 - [x] Mark SOURCE ACCESS PRECHECK COMPLETE / VERIFIED under D-033.
 
-## D-034 / D-035 / D-036 POLICY MILESTONE
+## D-034 / D-035 / D-036 / D-037 POLICY MILESTONE
 
 - [x] Approve official X API Pay Per Use use in principle — D-034.
 - [x] Fix maximum initial personal-funded X API budget at USD $15.
@@ -108,6 +108,10 @@ Complete D-036 documentation synchronization and Git commit. After Git is clean,
 - [x] Exclude expired / closed opportunities from the normal production Telegram flow.
 - [x] Require applicable quality / risk / scoring gates before final production Telegram delivery.
 - [x] Approve D-036 bounded live-access envelope: maximum USD $1.00 spend, 20 paid requests, 10 Posts per Recent Search request, 200 maximum billable returned Posts / resources.
+- [x] Verify X Developer Console accepts and saves Billing Cycle Cap at USD $1.00.
+- [x] Verify X Developer Console minimum prepaid credit purchase is USD $5.00.
+- [x] Approve D-037 one-time USD $5.00 prepaid credit purchase without increasing D-036 live-spend authorization above USD $1.00.
+- [x] Require unused prepaid credit balance to remain unauthorized for further spend without separate explicit approval.
 
 ## ROADMAP
 
@@ -116,7 +120,7 @@ Complete D-036 documentation synchronization and Git commit. After Git is clean,
 - [x] MODULE 4 — RSS Collector
 - [ ] MODULE 5 — Reddit Collector — BLOCKED — DATA ACCESS NOT APPROVED
 - [x] MODULE 6 — Filter Engine — COMPLETED / PASS
-- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; Pay Per Use remains inactive
+- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 one-time USD $5.00 prepaid credit purchase approved; Billing Cycle Cap USD $1.00; credits not yet purchased
 - [ ] MODULE 8 — Telegram Sources — BLOCKED — TELEGRAM CONTENT AI-USE TERMS CONFLICT
 - [ ] MODULE 9 — Discord Collector — ACCESS PRECHECK: AVAILABLE WITH LIMITATIONS
 - [ ] MODULE 10 — AI Analyzer

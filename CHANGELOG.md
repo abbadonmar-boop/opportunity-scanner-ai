@@ -360,3 +360,18 @@ All notable verified project changes are recorded here.
 - Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED.
 - The X App remains disconnected from Pay Per Use, no credits have been purchased, no paid live API request has been made, and X Collector implementation has not started.
 - D-036 does not change the approved architecture, roadmap, source list or module order.
+
+- D-037 — X Minimum Credit Purchase Authorization — FIXED / APPROVED on 2026-09-22.
+- Controlled X Developer Console activation-readiness verification confirmed that Billing Cycle Cap can be set and was saved at USD $1.00.
+- Current Spend remained USD $0.00 after the Billing Cycle Cap change.
+- The X credit-purchase interface rejected USD $1.00 and verified a minimum prepaid purchase amount of USD $5.00.
+- A one-time USD $5.00 prepaid X API credit purchase is explicitly authorized under D-037.
+- The USD $5.00 credit purchase does not increase the D-036 authorized live-verification spend above USD $1.00.
+- Unused prepaid credits are not authorized for further spend without separate explicit approval.
+- Auto-recharge remains OFF.
+- All D-036 request, returned-resource and hard safe-stop limits remain unchanged.
+- No credits have yet been purchased.
+- The X App remains disconnected from the Pay Per Use Project.
+- No paid live X API request has been made.
+- X Collector implementation has not started.
+- D-037 does not change the approved architecture, roadmap, source list or module order.
