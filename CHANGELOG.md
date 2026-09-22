@@ -416,3 +416,18 @@ All notable verified project changes are recorded here.
 - X Collector implementation has not started.
 - Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED.
 - D-038 execution does not change the approved architecture, roadmap, source list or module order.
+
+- D-039 — X Bearer Token Generation and Local Secret Handling — FIXED / APPROVED on 2026-09-22.
+- D-039 authorizes only generation of the X App Bearer Token and local storage in the repository-root Git-ignored `.env` as `X_BEARER_TOKEN`.
+- Repository secret-storage readiness was verified before generation: `.env` is ignored by Git and untracked.
+- The tracked `.env.example` contains only the safe `X_BEARER_TOKEN` placeholder.
+- The local `.env` contains exactly one empty `X_BEARER_TOKEN` key before generation.
+- The Bearer Token has not yet been generated.
+- D-039 does not authorize any X API request, paid API request, Recent Search request or X Collector implementation.
+- Access Token generation and User Authentication configuration remain unauthorized.
+- `Staging` and `Production` remain unauthorized.
+- Billing safety remains Remaining Balance USD $5.00, Billing Cycle Cap USD $1.00, Auto Recharge OFF and Current Spend USD $0.00.
+- D-036 bounded live-verification limits remain unchanged.
+- X Collector implementation remains not started.
+- Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED.
+- D-039 does not change the approved architecture, roadmap, source list or module order.

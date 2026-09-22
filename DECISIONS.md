@@ -1948,3 +1948,86 @@ Status: FIXED / APPROVED
 20. D-038 does not change the approved architecture, roadmap, source list or module order.
 
 21. Module 7 remains PRE-IMPLEMENTATION / ACCESS GATED.
+
+## D-039 — X BEARER TOKEN GENERATION AND LOCAL SECRET HANDLING
+
+Status: FIXED / APPROVED
+
+Date: 2026-09-22
+
+### PURPOSE
+
+1. D-039 authorizes generation of the X App Bearer Token only for the controlled credential-readiness step of Module 7.
+
+2. The approved environment variable name is:
+
+`X_BEARER_TOKEN`
+
+3. The Bearer Token is authorized only for local secret storage in the repository-root `.env` file.
+
+### VERIFIED SECRET-STORAGE READINESS
+
+4. The repository-root `.env` is ignored by Git.
+
+5. `.env` is not tracked by Git.
+
+6. `.env.example` is tracked and contains only the safe placeholder:
+
+`X_BEARER_TOKEN=REPLACE_WITH_LOCAL_X_BEARER_TOKEN`
+
+7. The local `.env` contains exactly one `X_BEARER_TOKEN` key and its value remains empty before token generation.
+
+### SECRET HANDLING BOUNDARIES
+
+8. The generated Bearer Token must not be:
+
+- sent in ChatGPT or any other chat;
+- committed to Git;
+- added to tracked project files;
+- written into project documentation;
+- written into logs;
+- exposed in screenshots;
+- copied into command output submitted for verification.
+
+9. After generation, the token may be copied only into the local `.env` value for `X_BEARER_TOKEN`.
+
+10. The token value itself must never be used as verification evidence. Verification must use only non-secret state such as key presence / non-empty status.
+
+### AUTHORIZATION BOUNDARY
+
+11. D-039 authorizes only Bearer Token generation and local storage.
+
+12. D-039 does NOT authorize:
+
+- any X API request;
+- any paid API request;
+- any Recent Search request;
+- starting X Collector implementation;
+- production polling;
+- generating Access Token credentials;
+- configuring User Authentication;
+- exposing or rotating Consumer Key / Consumer Secret;
+- connecting Staging or Production;
+- increasing Billing Cycle Cap;
+- enabling Auto Recharge;
+- spending any X API credits.
+
+13. The first bounded paid live API request remains a separate step requiring separate explicit authorization.
+
+14. X Collector implementation remains not started.
+
+### RELATION TO EXISTING DECISIONS
+
+15. D-032 remains authoritative for Module 7 scope and official X API access.
+
+16. D-034 remains authoritative for the total personal-funded budget and funding safety.
+
+17. D-036 remains authoritative for the bounded live-verification envelope and all hard safe-stop conditions.
+
+18. D-037 remains authoritative for prepaid-credit authorization and unused-credit restrictions.
+
+19. D-038 remains authoritative for Development-only Project Access.
+
+20. D-039 does not change the approved architecture, roadmap, source list or module order.
+
+21. Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED.

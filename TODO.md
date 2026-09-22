@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Complete documentation synchronization and Git commit for executed D-038 Development Project Access. After Git is clean, perform the next separate credential-readiness step without generating or exposing credentials and without making any paid API request. Staging and Production remain unauthorized and X Collector implementation must not begin automatically.
+Complete D-039 documentation synchronization and Git commit. After Git is clean, execute only the authorized X Bearer Token generation and store it only in local `.env` as `X_BEARER_TOKEN`. Do not expose the token, make any API request, configure User Authentication, generate Access Token credentials, connect Staging or Production, or begin X Collector implementation.
 
 ## FOUNDATION
 
@@ -89,7 +89,7 @@ Complete documentation synchronization and Git commit for executed D-038 Develop
 - [x] Record collector proceed / do-not-proceed result for all five sources.
 - [x] Mark SOURCE ACCESS PRECHECK COMPLETE / VERIFIED under D-033.
 
-## D-034 / D-035 / D-036 / D-037 / D-038 POLICY MILESTONE
+## D-034 / D-035 / D-036 / D-037 / D-038 / D-039 POLICY MILESTONE
 
 - [x] Approve official X API Pay Per Use use in principle — D-034.
 - [x] Fix maximum initial personal-funded X API budget at USD $15.
@@ -126,6 +126,14 @@ Complete documentation synchronization and Git commit for executed D-038 Develop
 - [x] Verify post-connection Auto Recharge remains OFF.
 - [x] Verify post-connection Current Spend remains USD $0.00.
 - [x] Verify no new credentials were generated and no paid live API request was made.
+- [x] Approve D-039 X Bearer Token generation and local secret handling.
+- [x] Approve `X_BEARER_TOKEN` as the local environment variable name.
+- [x] Verify repository-root `.env` is ignored by Git and not tracked.
+- [x] Add safe `X_BEARER_TOKEN` placeholder to tracked `.env.example`.
+- [x] Verify local `.env` contains exactly one empty `X_BEARER_TOKEN` key before generation.
+- [ ] Generate X Bearer Token under D-039 and store it only in local `.env`.
+- [ ] Verify only non-secret presence / non-empty state after generation.
+- [x] Keep all X API requests and X Collector implementation outside D-039 authorization.
 - [x] Require unused prepaid credit balance to remain unauthorized for further spend without separate explicit approval.
 
 ## ROADMAP
@@ -135,7 +143,7 @@ Complete documentation synchronization and Git commit for executed D-038 Develop
 - [x] MODULE 4 — RSS Collector
 - [ ] MODULE 5 — Reddit Collector — BLOCKED — DATA ACCESS NOT APPROVED
 - [x] MODULE 6 — Filter Engine — COMPLETED / PASS
-- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 USD $5.00 prepaid credit purchase completed; D-038 Development Project Access executed and verified; Remaining Balance USD $5.00; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.00; no paid live API request made
+- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 USD $5.00 prepaid credit purchase completed; D-038 Development Project Access executed and verified; D-039 Bearer Token generation and local secret handling approved but not yet executed; Remaining Balance USD $5.00; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.00; no X API request made
 - [ ] MODULE 8 — Telegram Sources — BLOCKED — TELEGRAM CONTENT AI-USE TERMS CONFLICT
 - [ ] MODULE 9 — Discord Collector — ACCESS PRECHECK: AVAILABLE WITH LIMITATIONS
 - [ ] MODULE 10 — AI Analyzer

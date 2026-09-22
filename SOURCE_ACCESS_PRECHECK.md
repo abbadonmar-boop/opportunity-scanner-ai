@@ -99,11 +99,14 @@ The D-037 USD $5.00 prepaid credit purchase has been completed and credited.
 No paid API request has been made.
 No new Bearer Token or Access Token was generated during the D-038 connection step.
 
-Under D-034, official X Pay Per Use use is approved in principle. D-036 fixes the first bounded live-access envelope at maximum USD $1.00 spend, 20 paid API requests, 10 Posts per Recent Search request and 200 maximum billable returned Posts / resources, with deterministic hard safe-stop conditions. D-037 authorized and completed the verified minimum one-time prepaid credit purchase of USD $5.00 without increasing the D-036 live-spend limit. D-038 authorizes only Development Project Access to the existing `Default Project — Pay Per Use`; Staging and Production are not authorized. The authorized Development connection has now been executed and verified successfully. Post-connection billing state remains Remaining Balance USD $5.00, Billing Cycle Cap USD $1.00, Auto Recharge OFF and Current Spend USD $0.00. No paid live API request has been made and no new credentials were generated.
+D-039 now separately authorizes generation of the X App Bearer Token and storage only in the local Git-ignored `.env` as `X_BEARER_TOKEN`. The Bearer Token has not yet been generated. D-039 does not authorize any X API request or X Collector implementation.
+
+Under D-034, official X Pay Per Use use is approved in principle. D-036 fixes the first bounded live-access envelope at maximum USD $1.00 spend, 20 paid API requests, 10 Posts per Recent Search request and 200 maximum billable returned Posts / resources, with deterministic hard safe-stop conditions. D-037 authorized and completed the verified minimum one-time prepaid credit purchase of USD $5.00 without increasing the D-036 live-spend limit. D-038 authorizes only Development Project Access to the existing `Default Project — Pay Per Use`; Staging and Production are not authorized, and the authorized Development connection has been executed and verified successfully. D-039 authorizes only Bearer Token generation and local storage as `X_BEARER_TOKEN` in the Git-ignored `.env`; generation has not yet been executed. Post-connection billing state remains Remaining Balance USD $5.00, Billing Cycle Cap USD $1.00, Auto Recharge OFF and Current Spend USD $0.00. No X API request has been made.
 
 Technical limitations relevant to the approved use case:
 - The approved initial collector path under D-032 remains the official X API v2 Recent Search path.
 - Development Project Access is now connected, but no endpoint call has yet been authorized or executed.
+- D-039 credential generation is separately authorized, but the Bearer Token has not yet been generated and no API use is authorized by D-039.
 - Actual endpoint availability, rate limits and billable behavior remain unverified until a separately authorized bounded live API verification is performed.
 - No polling frequency or live request budget is inferred from API limits.
 - No live X Content may be permanently persisted before the X-specific content-compliance policy required by D-032 is approved.
@@ -135,18 +138,21 @@ Evidence:
 - D-038 authorized `Development` Project Access to `Default Project — Pay Per Use`; successful connection verified on 2026-09-22.
 - Post-connection billing state verified on 2026-09-22: Remaining Balance USD $5.00, Billing Cycle Cap USD $1.00, Auto Recharge OFF and Current Spend USD $0.00.
 - No new Bearer Token or Access Token generation and no paid live API request occurred during D-038 connection execution.
+- D-039 — X Bearer Token Generation and Local Secret Handling — FIXED / APPROVED on 2026-09-22.
+- Secret-storage readiness verified before generation: repository-root `.env` is ignored and untracked; tracked `.env.example` contains only the safe `X_BEARER_TOKEN` placeholder; local `.env` contains exactly one empty `X_BEARER_TOKEN` key.
+- Bearer Token generation has not yet been executed and no X API request has been made under D-039.
 
 Collector implementation may proceed:
 NO.
 
 Developer onboarding and App creation are complete. D-034 approves the official Pay Per Use path in principle, D-036 approves the first bounded live-access envelope, D-037 authorized and completed the one-time USD $5.00 prepaid credit purchase, and D-038 authorizes only Development Project Access to the existing `Default Project — Pay Per Use`. The authorized Development connection has now been executed and verified successfully. Staging and Production remain unauthorized.
 
-No collector implementation or live API collection is authorized by this precheck result. Development Project connection was separately authorized by D-038 and has now been executed; Staging and Production connection remain unauthorized.
+No collector implementation or live API collection is authorized by this precheck result. Development Project connection was separately authorized by D-038 and has been executed. D-039 separately authorizes only Bearer Token generation and local secret storage; it does not authorize live API collection. Staging and Production connection remain unauthorized.
 
 Conclusion:
 X / Twitter satisfies the D-033 criteria for `UNKNOWN — REQUIRES APPROVAL`.
 
-The unresolved prerequisite is no longer developer onboarding, App creation, principle-level Pay Per Use approval, bounded-envelope definition, credit-purchase authorization, credit-purchase execution, Development Project Access authorization or Development connection execution. The remaining prerequisite before any live X API verification is separate credential-readiness verification and separate explicit authorization for the first bounded paid live API request.
+The unresolved prerequisite is no longer developer onboarding, App creation, principle-level Pay Per Use approval, bounded-envelope definition, credit-purchase authorization, credit-purchase execution, Development Project Access authorization, Development connection execution or credential-storage preparation. The remaining prerequisites before any live X API verification are controlled Bearer Token generation and local storage under D-039, followed by separate explicit authorization for the first bounded paid live API request.
 
 The X source precheck is complete at the current authorization boundary.
 
