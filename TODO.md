@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Complete documentation synchronization and Git commit for the executed D-037 USD $5.00 prepaid credit purchase. After Git is clean, perform the next separate controlled Project Access connection-readiness step. Do not connect the App to Pay Per Use, generate credentials, make a paid live API request or begin X Collector implementation automatically.
+Complete D-038 documentation synchronization and Git commit. After Git is clean, execute only the approved `Connect · Development` action to `Default Project — Pay Per Use` and verify the resulting Project Access and billing-safety state. Do not connect to Staging or Production, generate credentials, make a paid live API request or begin X Collector implementation.
 
 ## FOUNDATION
 
@@ -89,7 +89,7 @@ Complete documentation synchronization and Git commit for the executed D-037 USD
 - [x] Record collector proceed / do-not-proceed result for all five sources.
 - [x] Mark SOURCE ACCESS PRECHECK COMPLETE / VERIFIED under D-033.
 
-## D-034 / D-035 / D-036 / D-037 POLICY MILESTONE
+## D-034 / D-035 / D-036 / D-037 / D-038 POLICY MILESTONE
 
 - [x] Approve official X API Pay Per Use use in principle — D-034.
 - [x] Fix maximum initial personal-funded X API budget at USD $15.
@@ -116,6 +116,9 @@ Complete documentation synchronization and Git commit for the executed D-037 USD
 - [x] Verify Auto Recharge remains OFF after purchase.
 - [x] Verify Billing Cycle Cap remains USD $1.00 after purchase.
 - [x] Verify Current Spend remains USD $0.00 after purchase.
+- [x] Approve D-038 Development-only Project Access to existing `Default Project — Pay Per Use`.
+- [x] Keep Staging and Production Project Access unauthorized.
+- [x] Keep credential generation, paid API requests and X Collector implementation outside D-038 authorization.
 - [x] Require unused prepaid credit balance to remain unauthorized for further spend without separate explicit approval.
 
 ## ROADMAP
@@ -125,7 +128,7 @@ Complete documentation synchronization and Git commit for the executed D-037 USD
 - [x] MODULE 4 — RSS Collector
 - [ ] MODULE 5 — Reddit Collector — BLOCKED — DATA ACCESS NOT APPROVED
 - [x] MODULE 6 — Filter Engine — COMPLETED / PASS
-- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 USD $5.00 prepaid credit purchase completed; Remaining Balance USD $5.00; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.00
+- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 USD $5.00 prepaid credit purchase completed; D-038 Development Project Access approved but not yet executed; Remaining Balance USD $5.00; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.00
 - [ ] MODULE 8 — Telegram Sources — BLOCKED — TELEGRAM CONTENT AI-USE TERMS CONFLICT
 - [ ] MODULE 9 — Discord Collector — ACCESS PRECHECK: AVAILABLE WITH LIMITATIONS
 - [ ] MODULE 10 — AI Analyzer

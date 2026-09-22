@@ -7,7 +7,7 @@ Foundation
 Module 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED
 
 ## CURRENT STEP
-SOURCE ACCESS PRECHECK remains COMPLETE / VERIFIED under D-033. D-034, D-035 and D-036 remain FIXED / APPROVED. D-037 — X Minimum Credit Purchase Authorization — is FIXED / APPROVED: the verified X Developer Console requires a minimum prepaid credit purchase of USD $5.00, while the authorized bounded live-verification spend remains USD $1.00 under D-036. Billing Cycle Cap has been verified and saved at USD $1.00. The D-037 one-time USD $5.00 prepaid credit purchase has been executed and the verified remaining credit balance is USD $5.00. Auto Recharge is OFF and Current Spend remains USD $0.00. Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED. The App remains disconnected from Pay Per Use, no paid live API request has been made, and collector implementation has not started.
+SOURCE ACCESS PRECHECK remains COMPLETE / VERIFIED under D-033. D-034 through D-038 are FIXED / APPROVED. D-038 — X Development Project Access Authorization — authorizes only connecting the existing X App to the existing `Default Project — Pay Per Use` in the `Development` environment for controlled bounded live-verification readiness. `Staging` and `Production` are not authorized. Billing safety remains verified at Remaining Balance USD $5.00, Billing Cycle Cap USD $1.00, Auto Recharge OFF and Current Spend USD $0.00. Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED. The App is still disconnected from Pay Per Use, no paid live API request has been made, and collector implementation has not started.
 
 ## COMPLETED
 - Product requirements and Architecture v1.0 are fixed.
@@ -123,17 +123,19 @@ SOURCE ACCESS PRECHECK remains COMPLETE / VERIFIED under D-033. D-034, D-035 and
 - D-037 authorizes one-time USD $5.00 prepaid credit purchase because the verified X Developer Console rejects USD $1.00 and requires a USD $5.00 minimum; it does not increase the D-036 live-spend authorization above USD $1.00.
 - X Developer Console activation-readiness verification confirmed and saved Billing Cycle Cap at USD $1.00.
 - D-037 authorized one-time USD $5.00 prepaid credit purchase executed successfully; verified remaining balance USD $5.00, Auto Recharge OFF and Current Spend USD $0.00.
+- D-038 — X Development Project Access Authorization — FIXED / APPROVED.
+- D-038 authorizes only `Connect · Development` to the existing `Default Project — Pay Per Use`; `Staging` and `Production` remain unauthorized, and the decision does not authorize credentials, paid API requests or X Collector implementation.
 
 ## IN PROGRESS
-D-037 purchase-execution documentation synchronization. The approved one-time USD $5.00 prepaid credit purchase has been completed and credited. Verified state: remaining balance USD $5.00, Billing Cycle Cap USD $1.00, Auto Recharge OFF, Current Spend USD $0.00. Module 7 collector implementation has not started and remains access-gated.
+D-038 documentation synchronization. Development Project Access is approved but has not yet been executed. The X App remains disconnected from `Default Project — Pay Per Use`. No credential generation, paid API request or X Collector implementation is authorized by D-038.
 
 ## NEXT STEP
-Complete documentation synchronization and Git commit for the executed D-037 USD $5.00 prepaid credit purchase. After Git is clean, perform the next separate controlled Project Access connection-readiness step. Do not connect the App to Pay Per Use, generate credentials, make a paid live API request or begin X Collector implementation automatically.
+Complete D-038 documentation synchronization and Git commit. After Git is clean, execute only the separately approved `Connect · Development` Project Access action and verify the resulting Project Access and billing-safety state before any further action. Do not connect to Staging or Production, generate credentials, make a paid live API request or begin X Collector implementation.
 
 ## BLOCKERS
 Module 5 — Reddit Collector is BLOCKED — DATA ACCESS NOT APPROVED. The Reddit Data Team did not approve the submitted access request. This blocker applies to Reddit Collector implementation and must not be bypassed.
 
-Module 7 — X Collector is not formally BLOCKED, but remains PRE-IMPLEMENTATION / ACCESS GATED. D-034 caps the initial personal-funded budget at USD $15. D-036 fixes the current live-verification envelope at USD $1.00 / 20 requests / 10 Posts per request / 200 billable returned Posts or resources with deterministic safe-stop conditions. D-037 authorizes a one-time USD $5.00 prepaid credit purchase required by the verified X Developer Console minimum, without authorizing spend above the D-036 USD $1.00 live limit. Billing Cycle Cap is saved at USD $1.00. The authorized one-time USD $5.00 prepaid credit purchase has been completed; verified remaining balance is USD $5.00, Auto Recharge is OFF and Current Spend is USD $0.00. The active X App remains disconnected from the verified Default Project — Pay Per Use, and no paid live request has been made.
+Module 7 — X Collector is not formally BLOCKED, but remains PRE-IMPLEMENTATION / ACCESS GATED. D-034 caps the initial personal-funded budget at USD $15. D-036 fixes the current live-verification envelope at USD $1.00 / 20 requests / 10 Posts per request / 200 billable returned Posts or resources with deterministic safe-stop conditions. D-037 authorized the completed one-time USD $5.00 prepaid credit purchase without increasing the D-036 live-spend limit. D-038 now authorizes only Development Project Access to the existing `Default Project — Pay Per Use`; Staging and Production remain unauthorized. Verified billing state remains Remaining Balance USD $5.00, Billing Cycle Cap USD $1.00, Auto Recharge OFF and Current Spend USD $0.00. The active X App is still disconnected from the Project, and no paid live request has been made.
 
 Module 8 — Telegram Sources has a verified D-033 status of BLOCKED under the currently approved end-to-end architecture because Telegram's current AI-use terms conflict with downstream use of Telegram-derived content in the approved AI stage. Resolution requires a separate explicit project decision and must not be bypassed.
 
@@ -162,6 +164,7 @@ D-034 fixes the X API budget, paid-access and fail-safe cost boundaries without 
 D-035 fixes the cross-module quality, noise and deduplication policy without changing the approved architecture, roadmap, source list or module order.
 D-036 fixes the first bounded X live-access envelope without changing the approved architecture, roadmap, source list or module order.
 D-037 fixes the minimum prepaid X credit purchase authorization without changing the D-036 live-spend envelope or the approved architecture, roadmap, source list or module order.
+D-038 fixes Development-only X Project Access authorization without changing the D-036 live envelope or the approved architecture, roadmap, source list or module order.
 - D-027 bounded live-feed verification mode implemented in rss_collector.py.
 - Added deterministic first-parser-item processing with at most one item entering persistence and downstream processing.
 - Added allowlist enforcement before live feed retrieval.
@@ -187,4 +190,4 @@ D-037 fixes the minimum prepaid X credit purchase authorization without changing
 - Module 4 — RSS Collector: COMPLETED / PASS.
 
 ## LAST VERIFIED STATE
-2026-09-22 — GitHub main is synchronized and clean through D-037 milestone commit ca02fb3. The D-037 authorized one-time USD $5.00 prepaid X API credit purchase was successfully completed and credited. Verified X Developer Console state: Remaining Balance USD $5.00, Billing Cycle Cap USD $1.00, Auto Recharge OFF and Current Spend USD $0.00. D-036 live limits remain unchanged: maximum USD $1.00 spend, 20 paid requests, 10 Posts per Recent Search request and 200 billable returned Posts / resources. Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED; the App remains disconnected from Pay Per Use, no paid live API request has been made, and X Collector implementation has not started.
+2026-09-22 — GitHub main is synchronized through purchase-execution milestone commit 2ac2e21. D-038 — X Development Project Access Authorization — is FIXED / APPROVED. Only `Connect · Development` to the existing `Default Project — Pay Per Use` is authorized; Staging and Production are not authorized. The App remains disconnected pending D-038 documentation synchronization and clean Git state. Verified billing state remains Remaining Balance USD $5.00, Billing Cycle Cap USD $1.00, Auto Recharge OFF and Current Spend USD $0.00. No paid live API request has been made and X Collector implementation has not started.

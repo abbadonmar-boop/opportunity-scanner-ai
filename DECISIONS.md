@@ -1869,3 +1869,82 @@ before any paid live API request.
 21. D-037 does not change the approved architecture, roadmap, source list or module order.
 
 22. Module 7 remains PRE-IMPLEMENTATION / ACCESS GATED. X Collector implementation has not started.
+
+## D-038 — X DEVELOPMENT PROJECT ACCESS AUTHORIZATION
+
+Status: FIXED / APPROVED
+
+### PURPOSE
+
+1. D-038 authorizes connecting the existing X App to the existing `Default Project — Pay Per Use` only in the `Development` environment.
+
+2. The purpose of this connection is limited to controlled bounded live-verification readiness under D-036.
+
+### APPROVED CONNECTION
+
+3. The approved Project Access action is:
+
+`Connect · Development`
+
+4. `Connect · Staging` is not authorized.
+
+5. `Connect · Production` is not authorized.
+
+6. No new X Project is authorized or required by D-038.
+
+### BOUNDARIES
+
+7. D-038 authorizes only the Development Project Access connection.
+
+8. D-038 does NOT by itself authorize:
+
+- generating or exposing credentials;
+- making any paid API request;
+- starting X Collector implementation;
+- production polling;
+- increasing Billing Cycle Cap;
+- enabling Auto Recharge;
+- spending beyond the D-036 live-verification envelope.
+
+9. The D-036 limits remain unchanged:
+
+- maximum USD $1.00 live spend;
+- maximum 20 paid API requests;
+- maximum 10 Posts per Recent Search request;
+- maximum 200 billable returned Posts / resources;
+- all D-036 hard safe-stop conditions remain mandatory.
+
+10. The D-037 prepaid credit purchase does not expand these live-use permissions.
+
+### CURRENT BILLING SAFETY STATE
+
+11. Before Development connection, the verified X Developer Console state is:
+
+- Remaining Balance: USD $5.00;
+- Billing Cycle Cap: USD $1.00;
+- Auto Recharge: OFF;
+- Current Spend: USD $0.00.
+
+12. Those billing safety controls must remain unchanged by the Project Access connection.
+
+### NEXT AUTHORIZATION BOUNDARY
+
+13. After Development connection, Project Access state must be verified before any further action.
+
+14. Credential handling and the first paid live API request remain separate controlled development steps requiring explicit verification and authorization.
+
+15. X Collector implementation remains not started.
+
+### RELATION TO EXISTING DECISIONS
+
+16. D-032 remains authoritative for Module 7 scope and official X API access.
+
+17. D-034 remains authoritative for total personal-funded budget and funding safety.
+
+18. D-036 remains authoritative for bounded live-access spend, request, resource and safe-stop limits.
+
+19. D-037 remains authoritative for the prepaid credit purchase authorization and unused-credit boundary.
+
+20. D-038 does not change the approved architecture, roadmap, source list or module order.
+
+21. Module 7 remains PRE-IMPLEMENTATION / ACCESS GATED.

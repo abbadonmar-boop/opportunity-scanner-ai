@@ -387,3 +387,17 @@ All notable verified project changes are recorded here.
 - The X App remains disconnected from the Pay Per Use Project.
 - No paid live X API request has been made.
 - X Collector implementation has not started.
+
+- D-038 — X Development Project Access Authorization — FIXED / APPROVED on 2026-09-22.
+- The existing X App may be connected only to the existing `Default Project — Pay Per Use` using `Connect · Development`.
+- `Connect · Staging` is not authorized.
+- `Connect · Production` is not authorized.
+- No new X Project is authorized or required.
+- D-038 authorizes only Development Project Access and does not authorize credential generation, paid API requests, X Collector implementation or production polling.
+- D-036 live limits remain unchanged: maximum USD $1.00 spend, 20 paid API requests, 10 Posts per Recent Search request and 200 maximum billable returned Posts / resources.
+- Verified billing state before connection remains Remaining Balance USD $5.00, Billing Cycle Cap USD $1.00, Auto Recharge OFF and Current Spend USD $0.00.
+- The Development connection has not yet been executed.
+- The X App remains disconnected from the Pay Per Use Project.
+- No paid live X API request has been made.
+- X Collector implementation has not started.
+- D-038 does not change the approved architecture, roadmap, source list or module order.
