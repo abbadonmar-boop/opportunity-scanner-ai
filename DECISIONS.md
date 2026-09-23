@@ -2045,3 +2045,19 @@ Date: 2026-09-22
 25. The regenerated Bearer Token remains authorized only for local storage in the Git-ignored `.env` as `X_BEARER_TOKEN`.
 
 26. This clarification does NOT authorize any X API request, paid API request, Recent Search request, X Collector implementation, Access Token generation, User Authentication configuration, Staging / Production connection, Billing Cycle Cap increase, Auto Recharge, or credit spend.
+
+### EXECUTION RECORD — 2026-09-23
+
+27. The authorized `Generate → Regenerate` Bearer Token action was executed successfully in X Developer Console.
+
+28. The regenerated Bearer Token was stored only in the repository-root Git-ignored `.env` under the approved variable name `X_BEARER_TOKEN`.
+
+29. Non-secret verification confirmed that the locally stored value exactly matched the copied regenerated token: `TOKEN_MATCH=True`.
+
+30. The clipboard containing the regenerated token was cleared after successful local storage and verification.
+
+31. Git verification after credential storage showed `## main...origin/main`, confirming that the local `.env` remained untracked and no credential-bearing file was added to Git.
+
+32. No X API request, paid API request or Recent Search request was executed during D-039.
+
+33. X Collector implementation remains not started. The first bounded live X API verification remains a separate step requiring separate explicit authorization under the existing D-036 envelope.

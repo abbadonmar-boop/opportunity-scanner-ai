@@ -421,8 +421,8 @@ All notable verified project changes are recorded here.
 - D-039 authorizes only generation of the X App Bearer Token and local storage in the repository-root Git-ignored `.env` as `X_BEARER_TOKEN`.
 - Repository secret-storage readiness was verified before generation: `.env` is ignored by Git and untracked.
 - The tracked `.env.example` contains only the safe `X_BEARER_TOKEN` placeholder.
-- The local `.env` contains exactly one empty `X_BEARER_TOKEN` key before generation.
-- The Bearer Token has not yet been generated.
+- Before generation, the local `.env` contained exactly one empty `X_BEARER_TOKEN` key.
+- The Bearer Token was subsequently regenerated successfully on 2026-09-23 and stored only in the local Git-ignored `.env` as `X_BEARER_TOKEN`.
 - D-039 does not authorize any X API request, paid API request, Recent Search request or X Collector implementation.
 - Access Token generation and User Authentication configuration remain unauthorized.
 - `Staging` and `Production` remain unauthorized.
@@ -441,7 +441,7 @@ All notable verified project changes are recorded here.
 - The replacement PostgreSQL admin credential was verified successfully through an authenticated connection as `postgres`.
 - Replacement secret values were not recorded in Git, tracked project files, project documentation or verification output.
 - Git remained clean and synchronized after the local secret rotations.
-- X Bearer Token generation under D-039 has not yet been executed.
+- X Bearer Token regeneration under D-039 was executed successfully on 2026-09-23; non-secret verification confirmed `TOKEN_MATCH=True`, and the clipboard was cleared.
 - No X API request has been made.
 
 - D-039 execution clarification approved on 2026-09-23.
@@ -449,7 +449,7 @@ All notable verified project changes are recorded here.
 - The user explicitly authorized regeneration of the existing X Bearer Token through the verified `Generate → Regenerate` flow.
 - The previously existing Bearer Token may be invalidated by the regeneration.
 - The regenerated Bearer Token remains restricted to local storage in the Git-ignored `.env` as `X_BEARER_TOKEN`.
-- Bearer Token regeneration has not yet been executed.
+- Bearer Token regeneration was executed successfully on 2026-09-23 through the verified `Generate → Regenerate` flow.
 - No X API request, paid API request, Recent Search request or X Collector implementation is authorized by this clarification.
 - Access Token generation and User Authentication configuration remain unauthorized.
 - `Staging` and `Production` remain unauthorized.
