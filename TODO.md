@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Complete D-039 execution documentation synchronization and Git commit. After Git is clean, define and separately authorize the first bounded live X API verification step under D-036 before any API request is executed. Do not expose the token, configure User Authentication, generate Access Token credentials, connect Staging or Production, or begin X Collector implementation.
+Complete D-040 documentation synchronization and Git commit. After Git is clean, separately verify the required pre-request X billing state before executing the single authorized D-040 live verification request. Do not expose the token, execute any additional API request, configure User Authentication, generate Access Token credentials, connect Staging or Production, or begin X Collector implementation.
 
 ## FOUNDATION
 
@@ -89,7 +89,7 @@ Complete D-039 execution documentation synchronization and Git commit. After Git
 - [x] Record collector proceed / do-not-proceed result for all five sources.
 - [x] Mark SOURCE ACCESS PRECHECK COMPLETE / VERIFIED under D-033.
 
-## D-034 / D-035 / D-036 / D-037 / D-038 / D-039 POLICY MILESTONE
+## D-034 / D-035 / D-036 / D-037 / D-038 / D-039 / D-040 POLICY MILESTONE
 
 - [x] Approve official X API Pay Per Use use in principle — D-034.
 - [x] Fix maximum initial personal-funded X API budget at USD $15.
@@ -137,6 +137,16 @@ Complete D-039 execution documentation synchronization and Git commit. After Git
 - [x] Verify regenerated Bearer Token using non-secret comparison only — `TOKEN_MATCH=True`; clipboard cleared.
 - [x] Keep all X API requests and X Collector implementation outside D-039 authorization.
 - [x] Require unused prepaid credit balance to remain unauthorized for further spend without separate explicit approval.
+- [x] Approve D-040 — X First Bounded Live API Verification Authorization.
+- [x] Restrict D-040 to exactly one `GET /2/tweets/search/recent` request.
+- [x] Fix D-040 `max_results=10` and the approved deterministic query: `("paid testing" OR "user testing") lang:en has:links -is:retweet`.
+- [x] Prohibit pagination, expansions, User lookups, additional endpoints and a second API request under D-040.
+- [x] Prohibit persistence or logging of returned X Post content during D-040 verification.
+- [x] Restrict verification evidence to HTTP status, `meta.result_count` and actual returned Post count.
+- [x] Require pre-request and post-request billing / usage verification and immediate STOP on any D-040 safe-stop condition.
+- [ ] Verify required pre-request billing state: Remaining Balance USD $5.00; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.00.
+- [ ] Execute the single authorized D-040 live Recent Search verification request.
+- [ ] Verify post-request billing / usage state before any further X action.
 
 ## ROADMAP
 
@@ -145,7 +155,7 @@ Complete D-039 execution documentation synchronization and Git commit. After Git
 - [x] MODULE 4 — RSS Collector
 - [ ] MODULE 5 — Reddit Collector — BLOCKED — DATA ACCESS NOT APPROVED
 - [x] MODULE 6 — Filter Engine — COMPLETED / PASS
-- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 USD $5.00 prepaid credit purchase completed; D-038 Development Project Access executed and verified; D-039 Bearer Token regeneration through the verified `Generate → Regenerate` flow executed and verified; Remaining Balance USD $5.00; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.00; no X API request made
+- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 USD $5.00 prepaid credit purchase completed; D-038 Development Project Access executed and verified; D-039 Bearer Token regeneration through the verified `Generate → Regenerate` flow executed and verified; D-040 exactly one future bounded Recent Search verification request authorized with `max_results=10`, subject to required pre-request billing verification; Remaining Balance USD $5.00; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.00; no X API request made
 - [ ] MODULE 8 — Telegram Sources — BLOCKED — TELEGRAM CONTENT AI-USE TERMS CONFLICT
 - [ ] MODULE 9 — Discord Collector — ACCESS PRECHECK: AVAILABLE WITH LIMITATIONS
 - [ ] MODULE 10 — AI Analyzer

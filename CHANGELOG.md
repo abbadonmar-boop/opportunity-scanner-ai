@@ -453,3 +453,15 @@ All notable verified project changes are recorded here.
 - No X API request, paid API request, Recent Search request or X Collector implementation is authorized by this clarification.
 - Access Token generation and User Authentication configuration remain unauthorized.
 - `Staging` and `Production` remain unauthorized.
+
+- D-040 — X First Bounded Live API Verification Authorization — FIXED / APPROVED on 2026-09-23.
+- D-040 authorizes exactly one future controlled `GET /2/tweets/search/recent` verification request.
+- The authorized request is restricted to `max_results=10` and the approved deterministic query: `("paid testing" OR "user testing") lang:en has:links -is:retweet`.
+- Pagination, `next_token`, expansions, User lookups, additional endpoints and a second API request are not authorized.
+- Returned X Post content must not be persisted to PostgreSQL, files or logs during this verification.
+- Verification evidence is restricted to HTTP status, `meta.result_count` and actual returned Post count.
+- Required pre-request billing state must be verified before execution: Remaining Balance USD $5.00, Billing Cycle Cap USD $1.00, Auto Recharge OFF and Current Spend USD $0.00.
+- Post-request billing / usage verification is required before any further X action.
+- D-036 remains unchanged at maximum USD $1.00 spend, 20 paid requests, 10 Posts per Recent Search request and 200 maximum billable returned Posts / resources.
+- D-040 does not authorize X Collector implementation, production polling, Staging / Production connection, Access Token generation, User Authentication configuration or use of unused prepaid credits beyond this verification.
+- No X API request has yet been executed under D-040.

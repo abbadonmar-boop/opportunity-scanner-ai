@@ -2061,3 +2061,83 @@ Date: 2026-09-22
 32. No X API request, paid API request or Recent Search request was executed during D-039.
 
 33. X Collector implementation remains not started. The first bounded live X API verification remains a separate step requiring separate explicit authorization under the existing D-036 envelope.
+
+## D-040 — X FIRST BOUNDED LIVE API VERIFICATION AUTHORIZATION
+
+Status: FIXED / APPROVED
+
+Date: 2026-09-23
+
+### PURPOSE
+
+1. D-040 authorizes exactly one controlled live verification request to the official X API v2 Recent Search endpoint.
+
+2. The sole authorized endpoint is:
+
+`GET https://api.x.com/2/tweets/search/recent`
+
+3. Authentication is authorized only through the locally stored Git-ignored `.env` value:
+
+`X_BEARER_TOKEN`
+
+### AUTHORIZED REQUEST ENVELOPE
+
+4. Exactly one API request is authorized.
+
+5. The request must use:
+
+`max_results=10`
+
+6. The approved deterministic query is:
+
+`("paid testing" OR "user testing") lang:en has:links -is:retweet`
+
+7. Pagination is prohibited. `next_token` must not be followed.
+
+8. No expansions, User lookups, additional endpoints or unrelated API calls are authorized.
+
+### DATA HANDLING
+
+9. Returned X Post content must not be persisted to PostgreSQL, files or any other project storage during this verification.
+
+10. Returned Post content must not be written to logs.
+
+11. Verification output is restricted to non-content operational evidence only:
+
+- HTTP status;
+- `meta.result_count`;
+- actual number of returned Posts.
+
+### BILLING SAFETY
+
+12. Before the authorized request is executed, the following X billing state must be separately verified:
+
+- Remaining Balance: USD $5.00;
+- Billing Cycle Cap: USD $1.00;
+- Auto Recharge: OFF;
+- Current Spend: USD $0.00.
+
+13. After the authorized request, billing / usage state must be checked again before any further X action.
+
+14. Any pricing mismatch, unexpected billable resource or charge, inability to bound exposure, unverifiable usage / billing state, or operation outside the authorized endpoint / resource scope requires immediate STOP.
+
+### RELATION TO D-036
+
+15. D-036 remains fully authoritative and unchanged:
+
+- maximum live spend: USD $1.00;
+- maximum paid API requests: 20;
+- maximum `max_results` per Recent Search request: 10 Posts;
+- maximum billable returned Posts / resources: 200.
+
+16. D-040 is intentionally narrower than D-036 and authorizes only one request returning at most 10 Posts.
+
+17. D-040 does not authorize a second request, pagination, use of unused prepaid credits beyond this verification, Billing Cycle Cap increase or Auto Recharge.
+
+### IMPLEMENTATION BOUNDARY
+
+18. D-040 does not start X Collector implementation.
+
+19. D-040 does not authorize production polling, Staging / Production connection, Access Token generation or User Authentication configuration.
+
+20. Any second live X API request or transition into X Collector implementation requires a separate explicit project step and authorization.
