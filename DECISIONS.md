@@ -2031,3 +2031,17 @@ Date: 2026-09-22
 20. D-039 does not change the approved architecture, roadmap, source list or module order.
 
 21. Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED.
+
+### EXECUTION CLARIFICATION — 2026-09-23
+
+22. X Developer Console verification showed a UI inconsistency: the Bearer Token row displays `Generate`, but activating that control opens a `Regenerate Bearer Token` confirmation dialog.
+
+23. The user explicitly approves, within D-039, regeneration of the existing X Bearer Token through the verified Console flow:
+
+`Generate → Regenerate`
+
+24. The previously existing Bearer Token may be invalidated by this regeneration.
+
+25. The regenerated Bearer Token remains authorized only for local storage in the Git-ignored `.env` as `X_BEARER_TOKEN`.
+
+26. This clarification does NOT authorize any X API request, paid API request, Recent Search request, X Collector implementation, Access Token generation, User Authentication configuration, Staging / Production connection, Billing Cycle Cap increase, Auto Recharge, or credit spend.

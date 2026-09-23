@@ -443,3 +443,13 @@ All notable verified project changes are recorded here.
 - Git remained clean and synchronized after the local secret rotations.
 - X Bearer Token generation under D-039 has not yet been executed.
 - No X API request has been made.
+
+- D-039 execution clarification approved on 2026-09-23.
+- X Developer Console verification showed that the Bearer Token row displays `Generate`, but activating that control opens a `Regenerate Bearer Token` confirmation dialog.
+- The user explicitly authorized regeneration of the existing X Bearer Token through the verified `Generate → Regenerate` flow.
+- The previously existing Bearer Token may be invalidated by the regeneration.
+- The regenerated Bearer Token remains restricted to local storage in the Git-ignored `.env` as `X_BEARER_TOKEN`.
+- Bearer Token regeneration has not yet been executed.
+- No X API request, paid API request, Recent Search request or X Collector implementation is authorized by this clarification.
+- Access Token generation and User Authentication configuration remain unauthorized.
+- `Staging` and `Production` remain unauthorized.

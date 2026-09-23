@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Complete D-039 documentation synchronization and Git commit. After Git is clean, execute only the authorized X Bearer Token generation and store it only in local `.env` as `X_BEARER_TOKEN`. Do not expose the token, make any API request, configure User Authentication, generate Access Token credentials, connect Staging or Production, or begin X Collector implementation.
+Complete D-039 execution-clarification documentation synchronization and Git commit. After Git is clean, execute only the authorized X Bearer Token regeneration through the verified `Generate → Regenerate` flow and store the regenerated token only in local `.env` as `X_BEARER_TOKEN`. Do not expose the token, make any API request, configure User Authentication, generate Access Token credentials, connect Staging or Production, or begin X Collector implementation.
 
 ## FOUNDATION
 
@@ -131,7 +131,9 @@ Complete D-039 documentation synchronization and Git commit. After Git is clean,
 - [x] Verify repository-root `.env` is ignored by Git and not tracked.
 - [x] Add safe `X_BEARER_TOKEN` placeholder to tracked `.env.example`.
 - [x] Verify local `.env` contains exactly one empty `X_BEARER_TOKEN` key before generation.
-- [ ] Generate X Bearer Token under D-039 and store it only in local `.env`.
+- [x] Verify X Console `Generate` control opens `Regenerate Bearer Token` confirmation.
+- [x] Explicitly approve D-039 execution clarification allowing Bearer Token regeneration and possible invalidation of the previous token.
+- [ ] Regenerate X Bearer Token through the verified `Generate → Regenerate` flow and store it only in local `.env`.
 - [ ] Verify only non-secret presence / non-empty state after generation.
 - [x] Keep all X API requests and X Collector implementation outside D-039 authorization.
 - [x] Require unused prepaid credit balance to remain unauthorized for further spend without separate explicit approval.
@@ -143,7 +145,7 @@ Complete D-039 documentation synchronization and Git commit. After Git is clean,
 - [x] MODULE 4 — RSS Collector
 - [ ] MODULE 5 — Reddit Collector — BLOCKED — DATA ACCESS NOT APPROVED
 - [x] MODULE 6 — Filter Engine — COMPLETED / PASS
-- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 USD $5.00 prepaid credit purchase completed; D-038 Development Project Access executed and verified; D-039 Bearer Token generation and local secret handling approved but not yet executed; Remaining Balance USD $5.00; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.00; no X API request made
+- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 USD $5.00 prepaid credit purchase completed; D-038 Development Project Access executed and verified; D-039 Bearer Token regeneration through the verified `Generate → Regenerate` flow approved but not yet executed; Remaining Balance USD $5.00; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.00; no X API request made
 - [ ] MODULE 8 — Telegram Sources — BLOCKED — TELEGRAM CONTENT AI-USE TERMS CONFLICT
 - [ ] MODULE 9 — Discord Collector — ACCESS PRECHECK: AVAILABLE WITH LIMITATIONS
 - [ ] MODULE 10 — AI Analyzer

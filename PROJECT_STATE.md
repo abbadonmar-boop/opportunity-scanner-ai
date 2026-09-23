@@ -128,14 +128,15 @@ SOURCE ACCESS PRECHECK remains COMPLETE / VERIFIED under D-033. D-034 through D-
 - D-038 authorized Development Project Access executed successfully; post-connection verification confirmed Project Access connected, Remaining Balance USD $5.00, Billing Cycle Cap USD $1.00, Auto Recharge OFF and Current Spend USD $0.00.
 - D-039 — X Bearer Token Generation and Local Secret Handling — FIXED / APPROVED.
 - D-039 authorizes only Bearer Token generation and local storage as `X_BEARER_TOKEN` in the Git-ignored `.env`; it does not authorize any X API request or X Collector implementation.
+- D-039 execution clarification approved on 2026-09-23: X Console shows `Generate`, but the confirmed action opens `Regenerate Bearer Token`; regeneration of the existing Bearer Token is explicitly authorized, the previous token may be invalidated, and the regenerated token remains restricted to local `.env` storage only.
 - Credential-storage readiness verified: `.env` is ignored and untracked, `.env.example` contains the safe X placeholder, and local `.env` contains exactly one empty `X_BEARER_TOKEN` key before generation.
 - Security remediation completed on 2026-09-22 after local `.env` contents were inadvertently exposed during credential preparation: the affected Telegram Bot Token, `APP_DB_PASSWORD`, and `POSTGRES_PASSWORD` were rotated; Telegram token validity and both PostgreSQL credential paths were successfully verified; replacement secret values remain only in the local Git-ignored `.env` and were not recorded in Git or project documentation.
 
 ## IN PROGRESS
-D-039 documentation synchronization. Bearer Token generation is explicitly authorized but has not yet been executed. No X API request, paid API request or X Collector implementation is authorized by D-039.
+D-039 execution-clarification documentation synchronization. Bearer Token regeneration through the verified X Console `Generate → Regenerate` flow is explicitly authorized but has not yet been executed. The previous Bearer Token may be invalidated. No X API request, paid API request or X Collector implementation is authorized by D-039.
 
 ## NEXT STEP
-Complete D-039 documentation synchronization and Git commit. After Git is clean, execute only the authorized Bearer Token generation, store the token only in local `.env` under `X_BEARER_TOKEN`, and verify only non-secret presence / non-empty state. Do not expose the token, make any API request, configure User Authentication, generate Access Token credentials, connect Staging or Production, or begin X Collector implementation.
+Complete D-039 execution-clarification documentation synchronization and Git commit. After Git is clean, execute only the authorized Bearer Token regeneration through the verified `Generate → Regenerate` flow, store the regenerated token only in local `.env` under `X_BEARER_TOKEN`, and verify only non-secret presence / non-empty state. Do not expose the token, make any API request, configure User Authentication, generate Access Token credentials, connect Staging or Production, or begin X Collector implementation.
 
 ## BLOCKERS
 Module 5 — Reddit Collector is BLOCKED — DATA ACCESS NOT APPROVED. The Reddit Data Team did not approve the submitted access request. This blocker applies to Reddit Collector implementation and must not be bypassed.

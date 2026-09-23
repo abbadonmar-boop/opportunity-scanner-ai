@@ -99,14 +99,14 @@ The D-037 USD $5.00 prepaid credit purchase has been completed and credited.
 No paid API request has been made.
 No new Bearer Token or Access Token was generated during the D-038 connection step.
 
-D-039 now separately authorizes generation of the X App Bearer Token and storage only in the local Git-ignored `.env` as `X_BEARER_TOKEN`. The Bearer Token has not yet been generated. D-039 does not authorize any X API request or X Collector implementation.
+D-039 now separately authorizes Bearer Token credential execution and storage only in the local Git-ignored `.env` as `X_BEARER_TOKEN`. X Developer Console verification on 2026-09-23 showed that the Bearer Token row displays `Generate`, but activating that control opens a `Regenerate Bearer Token` confirmation. The user explicitly approved this verified `Generate → Regenerate` execution path; the previous Bearer Token may be invalidated. Regeneration has not yet been executed. D-039 does not authorize any X API request or X Collector implementation.
 
-Under D-034, official X Pay Per Use use is approved in principle. D-036 fixes the first bounded live-access envelope at maximum USD $1.00 spend, 20 paid API requests, 10 Posts per Recent Search request and 200 maximum billable returned Posts / resources, with deterministic hard safe-stop conditions. D-037 authorized and completed the verified minimum one-time prepaid credit purchase of USD $5.00 without increasing the D-036 live-spend limit. D-038 authorizes only Development Project Access to the existing `Default Project — Pay Per Use`; Staging and Production are not authorized, and the authorized Development connection has been executed and verified successfully. D-039 authorizes only Bearer Token generation and local storage as `X_BEARER_TOKEN` in the Git-ignored `.env`; generation has not yet been executed. Post-connection billing state remains Remaining Balance USD $5.00, Billing Cycle Cap USD $1.00, Auto Recharge OFF and Current Spend USD $0.00. No X API request has been made.
+Under D-034, official X Pay Per Use use is approved in principle. D-036 fixes the first bounded live-access envelope at maximum USD $1.00 spend, 20 paid API requests, 10 Posts per Recent Search request and 200 maximum billable returned Posts / resources, with deterministic hard safe-stop conditions. D-037 authorized and completed the verified minimum one-time prepaid credit purchase of USD $5.00 without increasing the D-036 live-spend limit. D-038 authorizes only Development Project Access to the existing `Default Project — Pay Per Use`; Staging and Production are not authorized, and the authorized Development connection has been executed and verified successfully. D-039 authorizes Bearer Token regeneration through the verified `Generate → Regenerate` flow and local storage as `X_BEARER_TOKEN` in the Git-ignored `.env`; regeneration has not yet been executed. Post-connection billing state remains Remaining Balance USD $5.00, Billing Cycle Cap USD $1.00, Auto Recharge OFF and Current Spend USD $0.00. No X API request has been made.
 
 Technical limitations relevant to the approved use case:
 - The approved initial collector path under D-032 remains the official X API v2 Recent Search path.
 - Development Project Access is now connected, but no endpoint call has yet been authorized or executed.
-- D-039 credential generation is separately authorized, but the Bearer Token has not yet been generated and no API use is authorized by D-039.
+- D-039 credential execution is separately authorized through the verified `Generate → Regenerate` flow, but regeneration has not yet been executed and no API use is authorized by D-039.
 - Actual endpoint availability, rate limits and billable behavior remain unverified until a separately authorized bounded live API verification is performed.
 - No polling frequency or live request budget is inferred from API limits.
 - No live X Content may be permanently persisted before the X-specific content-compliance policy required by D-032 is approved.
@@ -140,7 +140,9 @@ Evidence:
 - No new Bearer Token or Access Token generation and no paid live API request occurred during D-038 connection execution.
 - D-039 — X Bearer Token Generation and Local Secret Handling — FIXED / APPROVED on 2026-09-22.
 - Secret-storage readiness verified before generation: repository-root `.env` is ignored and untracked; tracked `.env.example` contains only the safe `X_BEARER_TOKEN` placeholder; local `.env` contains exactly one empty `X_BEARER_TOKEN` key.
-- Bearer Token generation has not yet been executed and no X API request has been made under D-039.
+- X Console `Generate` → `Regenerate Bearer Token` behavior verified on 2026-09-23.
+- D-039 execution clarification explicitly authorizes regeneration of the existing Bearer Token; the previous token may be invalidated.
+- Bearer Token regeneration has not yet been executed and no X API request has been made under D-039.
 
 Collector implementation may proceed:
 NO.
@@ -152,7 +154,7 @@ No collector implementation or live API collection is authorized by this prechec
 Conclusion:
 X / Twitter satisfies the D-033 criteria for `UNKNOWN — REQUIRES APPROVAL`.
 
-The unresolved prerequisite is no longer developer onboarding, App creation, principle-level Pay Per Use approval, bounded-envelope definition, credit-purchase authorization, credit-purchase execution, Development Project Access authorization, Development connection execution or credential-storage preparation. The remaining prerequisites before any live X API verification are controlled Bearer Token generation and local storage under D-039, followed by separate explicit authorization for the first bounded paid live API request.
+The unresolved prerequisite is no longer developer onboarding, App creation, principle-level Pay Per Use approval, bounded-envelope definition, credit-purchase authorization, credit-purchase execution, Development Project Access authorization, Development connection execution or credential-storage preparation. The remaining prerequisites before any live X API verification are controlled Bearer Token regeneration through the verified `Generate → Regenerate` flow and local storage under D-039, followed by separate explicit authorization for the first bounded paid live API request.
 
 The X source precheck is complete at the current authorization boundary.
 
