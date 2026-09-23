@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Complete D-040 documentation synchronization and Git commit. After Git is clean, separately verify the required pre-request X billing state before executing the single authorized D-040 live verification request. Do not expose the token, execute any additional API request, configure User Authentication, generate Access Token credentials, connect Staging or Production, or begin X Collector implementation.
+Complete D-040 execution documentation synchronization and Git commit. Do not execute any additional X API request. After Git is clean, evaluate the verified D-040 result and define the next separately authorized Module 7 step without beginning X Collector implementation prematurely. Do not expose the token, execute any additional API request, configure User Authentication, generate Access Token credentials, connect Staging or Production, or begin X Collector implementation.
 
 ## FOUNDATION
 
@@ -144,9 +144,9 @@ Complete D-040 documentation synchronization and Git commit. After Git is clean,
 - [x] Prohibit persistence or logging of returned X Post content during D-040 verification.
 - [x] Restrict verification evidence to HTTP status, `meta.result_count` and actual returned Post count.
 - [x] Require pre-request and post-request billing / usage verification and immediate STOP on any D-040 safe-stop condition.
-- [ ] Verify required pre-request billing state: Remaining Balance USD $5.00; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.00.
-- [ ] Execute the single authorized D-040 live Recent Search verification request.
-- [ ] Verify post-request billing / usage state before any further X action.
+- [x] Verify required pre-request billing state: Remaining Balance USD $5.00; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.00.
+- [x] Execute the single authorized D-040 live Recent Search verification request — HTTP 200; `meta.result_count=10`; 10 returned Posts.
+- [x] Verify post-request billing / usage state before any further X action — Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05.
 
 ## ROADMAP
 
@@ -155,7 +155,7 @@ Complete D-040 documentation synchronization and Git commit. After Git is clean,
 - [x] MODULE 4 — RSS Collector
 - [ ] MODULE 5 — Reddit Collector — BLOCKED — DATA ACCESS NOT APPROVED
 - [x] MODULE 6 — Filter Engine — COMPLETED / PASS
-- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 USD $5.00 prepaid credit purchase completed; D-038 Development Project Access executed and verified; D-039 Bearer Token regeneration through the verified `Generate → Regenerate` flow executed and verified; D-040 exactly one future bounded Recent Search verification request authorized with `max_results=10`, subject to required pre-request billing verification; Remaining Balance USD $5.00; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.00; no X API request made
+- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 USD $5.00 prepaid credit purchase completed; D-038 Development Project Access executed and verified; D-039 Bearer Token regeneration through the verified `Generate → Regenerate` flow executed and verified; D-040 single bounded Recent Search verification executed successfully — HTTP 200, `meta.result_count=10`, 10 returned Posts; post-request Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05; no second request authorized
 - [ ] MODULE 8 — Telegram Sources — BLOCKED — TELEGRAM CONTENT AI-USE TERMS CONFLICT
 - [ ] MODULE 9 — Discord Collector — ACCESS PRECHECK: AVAILABLE WITH LIMITATIONS
 - [ ] MODULE 10 — AI Analyzer

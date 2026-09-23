@@ -465,3 +465,15 @@ All notable verified project changes are recorded here.
 - D-036 remains unchanged at maximum USD $1.00 spend, 20 paid requests, 10 Posts per Recent Search request and 200 maximum billable returned Posts / resources.
 - D-040 does not authorize X Collector implementation, production polling, Staging / Production connection, Access Token generation, User Authentication configuration or use of unused prepaid credits beyond this verification.
 - No X API request has yet been executed under D-040.
+
+- D-040 execution completed successfully on 2026-09-23.
+- Required pre-request billing verification confirmed Remaining Balance USD $5.00, Billing Cycle Cap USD $1.00, Auto Recharge OFF and Current Spend USD $0.00.
+- The single authorized `GET /2/tweets/search/recent` request was executed exactly once with `max_results=10` and the approved deterministic query.
+- Verification result: HTTP 200, `meta.result_count=10`, 10 returned Posts.
+- No pagination, expansions, User lookup or additional endpoint request was executed.
+- Returned X Post content was not persisted to PostgreSQL, files or project logs.
+- Secret-bearing PowerShell variables were cleared after execution; non-secret verification confirmed `SECRET_VARS_CLEARED=True`.
+- Required post-request billing verification confirmed Remaining Balance USD $4.95, Billing Cycle Cap USD $1.00, Auto Recharge OFF and Current Spend USD $0.05.
+- Observed spend for this single verification request was USD $0.05; no broader pricing model is inferred from one request.
+- D-040 authorization is exhausted. No second X API request is authorized.
+- X Collector implementation remains not started.

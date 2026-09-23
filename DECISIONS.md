@@ -2141,3 +2141,50 @@ Date: 2026-09-23
 19. D-040 does not authorize production polling, Staging / Production connection, Access Token generation or User Authentication configuration.
 
 20. Any second live X API request or transition into X Collector implementation requires a separate explicit project step and authorization.
+
+### EXECUTION RECORD — 2026-09-23
+
+21. The required pre-request billing verification was completed successfully before the authorized request:
+
+- Remaining Balance: USD $5.00;
+- Billing Cycle Cap: USD $1.00;
+- Auto Recharge: OFF;
+- Current Spend: USD $0.00.
+
+22. The single API request authorized by D-040 was executed exactly once against:
+
+`GET https://api.x.com/2/tweets/search/recent`
+
+23. The request used the approved controls:
+
+- `max_results=10`;
+- query: `("paid testing" OR "user testing") lang:en has:links -is:retweet`;
+- no pagination;
+- no expansions;
+- no User lookup;
+- no additional endpoint call.
+
+24. The live verification result was:
+
+- HTTP status: `200`;
+- `meta.result_count=10`;
+- actual returned Post count: `10`.
+
+25. Returned X Post content was not persisted to PostgreSQL, files or project logs. Verification output was restricted to the approved non-content operational evidence.
+
+26. Secret-bearing PowerShell variables used during the request were subsequently cleared and non-secret verification confirmed:
+
+`SECRET_VARS_CLEARED=True`
+
+27. Required post-request billing verification was completed successfully:
+
+- Remaining Balance: USD $4.95;
+- Billing Cycle Cap: USD $1.00;
+- Auto Recharge: OFF;
+- Current Spend: USD $0.05.
+
+28. The observed spend attributable to this single bounded verification was USD $0.05. No broader X pricing or billing model is inferred from this one request.
+
+29. The D-040 authorization is now exhausted. No second X API request is authorized under D-040.
+
+30. X Collector implementation remains not started. Any further live X API request or transition toward collector implementation requires a separate explicit project step and authorization.
