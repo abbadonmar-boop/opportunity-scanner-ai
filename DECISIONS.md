@@ -3503,3 +3503,98 @@ Approval date: 2026-09-25
 18. Backup / WAL / restore compliance and recurring production operating cost remain unresolved and are not approved by D-047.
 
 19. The next project step must remain inside the evidence-definition / verification boundary until the 24-hour production compliance gate is resolved or a separate project decision explicitly changes that state.
+
+## D-048 — X 24-HOUR AUTHORITATIVE EVIDENCE REVIEW RESULT
+
+Status: FIXED / APPROVED
+
+Approval date: 2026-09-25
+
+### REVIEW RESULT
+
+1. The D-047 documentation-only authoritative evidence review has been completed.
+
+2. The applicable X compliance requirement requires relevant stored X Content to be removed within 24 hours where the applicable X policy requires removal.
+
+3. Current official Batch Compliance documentation describes Batch Compliance as an asynchronous lifecycle.
+
+4. Batch Compliance processing time depends on dataset characteristics.
+
+5. The reviewed current official Batch Compliance documentation does not provide a guaranteed maximum processing-time or complete lifecycle bound sufficient to prove that the applicable 24-hour requirement will always be satisfied.
+
+6. Therefore the current project result for Batch Compliance is:
+
+`PRODUCTION SUITABILITY: NOT PROVEN`
+
+7. `NOT PROVEN` does not mean that Batch Compliance is known to exceed 24 hours. It means that the required worst-case production guarantee has not been established from authoritative evidence.
+
+### INSUFFICIENT EVIDENCE
+
+8. The following do not establish the required production guarantee:
+
+- an isolated fast Batch Compliance execution;
+- historical project observations from bounded verification;
+- average processing time;
+- best-case processing time;
+- a selected daily or other polling / submission cadence by itself.
+
+9. A scheduling cadence cannot compensate for an unproven worst-case processing bound unless the complete end-to-end compliance lifecycle is evidenced as satisfying the applicable deadline.
+
+### COMPLIANCE EVENT STREAMS
+
+10. Current official documentation identifies Compliance event streams as a near-real-time compliance mechanism.
+
+11. Compliance event streams require Enterprise access under the currently verified official access model.
+
+12. Compliance event streams are not automatically added to V1.
+
+13. No Enterprise purchase, Enterprise activation, Compliance Stream connection or architecture change is approved by D-048.
+
+14. Any future use of Compliance event streams requires a separate explicit project decision covering access, cost and architecture consequences.
+
+### PROJECT STATE
+
+15. Formal D-033 X / Twitter source status remains:
+
+`AVAILABLE WITH LIMITATIONS`
+
+16. Module 7 remains:
+
+`SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED`
+
+and is not PASS.
+
+17. Persistent production X collection remains:
+
+`COMPLIANCE-GATED / NOT AUTHORIZED`
+
+18. The D-047 production compliance gate is not satisfied by the reviewed Batch Compliance evidence.
+
+19. Backup / WAL / restore compliance and recurring production operating cost remain unresolved.
+
+### AUTHORIZATION BOUNDARY
+
+20. D-048 authorizes no:
+
+- Enterprise purchase or Enterprise access activation;
+- X API request;
+- Compliance Job;
+- signed upload or download;
+- polling;
+- Posts Lookup;
+- rehydration request;
+- Recent Search request;
+- Compliance Stream connection;
+- migration `003_x_source_items.sql`;
+- PostgreSQL change;
+- X Collector implementation;
+- persistent X collection;
+- Staging connection;
+- Production connection;
+- Billing Cycle Cap increase;
+- Auto Recharge enablement;
+- additional funding or spend.
+
+21. Persistent production X collection may not be authorized from Batch Compliance evidence unless authoritative evidence later establishes a sufficient worst-case production bound, or a different official compliance mechanism is separately approved and proven suitable.
+
+22. D-048 does not change the fixed architecture, approved source set, Module 7 scope or roadmap.
