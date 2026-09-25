@@ -550,3 +550,24 @@ All notable verified project changes are recorded here.
 - D-044 uses no real Post IDs, User IDs or X Content and does not authorize Post Lookup, rehydration, Recent Search, migration `003_x_source_items.sql`, PostgreSQL changes, persistent live X collection or X Collector implementation.
 - D-044 is exhausted after the first synthetic lifecycle attempt regardless of whether it completes or stops early under a STOP condition.
 - Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED and formal X status remains `UNKNOWN — REQUIRES APPROVAL`.
+
+### D-044 EXECUTION RESULT
+
+- D-044 synthetic Batch Compliance lifecycle verification executed on 2026-09-25 and authorization exhausted.
+- Pre-request billing checkpoint: Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05.
+- Exactly one authorized `POST /2/compliance/jobs` returned HTTP 200 with job status `created`; Job ID, upload URL and download URL were present.
+- Pre-upload billing checkpoint remained: Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05.
+- Exactly one authorized signed upload PUT using only `not_a_valid_id` returned HTTP 200.
+- Exactly one authorized status GET returned HTTP 200 with job status `complete`; no additional polling was performed.
+- Pre-download billing checkpoint remained: Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05.
+- Exactly one authorized signed download GET returned HTTP 200 and one result record.
+- Safe parser returned `ERROR_CATEGORY=UNKNOWN_OR_NONE`; expected sanitized `invalid_id` semantic result was not verified.
+- D-044 verification result: FAIL.
+- Raw response body was not retained.
+- Transient Job ID, signed upload URL, signed download URL and credential variables were cleared.
+- No retry, second job, second download, additional polling, Post Lookup, rehydration, Recent Search or other X API request was executed.
+- Final billing checkpoint remained: Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05.
+- Observed cent-level Current Spend delta was USD $0.00. This does not prove zero actual lifecycle cost and does not prove signed upload or download operations are free.
+- D-044 is EXECUTED / EXHAUSTED. Any further investigation requires a new explicit project decision and authorization.
+- Batch Compliance remains only a candidate and is not approved as the production compliance-synchronization mechanism.
+- Persistent live X collection and X Collector implementation remain unauthorized.

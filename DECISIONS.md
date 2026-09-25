@@ -3024,3 +3024,37 @@ through Batch Compliance.
 73. Unused request slots under D-044 do not carry over to another test.
 
 74. A second job or repetition of D-044 requires a new explicit project decision.
+
+### D-044 EXECUTION RESULT
+
+Execution date: 2026-09-25
+
+Status: EXECUTED / EXHAUSTED
+
+Verification result: FAIL — expected sanitized semantic result `invalid_id` was not verified.
+
+Observed authorized lifecycle:
+
+- pre-request billing checkpoint: Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05;
+- exactly one authorized `POST /2/compliance/jobs`: HTTP 200; job status `created`; Job ID, upload URL and download URL were present;
+- pre-upload billing checkpoint: Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05;
+- exactly one authorized signed upload PUT using only `not_a_valid_id`: HTTP 200;
+- exactly one authorized status GET: HTTP 200; job status `complete`; no further polling was performed;
+- pre-download billing checkpoint: Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05;
+- exactly one authorized signed download GET: HTTP 200;
+- downloaded result contained exactly one record;
+- safe parser result: `ERROR_CATEGORY=UNKNOWN_OR_NONE`;
+- expected `invalid_id` semantic result was therefore not verified;
+- raw response body was not retained;
+- transient Job ID, signed upload URL, signed download URL and credential variables were cleared after execution;
+- final billing checkpoint: Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05.
+
+At Console cent-level display precision, the observed pre-to-post Current Spend delta is USD $0.00. This does not prove that the actual lifecycle cost was zero and does not prove that signed upload or download operations are free; exact sub-cent or delayed billing was not independently visible.
+
+The transport lifecycle `create → upload → poll → download` was technically reached successfully, but D-044 does not receive PASS because the expected sanitized `invalid_id` result was not verified.
+
+No retry, second job, second download, additional polling, Post Lookup, rehydration, Recent Search or other X API request was executed.
+
+D-044 authorization is exhausted. Any further investigation requires a new explicit project decision and authorization.
+
+Batch Compliance remains only a candidate and is not approved as the production compliance-synchronization mechanism. Persistent live X collection and X Collector implementation remain unauthorized.
