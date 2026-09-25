@@ -506,3 +506,18 @@ All notable verified project changes are recorded here.
 - Persistent live X collection remains prohibited until an officially permitted compliance-synchronization mechanism is separately verified and approved.
 - D-042 authorizes no new X API request, Batch Compliance job, Post Lookup request, Compliance Stream connection, migration, PostgreSQL change, X Collector implementation or prepaid-credit spend.
 - Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED and formal X status remains `UNKNOWN — REQUIRES APPROVAL`.
+
+- D-043 — X Batch Compliance Account Access Verification Authorization — FIXED / APPROVED on 2026-09-25.
+- Confirmed documented unit cost of USD $0.005 for `GET /2/compliance/jobs`.
+- Authorized exactly one future read-only `GET /2/compliance/jobs?type=tweets` request solely to verify whether the current Development App has access to Batch Compliance.
+- The D-043 request must use only the existing local Git-ignored `X_BEARER_TOKEN`; the token must not be printed, logged or persisted.
+- D-043 does not authorize Compliance Job creation, `POST /2/compliance/jobs`, upload/download of compliance data, Post Lookup, rehydration, Recent Search, pagination or any additional X API request.
+- Safe result recording is limited to HTTP status, presence or absence of `data`, `meta.result_count` if returned, and a sanitized error category when applicable.
+- Job IDs, upload URLs, download URLs and unnecessary response details must not be persisted in Git or project documentation.
+- HTTP 200 will confirm access to the GET Batch Compliance endpoint for the current App but will not approve Batch Compliance as the production compliance-synchronization mechanism.
+- HTTP 403 will mean current App access is not confirmed; no workaround or access bypass is authorized.
+- HTTP 401, unexpected billing behavior, pricing mismatch, redirect, unexpected endpoint behavior or another unexpected result requires STOP with no second request.
+- Billing Cycle Cap, Auto Recharge and Current Spend must be verified before the D-043 request and checked again afterward through the existing approved billing-check path.
+- D-043 authorization is exhausted after exactly one authorized GET request regardless of result.
+- D-043 does not authorize migration `003_x_source_items.sql`, PostgreSQL changes, persistent live X collection, X Collector implementation, Compliance Streams, Staging / Production connection, Billing Cycle Cap increase, Auto Recharge activation or additional prepaid funding.
+- Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED and formal X status remains `UNKNOWN — REQUIRES APPROVAL`.

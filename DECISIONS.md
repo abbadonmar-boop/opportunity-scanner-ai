@@ -2621,3 +2621,78 @@ Date: 2026-09-25
 91. D-034 through D-040 retain their existing budget, access, credential and live-verification boundaries.
 
 92. D-042 does not change the approved architecture, roadmap, source list or module order.
+
+## D-043 — X BATCH COMPLIANCE ACCOUNT ACCESS VERIFICATION AUTHORIZATION
+
+Status: FIXED / APPROVED
+
+Date: 2026-09-25
+
+1. D-043 authorizes exactly one read-only request:
+
+`GET https://api.x.com/2/compliance/jobs?type=tweets`
+
+2. The sole purpose of this request is to verify whether the currently connected Development App has access to the X Batch Compliance endpoint.
+
+3. The confirmed documented unit cost for this GET endpoint is USD $0.005 per request.
+
+4. The request must use only the existing local Git-ignored `X_BEARER_TOKEN`.
+
+5. The Bearer Token must not be printed, logged, copied into documentation or stored in Git.
+
+6. D-043 does not authorize creation of a Compliance Job.
+
+7. `POST /2/compliance/jobs` is not authorized.
+
+8. D-043 does not authorize:
+
+- Batch Compliance job creation;
+- upload of compliance input data;
+- download of compliance results;
+- Post Lookup;
+- rehydration;
+- Recent Search;
+- pagination;
+- another X endpoint;
+- another API request.
+
+9. Safe verification output is limited to non-secret metadata sufficient to determine access status, including:
+
+- HTTP status;
+- presence or absence of a `data` result;
+- `meta.result_count` if returned;
+- sanitized error category if an error is returned.
+
+10. Job IDs, upload URLs, download URLs or other unnecessary response details must not be persisted in Git or project documentation.
+
+11. HTTP 200 confirms actual access to the GET Batch Compliance endpoint for the current App.
+
+12. HTTP 200 does not by itself approve Batch Compliance as the production compliance-synchronization mechanism and does not authorize creation of a Compliance Job.
+
+13. HTTP 403 means Batch Compliance access is not confirmed for the current App and may indicate missing endpoint enrollment or another access requirement.
+
+14. No workaround, alternate credential path or access bypass may be attempted after HTTP 403.
+
+15. HTTP 401, unexpected billing behavior, pricing mismatch, redirect to another endpoint, unexpected endpoint behavior or another unexpected result requires immediate STOP with no second request.
+
+16. Before execution, the current Billing Cycle Cap, Auto Recharge state and Current Spend must be verified through the existing approved billing-check path.
+
+17. After execution, billing state must be verified again without making an additional X API request.
+
+18. D-043 does not authorize:
+
+- X Collector implementation;
+- migration `003_x_source_items.sql`;
+- PostgreSQL schema changes;
+- persistent live X collection;
+- Compliance Streams;
+- Staging or Production connection;
+- Billing Cycle Cap increase;
+- Auto Recharge activation;
+- any additional prepaid-credit funding.
+
+19. The authorization is exhausted after exactly one authorized GET request regardless of HTTP result.
+
+20. D-042 remains authoritative for X PostgreSQL persistence and the compliance-synchronization gate.
+
+21. D-034 through D-042 retain their existing budget, access, credential, persistence, compliance and live-request boundaries except for the single additional GET request explicitly authorized by D-043.

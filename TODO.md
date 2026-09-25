@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Verify and explicitly decide the officially permitted X compliance-synchronization mechanism required by D-042 before persistent live X collection or X Collector implementation. Batch Compliance is only a candidate; verify availability, Pay Per Use eligibility, pricing / billing, cadence, turnaround time, job / resource boundaries, required rehydration or Post Lookup behavior, and ability to satisfy D-041 removal obligations. Compliance Streams must not be assumed because current documentation places them behind Enterprise access. Do not execute any additional X API request, Batch Compliance job, migration or PostgreSQL schema change.
+Synchronize D-043 into authoritative project documentation and Git. After that, verify Billing Cycle Cap, Auto Recharge and Current Spend through the existing approved billing-check path, then execute exactly one D-043-authorized read-only `GET /2/compliance/jobs?type=tweets` request solely to verify current Development App access. Do not execute POST, create a Compliance Job, perform Post Lookup or rehydration, run migration `003_x_source_items.sql`, change PostgreSQL, begin persistent live X collection or start X Collector implementation.
 
 ## FOUNDATION
 
@@ -89,7 +89,7 @@ Verify and explicitly decide the officially permitted X compliance-synchronizati
 - [x] Record collector proceed / do-not-proceed result for all five sources.
 - [x] Mark SOURCE ACCESS PRECHECK COMPLETE / VERIFIED under D-033.
 
-## D-034 / D-035 / D-036 / D-037 / D-038 / D-039 / D-040 / D-041 / D-042 POLICY MILESTONE
+## D-034 / D-035 / D-036 / D-037 / D-038 / D-039 / D-040 / D-041 / D-042 / D-043 POLICY MILESTONE
 
 - [x] Approve official X API Pay Per Use use in principle — D-034.
 - [x] Fix maximum initial personal-funded X API budget at USD $15.
@@ -164,6 +164,14 @@ Verify and explicitly decide the officially permitted X compliance-synchronizati
 - [x] Keep Compliance Streams outside the assumed V1 solution because current documentation requires Enterprise access.
 - [ ] Verify and explicitly approve an officially permitted compliance-synchronization mechanism for Module 7.
 
+- [x] Approve D-043 — X Batch Compliance Account Access Verification Authorization.
+- [x] Confirm documented unit cost of USD $0.005 for `GET /2/compliance/jobs`.
+- [x] Authorize exactly one future read-only `GET /2/compliance/jobs?type=tweets` request solely for Development App access verification.
+- [x] Keep Compliance Job creation, POST, Post Lookup, rehydration, migration, PostgreSQL changes, persistent live X collection and X Collector implementation outside D-043 authorization.
+- [ ] Verify billing state before the D-043 request.
+- [ ] Execute exactly one authorized D-043 GET and record only safe access-verification metadata.
+- [ ] Verify billing state after the D-043 request.
+
 ## ROADMAP
 
 - [x] MODULE 2 — PostgreSQL
@@ -171,7 +179,7 @@ Verify and explicitly decide the officially permitted X compliance-synchronizati
 - [x] MODULE 4 — RSS Collector
 - [ ] MODULE 5 — Reddit Collector — BLOCKED — DATA ACCESS NOT APPROVED
 - [x] MODULE 6 — Filter Engine — COMPLETED / PASS
-- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 USD $5.00 prepaid credit purchase completed; D-038 Development Project Access executed and verified; D-039 Bearer Token regeneration through the verified `Generate → Regenerate` flow executed and verified; D-040 single bounded Recent Search verification executed successfully — HTTP 200, `meta.result_count=10`, 10 returned Posts; post-request Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05; no second request authorized; D-041 X Content Compliance and Persistence Policy FIXED / APPROVED; D-042 X PostgreSQL Persistence Schema and Compliance Lifecycle FIXED / APPROVED; next gate is verification and explicit approval of an officially permitted compliance-synchronization mechanism; Batch Compliance remains only a candidate; persistent live X collection and X Collector implementation remain unauthorized
+- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 USD $5.00 prepaid credit purchase completed; D-038 Development Project Access executed and verified; D-039 Bearer Token regeneration through the verified `Generate → Regenerate` flow executed and verified; D-040 single bounded Recent Search verification executed successfully — HTTP 200, `meta.result_count=10`, 10 returned Posts; post-request Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05; no second request authorized; D-041 X Content Compliance and Persistence Policy FIXED / APPROVED; D-042 X PostgreSQL Persistence Schema and Compliance Lifecycle FIXED / APPROVED; D-043 X Batch Compliance Account Access Verification Authorization FIXED / APPROVED; exactly one future read-only `GET /2/compliance/jobs?type=tweets` request is authorized solely for current Development App access verification; Batch Compliance remains only a candidate; persistent live X collection and X Collector implementation remain unauthorized
 - [ ] MODULE 8 — Telegram Sources — BLOCKED — TELEGRAM CONTENT AI-USE TERMS CONFLICT
 - [ ] MODULE 9 — Discord Collector — ACCESS PRECHECK: AVAILABLE WITH LIMITATIONS
 - [ ] MODULE 10 — AI Analyzer
