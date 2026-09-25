@@ -591,3 +591,26 @@ All notable verified project changes are recorded here.
 - Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED.
 - Formal X source status remains `UNKNOWN — REQUIRES APPROVAL`.
 - Persistent live X collection and X Collector implementation remain unauthorized.
+
+### D-045 CURRENT-DOCUMENTATION CORRECTION
+
+- Current official X Batch Compliance documentation was re-verified after D-045 approval.
+- The original D-045 historical text remains preserved and is not silently rewritten.
+- Current official Batch Compliance documentation explicitly supports malformed `not_a_valid_id` → `invalid_id`.
+- Current official documentation explicitly supports `rehydrate / tweet_edited`.
+- Current official documentation explicitly supports separate `scrub_geo / geo_scrubbed` semantics; `scrub_geo` must not be represented as `delete`.
+- The earlier D-045 conclusion that the D-044 `invalid_id` oracle was NOT SUPPORTED BY CURRENT OFFICIAL DOCUMENTATION is superseded.
+- Corrected conclusion: the D-044 `invalid_id` oracle IS SUPPORTED BY CURRENT OFFICIAL DOCUMENTATION.
+- D-044 transport verification remains PASS.
+- D-044 semantic verification remains FAIL UNDER THE ACTUALLY EXECUTED D-044 PARSER / ORACLE because the parser returned `ERROR_CATEGORY=UNKNOWN_OR_NONE`.
+- The reason for the D-044 semantic FAIL cannot be recovered from retained evidence because the raw downloaded response was intentionally not retained.
+- The actual semantic meaning of the downloaded D-044 record remains UNKNOWN / NOT RECOVERABLE FROM RETAINED EVIDENCE.
+- The semantic FAIL must not be attributed to undocumented X behavior.
+- The primary unresolved production blocker remains the 24-hour compliance deadline: current reviewed Batch Compliance documentation does not publish a guaranteed maximum processing-time SLA proving that create → upload → process → poll → download → application handling always completes within the required deadline.
+- Production cadence is therefore not approved.
+- Compliance Streams remain a separate Enterprise-access mechanism and are not automatically added to V1.
+- Backup / WAL / restore compliance remains unresolved.
+- Recurring operating cost remains unresolved.
+- D-046 remains NOT APPROVED.
+- This correction authorizes no X API request, Compliance Job, upload, polling, download, Post Lookup, migration, PostgreSQL change, persistent live X collection or X Collector implementation.
+- Formal X source status remains `UNKNOWN — REQUIRES APPROVAL`.

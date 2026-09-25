@@ -3207,3 +3207,79 @@ Formal X source status remains:
 `UNKNOWN — REQUIRES APPROVAL`
 
 Persistent live X collection and X Collector implementation remain unauthorized.
+
+### D-045 CURRENT-DOCUMENTATION CORRECTION
+
+Correction date: 2026-09-25
+
+Reason: current official X Batch Compliance documentation was re-verified after D-045 approval and directly contradicts part of the factual basis used by D-045.
+
+The original D-045 text is retained for historical integrity and is not silently rewritten.
+
+Current official X Batch Compliance documentation explicitly documents the following Post result semantics:
+
+- `action="rehydrate"` with `reason="tweet_edited"` — re-fetch the Post because the stored revision is stale;
+- `action="scrub_geo"` with `reason="geo_scrubbed"` — remove stored geographic data for the Post;
+- malformed / non-numeric submitted input is returned as an error record such as `{"id":"not_a_valid_id","error":"invalid_id"}`.
+
+The current official Batch Compliance Introduction also explicitly states that Batch Compliance provides compliance status for deletions, suspensions, and edits.
+
+Therefore the following D-045 conclusion is superseded:
+
+`The D-044 invalid_id oracle is NOT SUPPORTED BY CURRENT OFFICIAL DOCUMENTATION.`
+
+The corrected factual conclusion is:
+
+`The D-044 invalid_id oracle IS SUPPORTED BY CURRENT OFFICIAL DOCUMENTATION.`
+
+D-044 historical execution evidence remains unchanged:
+
+- transport lifecycle reached create → upload → status complete → download;
+- download returned exactly one result record;
+- the D-044 safe parser returned `ERROR_CATEGORY=UNKNOWN_OR_NONE`;
+- raw response body was intentionally not retained.
+
+Therefore D-044 semantic verification remains FAIL under the actually executed parser / oracle because the expected `invalid_id` value was not detected during execution.
+
+However, the reason for that FAIL is unresolved from retained evidence. It must not be attributed to undocumented X behavior. Because the raw result was not retained, the project cannot determine whether the downloaded record actually contained `invalid_id`, another documented result, or whether the parser failed to recognize the response representation.
+
+The actual semantic content of the downloaded D-044 record remains:
+
+`UNKNOWN / NOT RECOVERABLE FROM RETAINED EVIDENCE`
+
+Current documented Batch Compliance actions include:
+
+- `delete`;
+- `rehydrate`;
+- `scrub_geo`.
+
+Current documented Post result reasons include, among others:
+
+- `deleted`;
+- `protected`;
+- `deactivated`;
+- `suspended`;
+- `tweet_edited`;
+- `geo_scrubbed`.
+
+Accordingly:
+
+- edit semantics are NOT an unresolved documentation gap at the action level;
+- `rehydrate / tweet_edited` is officially documented;
+- `scrub_geo / geo_scrubbed` is officially documented as a separate action and must not be misrepresented as `delete`;
+- Integration Guide states that `rehydrate` is acted on through Posts lookup to obtain the current Post revision;
+- malformed input `not_a_valid_id` is an officially documented `invalid_id` error-record example.
+
+This correction does not approve Batch Compliance for production.
+
+The primary unresolved production-suitability issue remains the compliance deadline. Current X Developer Guidelines require applicable X Content deletion from developer systems within 24 hours. Batch Compliance processing is asynchronous and current reviewed Batch Compliance documentation does not publish a guaranteed maximum processing-time SLA sufficient to prove that create → upload → process → poll → download → application handling will always complete within that deadline.
+
+Therefore production cadence must not be approved until deadline compliance can be demonstrated.
+
+Compliance Streams remain a separate near-real-time mechanism documented as requiring Enterprise access and are not automatically added to V1.
+
+Backup / WAL / restore compliance and recurring operating cost remain separate unresolved production requirements.
+
+D-045 correction authorizes no X API request, Compliance Job, upload, polling, download, Post Lookup, migration, PostgreSQL change, persistent live X collection or X Collector implementation.
+
+D-046 remains NOT APPROVED pending corrected formulation from this factual basis.
