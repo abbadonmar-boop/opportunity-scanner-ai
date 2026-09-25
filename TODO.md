@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Synchronize the completed D-043 execution result into the remaining authoritative project documentation and Git. D-043 is exhausted. Do not execute any additional X API request, create a Compliance Job, execute POST, perform Post Lookup or rehydration, run migration `003_x_source_items.sql`, change PostgreSQL, begin persistent live X collection or start X Collector implementation. Batch Compliance GET access is verified, but Batch Compliance is not yet approved as the production compliance-synchronization mechanism.
+Synchronize D-044 into authoritative project documentation and Git. After that, perform the required pre-request billing verification before any D-044 network operation. D-044 authorizes one synthetic `not_a_valid_id` Batch Compliance lifecycle attempt with a maximum envelope of one create POST, one signed upload PUT, six status GET requests and one signed download GET, with no automatic retries. Do not use real X IDs or Content, Post Lookup, rehydration, migration `003_x_source_items.sql`, PostgreSQL changes, persistent live X collection or X Collector implementation.
 
 ## FOUNDATION
 
@@ -89,7 +89,7 @@ Synchronize the completed D-043 execution result into the remaining authoritativ
 - [x] Record collector proceed / do-not-proceed result for all five sources.
 - [x] Mark SOURCE ACCESS PRECHECK COMPLETE / VERIFIED under D-033.
 
-## D-034 / D-035 / D-036 / D-037 / D-038 / D-039 / D-040 / D-041 / D-042 / D-043 POLICY MILESTONE
+## D-034 / D-035 / D-036 / D-037 / D-038 / D-039 / D-040 / D-041 / D-042 / D-043 / D-044 POLICY MILESTONE
 
 - [x] Approve official X API Pay Per Use use in principle — D-034.
 - [x] Fix maximum initial personal-funded X API budget at USD $15.
@@ -172,6 +172,19 @@ Synchronize the completed D-043 execution result into the remaining authoritativ
 - [x] Execute exactly one authorized D-043 GET — HTTP 200; `DATA_PRESENT=False`; `META_RESULT_COUNT=0`; `ACCESS_RESULT=PASS`; authorization exhausted.
 - [x] Verify post-request billing state — Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05; exact USD $0.005 charge not independently visible at Console cent precision.
 
+- [x] Approve D-044 — X Batch Compliance Synthetic Lifecycle Verification Authorization.
+- [x] Limit D-044 to one synthetic `not_a_valid_id` lifecycle attempt.
+- [x] Limit D-044 to one create POST, one signed upload PUT, at most six status GET requests and one signed download GET.
+- [x] Prohibit automatic retries, second job creation and requests outside the D-044 envelope.
+- [x] Fix maximum pre-verified create-plus-polling cost at USD $0.040.
+- [x] Record signed upload PUT cost as UNKNOWN / NOT SEPARATELY VERIFIED.
+- [x] Record signed download GET cost as UNKNOWN / NOT SEPARATELY VERIFIED.
+- [x] Keep Billing Cycle Cap at USD $1.00 and Auto Recharge OFF.
+- [ ] Complete D-044 documentation / Git synchronization.
+- [ ] Verify pre-request billing state before the first D-044 network operation.
+- [ ] Execute at most one D-044 synthetic lifecycle attempt within the approved envelope.
+- [ ] Verify final billing state and full observed D-044 billing delta after execution or STOP.
+
 ## ROADMAP
 
 - [x] MODULE 2 — PostgreSQL
@@ -179,7 +192,7 @@ Synchronize the completed D-043 execution result into the remaining authoritativ
 - [x] MODULE 4 — RSS Collector
 - [ ] MODULE 5 — Reddit Collector — BLOCKED — DATA ACCESS NOT APPROVED
 - [x] MODULE 6 — Filter Engine — COMPLETED / PASS
-- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 USD $5.00 prepaid credit purchase completed; D-038 Development Project Access executed and verified; D-039 Bearer Token regeneration through the verified `Generate → Regenerate` flow executed and verified; D-040 single bounded Recent Search verification executed successfully — HTTP 200, `meta.result_count=10`, 10 returned Posts; post-request Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05; no second request authorized; D-041 X Content Compliance and Persistence Policy FIXED / APPROVED; D-042 X PostgreSQL Persistence Schema and Compliance Lifecycle FIXED / APPROVED; D-043 X Batch Compliance Account Access Verification Authorization FIXED / APPROVED / EXECUTED; the single authorized read-only `GET /2/compliance/jobs?type=tweets` returned HTTP 200 with `DATA_PRESENT=False`, `META_RESULT_COUNT=0` and `ACCESS_RESULT=PASS`; D-043 authorization is exhausted; Batch Compliance remains only a candidate and is not yet approved as the production compliance-synchronization mechanism; persistent live X collection and X Collector implementation remain unauthorized
+- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 USD $5.00 prepaid credit purchase completed; D-038 Development Project Access executed and verified; D-039 Bearer Token regeneration through the verified `Generate → Regenerate` flow executed and verified; D-040 single bounded Recent Search verification executed successfully — HTTP 200, `meta.result_count=10`, 10 returned Posts; post-request Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05; no second request authorized; D-041 X Content Compliance and Persistence Policy FIXED / APPROVED; D-042 X PostgreSQL Persistence Schema and Compliance Lifecycle FIXED / APPROVED; D-043 X Batch Compliance Account Access Verification Authorization FIXED / APPROVED / EXECUTED; the single authorized read-only `GET /2/compliance/jobs?type=tweets` returned HTTP 200 with `DATA_PRESENT=False`, `META_RESULT_COUNT=0` and `ACCESS_RESULT=PASS`; D-043 authorization is exhausted; Batch Compliance remains only a candidate and is not yet approved as the production compliance-synchronization mechanism; persistent live X collection and X Collector implementation remain unauthorized; D-044 X Batch Compliance Synthetic Lifecycle Verification Authorization FIXED / APPROVED; one synthetic `not_a_valid_id` lifecycle attempt is authorized only after documentation/Git synchronization and required pre-request billing verification; maximum envelope is one create POST, one signed upload PUT, six status GET requests and one signed download GET with no automatic retries; persistent live X collection and X Collector implementation remain unauthorized
 - [ ] MODULE 8 — Telegram Sources — BLOCKED — TELEGRAM CONTENT AI-USE TERMS CONFLICT
 - [ ] MODULE 9 — Discord Collector — ACCESS PRECHECK: AVAILABLE WITH LIMITATIONS
 - [ ] MODULE 10 — AI Analyzer

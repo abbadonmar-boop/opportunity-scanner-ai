@@ -533,3 +533,20 @@ All notable verified project changes are recorded here.
 - The exact USD $0.005 request charge was not independently visible at the Console's cent-level display precision.
 - Batch Compliance remains only a candidate and is not yet approved as the production compliance-synchronization mechanism.
 - Persistent live X collection and X Collector implementation remain unauthorized.
+
+- D-044 — X Batch Compliance Synthetic Lifecycle Verification Authorization — FIXED / APPROVED on 2026-09-25.
+- Authorized one future synthetic Batch Compliance lifecycle attempt using only `not_a_valid_id`.
+- Maximum D-044 network envelope: one `POST /2/compliance/jobs`, one signed upload PUT, at most six `GET /2/compliance/jobs/{id}` status requests, and one signed download GET; no more than nine network operations total.
+- Automatic retries, second job creation, cancel / recreate and requests outside the D-044 envelope are prohibited.
+- Confirmed pricing: create job USD $0.010 per request; status GET USD $0.005 per request.
+- Maximum pre-verified create-plus-polling cost is USD $0.040.
+- Signed upload PUT cost remains UNKNOWN / NOT SEPARATELY VERIFIED.
+- Signed download GET cost remains UNKNOWN / NOT SEPARATELY VERIFIED.
+- Signed upload/download operations must not be assumed free, zero-cost or included without evidence.
+- Full observed D-044 billing delta must be checked after execution.
+- Billing Cycle Cap remains USD $1.00; Auto Recharge remains OFF; no additional funding is authorized.
+- Billing state must be verified before the first request, again before upload, again before download, and finally after execution or STOP.
+- Signed `upload_url` and `download_url` are treated as secrets and must not be printed, persisted or included in documentation.
+- D-044 uses no real Post IDs, User IDs or X Content and does not authorize Post Lookup, rehydration, Recent Search, migration `003_x_source_items.sql`, PostgreSQL changes, persistent live X collection or X Collector implementation.
+- D-044 is exhausted after the first synthetic lifecycle attempt regardless of whether it completes or stops early under a STOP condition.
+- Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED and formal X status remains `UNKNOWN — REQUIRES APPROVAL`.

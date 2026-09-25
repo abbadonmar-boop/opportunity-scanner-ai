@@ -2728,3 +2728,299 @@ Post-request billing verification showed:
 The Console displays these values only at cent precision, so the exact USD $0.005 request charge was not independently visible in the displayed billing totals.
 
 This execution result confirms endpoint access only. It does not approve Batch Compliance as the production compliance-synchronization mechanism and does not authorize persistent live X collection or X Collector implementation.
+
+## D-044 — X BATCH COMPLIANCE SYNTHETIC LIFECYCLE VERIFICATION AUTHORIZATION
+
+Status: FIXED / APPROVED
+
+Date: 2026-09-25
+
+### PURPOSE
+
+1. D-044 authorizes one strictly bounded synthetic verification of the full Batch Compliance lifecycle solely to verify technical operability with the current Development App.
+
+2. The test does not use a real Post ID, User ID, X Content or collector data.
+
+3. The only input is:
+
+`not_a_valid_id`
+
+4. Official Batch Compliance documentation identifies malformed / non-numeric input as an `invalid_id` result case.
+
+### EXACT REQUEST ENVELOPE
+
+5. D-044 authorizes at most one:
+
+`POST /2/compliance/jobs`
+
+to create one `tweets` Compliance Job.
+
+6. At most one PUT is authorized exclusively to the `upload_url` returned by that specific authorized job.
+
+7. The upload body contains exactly one synthetic line:
+
+`not_a_valid_id`
+
+8. At most six:
+
+`GET /2/compliance/jobs/{id}`
+
+requests are authorized exclusively to check the state of that same job.
+
+9. Polling begins only after successful upload.
+
+10. Approximately 60 seconds is used between status checks.
+
+11. If the job reaches terminal `complete` before the sixth status GET, polling stops immediately.
+
+12. If the job is still not `complete` after the sixth status GET, verification stops. A seventh GET is not authorized.
+
+13. If the job reaches `failed`, `expired` or another terminal / unexpected state, verification stops.
+
+14. At most one GET is authorized exclusively to the `download_url` belonging to that same job, and only after confirmed `complete`.
+
+15. The maximum D-044 network envelope is:
+
+- 1 create POST;
+- 1 signed upload PUT;
+- 6 status GET;
+- 1 signed download GET.
+
+No more than 9 network operations total.
+
+### NO RETRIES
+
+16. D-044 authorizes no automatic retries.
+
+17. A failed or interrupted upload is not repeated.
+
+18. A failed or interrupted download is not repeated.
+
+19. A failed status request is not retried beyond the already authorized request count.
+
+20. If the `upload_url` expires, STOP.
+
+21. D-044 does not authorize `DELETE /2/compliance/jobs/{id}`, cancel / recreate or creation of a second job.
+
+### REDIRECT / ENDPOINT BOUNDARY
+
+22. Automatic redirect following must be disabled for upload and download.
+
+23. If `upload_url` or `download_url` returns a redirect requiring an additional request, STOP.
+
+24. If an operation requires another endpoint, new URL flow, additional authentication operation or any request outside the D-044 envelope, STOP.
+
+25. No endpoint may be substituted manually for the URL returned by the authorized Compliance Job.
+
+### VERIFIED KNOWN PRICING
+
+26. Confirmed pricing:
+
+`POST /2/compliance/jobs` — USD $0.010 per request.
+
+27. Confirmed pricing:
+
+`GET /2/compliance/jobs/{id}` — USD $0.005 per request.
+
+28. Therefore the maximum known API portion of D-044 is:
+
+`1 × $0.010 + 6 × $0.005 = USD $0.040`
+
+29. This is not the complete confirmed cost of D-044 because signed upload / download pricing has not been separately verified.
+
+### SIGNED URL COST BOUNDARY
+
+30. Official Batch Compliance documentation describes `upload_url` as a signed PUT and `download_url` as a signed GET on the Batch Compliance lifecycle, but does not publish a separate price for those operations in the reviewed documentation.
+
+31. The reviewed official general pricing interface does not show a separate published pricing item for Batch Compliance signed upload / download operations.
+
+32. Therefore:
+
+`upload_url PUT cost: UNKNOWN / NOT SEPARATELY VERIFIED`
+
+`download_url GET cost: UNKNOWN / NOT SEPARATELY VERIFIED`
+
+33. D-044 does not assume these operations are USD $0, free or included.
+
+34. The known USD $0.040 must not be documented as the complete lifecycle cost.
+
+35. The full observed lifecycle billing delta must be checked after D-044 execution.
+
+### BILLING SAFETY BOUNDARY
+
+36. The existing Billing Cycle Cap remains USD $1.00 and is not increased.
+
+37. Auto Recharge remains OFF.
+
+38. No additional prepaid funding is authorized.
+
+39. D-044 does not change the D-034 / D-036 budget safeguards.
+
+40. Before the first D-044 request, verify:
+
+- Remaining Balance;
+- Billing Cycle Cap;
+- Auto Recharge;
+- Current Spend.
+
+41. Before the upload PUT, billing state must be checked again through the existing approved Console path.
+
+42. If an unexpected billing delta, pricing mismatch, Billing Cycle Cap change, Auto Recharge change or other unexpected billing behavior appears after job creation, upload must not be executed; STOP.
+
+43. Before the download GET, billing state must be checked again.
+
+44. If unexpected billing behavior appears after the create / upload / status phase, or the action no longer remains within the existing Billing Cycle Cap / approved budget boundary, download must not be executed; STOP.
+
+45. Billing verification itself does not authorize another X API request; the existing Console billing-check path must be used.
+
+46. Final billing verification is mandatory after D-044 ends.
+
+47. Final verification records the observed billing delta as:
+
+`post-D044 Current Spend - pre-D044 Current Spend`
+
+48. If Console precision does not allow the exact amount to be determined, record it as not independently visible at Console display precision.
+
+49. No unknown billing delta may be retrospectively attributed specifically to upload or download without official evidence.
+
+50. Billing Cycle Cap USD $1.00 remains the absolute account-level safety ceiling. D-044 does not claim that the complete test will cost USD $0.040; USD $0.040 is only the maximum pre-verified cost of create plus six status GET requests.
+
+### UPLOAD SAFETY
+
+51. The signed `upload_url` is treated as secret.
+
+52. It must not be printed, persisted in Git, documentation, screenshots or logs.
+
+53. It may exist only transiently in process memory for the authorized upload.
+
+54. Upload is performed with exactly one PUT.
+
+55. Upload payload contains no real X IDs and no X Content.
+
+### DOWNLOAD SAFETY
+
+56. The signed `download_url` is also treated as secret.
+
+57. It must not be printed or persisted.
+
+58. Download is performed with exactly one GET after confirmed `complete`.
+
+59. The response is processed transiently; the raw response body must not be stored in Git or documentation.
+
+60. For the expected synthetic case, only the following may be recorded:
+
+- result record count;
+- sanitized error category.
+
+The expected documented case is:
+
+`ERROR_CATEGORY=invalid_id`
+
+### SAFE EVIDENCE
+
+61. After execution, only the following safe metadata may be documented:
+
+- create HTTP status;
+- upload HTTP status;
+- number of status GET requests performed;
+- final job status;
+- download HTTP status;
+- result-record count;
+- sanitized result / error category;
+- pre / post billing state;
+- total observed billing delta if Console precision allows it to be determined.
+
+62. The following must not be persisted:
+
+- job ID;
+- `upload_url`;
+- `download_url`;
+- signed tokens;
+- Bearer Token;
+- complete response bodies;
+- transient authorization headers.
+
+### CREDENTIAL BOUNDARY
+
+63. Only the existing local Git-ignored `X_BEARER_TOKEN` may be used.
+
+64. The Bearer Token must not be printed, logged, placed in clipboard evidence or stored in Git.
+
+65. After execution, transient variables containing token, job ID and signed URLs must be cleared.
+
+### STOP CONDITIONS
+
+66. Immediate STOP with no additional API calls applies on:
+
+- pricing mismatch;
+- unexpected billing behavior;
+- HTTP 401;
+- HTTP 403;
+- unexpected redirect;
+- wrong-purpose or expired signed URL;
+- unexpected endpoint;
+- upload failure;
+- unexpected status;
+- job failure or expiry;
+- more than 6 polls being required;
+- download failure;
+- need for retry;
+- need for a second job;
+- need for any request outside the D-044 envelope.
+
+67. No workaround, alternative credentials or access bypass is authorized.
+
+### WHAT D-044 DOES NOT AUTHORIZE
+
+68. D-044 does not authorize:
+
+- real Post IDs;
+- real User IDs;
+- X Content persistence;
+- Post Lookup;
+- `GET /2/tweets`;
+- rehydration;
+- Recent Search;
+- production Batch Compliance cadence;
+- recurring jobs;
+- scheduler;
+- Compliance Streams;
+- migration `003_x_source_items.sql`;
+- PostgreSQL changes;
+- X Collector implementation;
+- persistent live X collection;
+- Staging;
+- Production;
+- Billing Cycle Cap increase;
+- Auto Recharge;
+- additional funding.
+
+### RESULT INTERPRETATION
+
+69. A successful synthetic lifecycle confirms only that the current Development App is technically capable of:
+
+`create → upload → process/poll → download`
+
+through Batch Compliance.
+
+70. It does not automatically approve Batch Compliance as the production compliance-synchronization mechanism.
+
+71. After successful D-044, separate decisions are still required for:
+
+- production cadence;
+- actual operating cost;
+- behavior for real retained IDs;
+- compliance deadline suitability;
+- edit `rehydrate` lifecycle;
+- Post Lookup authorization / cost envelope;
+- reliability / retry policy;
+- scheduling;
+- backup / recovery interaction.
+
+### AUTHORIZATION EXHAUSTION
+
+72. D-044 is exhausted after the first synthetic lifecycle attempt regardless of whether it reaches download or stops earlier under a STOP condition.
+
+73. Unused request slots under D-044 do not carry over to another test.
+
+74. A second job or repetition of D-044 requires a new explicit project decision.
