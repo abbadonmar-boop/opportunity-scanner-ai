@@ -489,3 +489,20 @@ All notable verified project changes are recorded here.
 - D-041 authorizes no new X API request, no persistent live X collection, no PostgreSQL schema change and no X Collector implementation.
 - D-040 remains exhausted; no second X API request is authorized.
 - Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED and the formal X status remains `UNKNOWN — REQUIRES APPROVAL`.
+
+- D-042 — X PostgreSQL Persistence Schema and Compliance Lifecycle — FIXED / APPROVED on 2026-09-25.
+- Approved separate `x_source_items` logical persistence design; `rss_source_items` remains unchanged.
+- `x_edit_root_id` is the retained logical edit-chain identity and `x_post_id` is the current / latest revision identity.
+- `UNIQUE(x_edit_root_id)` is the retained logical deduplication boundary; `UNIQUE(x_post_id)` additionally protects current revision identity.
+- New revisions in the same edit chain update the existing row in place, replace current Post ID and content, reset `filter_state` to `PENDING`, explicitly update `updated_at = CURRENT_TIMESTAMP`, and then pass through the existing common Filter Engine again.
+- Old Post text, previous current revision IDs and the full `edit_history_tweet_ids` array are not archived.
+- Compliance removal uses hard DELETE of the complete X source row with no per-item tombstone and no retained Post ID, edit-root ID, hash, fingerprint, mapping, deterministic digest, linkable surrogate or other source-derived identity unless separately confirmed permissible under D-041.
+- No per-item processing history linked to a removed X record survives compliance removal.
+- D-042 approves a NO-TOMBSTONE design for Module 7 v1.
+- Runtime X persistence continues to use the existing `opportunity_scanner_app` role and must not use administrative credentials or perform DDL; D-042 grants no new DDL or administrative privileges.
+- The next planned migration remains `003_x_source_items.sql`, but D-042 does not authorize its creation or application.
+- Batch Compliance is recorded only as a candidate V1 compliance-synchronization mechanism; availability, Pay Per Use eligibility, pricing / billing, cadence, turnaround time, job / resource limits, required rehydration / Post Lookup behavior and deadline suitability remain unverified.
+- Compliance Streams are not assumed as the V1 solution because current official X documentation places them behind Enterprise access.
+- Persistent live X collection remains prohibited until an officially permitted compliance-synchronization mechanism is separately verified and approved.
+- D-042 authorizes no new X API request, Batch Compliance job, Post Lookup request, Compliance Stream connection, migration, PostgreSQL change, X Collector implementation or prepaid-credit spend.
+- Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED and formal X status remains `UNKNOWN — REQUIRES APPROVAL`.

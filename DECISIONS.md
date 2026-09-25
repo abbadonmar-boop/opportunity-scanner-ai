@@ -2325,3 +2325,299 @@ unless the permissibility of that specific residual representation is separately
 38. D-041 does not change budget limits, Auto Recharge policy, Billing Cycle Cap, access boundaries, safe-stop rules, architecture, roadmap, module order or the approved V1 source list.
 
 39. The next required Module 7 step is a separate explicit schema/persistence decision that implements D-041 without inventing an unapproved tombstone or retention mechanism.
+
+## D-042 — X POSTGRESQL PERSISTENCE SCHEMA AND COMPLIANCE LIFECYCLE
+
+Status: FIXED / APPROVED
+
+Date: 2026-09-25
+
+### PERSISTENCE ARCHITECTURE
+
+1. PostgreSQL remains the single cross-cutting persistence layer under D-017.
+
+2. D-042 does not introduce a second database, Redis, queue, microservice, new schema namespace, new runtime database role or new migration framework.
+
+3. Module 7 uses a separate source-specific table named `x_source_items`.
+
+4. The existing `rss_source_items` table is not modified or reused for X persistence.
+
+5. X persistence continues the existing versioned SQL migration sequence. The next migration is `003_x_source_items.sql`.
+
+6. D-042 does not itself authorize creation or application of migration `003_x_source_items.sql`. That requires a separate implementation step.
+
+### DATABASE SECURITY BOUNDARY
+
+7. The migration must use the existing approved PostgreSQL migration / security path established in Module 2. No new administrative mechanism or privileged runtime role is introduced.
+
+8. Runtime X Collector code must not use `POSTGRES_USER`, administrative database credentials or perform DDL.
+
+9. Runtime operations against `x_source_items` use the existing `opportunity_scanner_app` credentials and only the necessary `SELECT`, `INSERT`, `UPDATE` and `DELETE` operations.
+
+10. D-042 grants no new DDL or administrative privileges to `opportunity_scanner_app`.
+
+11. The existing Module 2 configuration already grants `CREATE` on schema `public` to `opportunity_scanner_app`. D-042 does not expand, rely on, revoke or silently redesign that existing privilege. Any future least-privilege hardening requires a separate explicit security decision.
+
+### MINIMUM X RECORD
+
+12. The approved logical schema for `x_source_items` is:
+
+`id bigserial PRIMARY KEY`
+
+`x_post_id text NOT NULL`
+
+`x_edit_root_id text NOT NULL`
+
+`content_text text NOT NULL`
+
+`filter_state text NOT NULL DEFAULT 'PENDING' CHECK (filter_state IN ('PENDING', 'PASS', 'REJECT'))`
+
+`collected_at timestamptz NOT NULL`
+
+`created_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP`
+
+`updated_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP`
+
+`UNIQUE (x_edit_root_id)`
+
+`UNIQUE (x_post_id)`
+
+13. `x_post_id` represents the current / latest retained revision ID of the logical Post.
+
+14. `x_edit_root_id` represents the first ID in `edit_history_tweet_ids` and is the deterministic logical identity of the full edit chain.
+
+15. For a never-edited Post, `x_edit_root_id == x_post_id`.
+
+16. X API edit semantics assign a new Post ID to each revision. Therefore deduplication based only on current `x_post_id` is insufficient for logical-item identity.
+
+17. If required `x_post_id`, `edit_history_tweet_ids[0]` or `content_text` is missing or structurally invalid, the collector must fail safely without creating a false persisted record.
+
+### X CONTENT BOUNDARY
+
+18. `x_post_id`, `x_edit_root_id` and `content_text` are retained X-derived data and may exist only while the corresponding record is permitted to be retained under D-041.
+
+19. Module 7 does not persist without a separate future decision:
+
+- author or profile data;
+- public or non-public metrics;
+- geographic data;
+- conversation IDs;
+- the full `edit_history_tweet_ids` array;
+- historical revision IDs beyond the required current and root identities;
+- media metadata;
+- other additional X API fields.
+
+20. `edit_history_tweet_ids` is used during normalization only to derive `x_edit_root_id` and the current revision relationship. The full array is not archived in PostgreSQL.
+
+### COMMON FILTER INTEGRATION
+
+21. No X-specific Filter Engine is introduced.
+
+22. The existing Module 6 Filter Engine processes the current retained revision with `title=None` and `content_text=current_post_text`.
+
+23. Persisted `filter_state` remains compatible with Module 6 and is limited to `PENDING`, `PASS` and `REJECT`.
+
+### INITIAL PERSISTENCE
+
+24. On first appearance of a new edit chain, exactly one `x_source_items` row is created with current `x_post_id`, `x_edit_root_id = edit_history_tweet_ids[0]`, current `content_text`, and `filter_state = 'PENDING'`.
+
+25. After early persistence, the record is passed to the existing common Filter Engine.
+
+26. After deterministic filtering, `filter_state` is updated to `PASS` or `REJECT`.
+
+### DETERMINISTIC EDIT-CHAIN DEDUP
+
+27. `UNIQUE(x_edit_root_id)` is the database-level logical deduplication boundary for the edit chain.
+
+28. Normal repeated collection of the same revision in the same edit chain must not create a second logical source-item row.
+
+29. Collection of another revision with the same `x_edit_root_id` must not create a second logical source-item row.
+
+30. `UNIQUE(x_post_id)` additionally prevents the same current revision ID from being retained in multiple rows but does not replace logical deduplication through `x_edit_root_id`.
+
+### EDIT LIFECYCLE
+
+31. A new revision belongs to the same logical item when incoming `edit_history_tweet_ids[0]` equals persisted `x_edit_root_id`.
+
+32. When incoming current `x_post_id` differs from persisted `x_post_id` for the same `x_edit_root_id`, the existing row is updated in place.
+
+33. On such a revision update:
+
+- `x_post_id` becomes the new current / latest Post ID;
+- `content_text` becomes the new current / latest Post text;
+- `filter_state` becomes `PENDING`;
+- `updated_at` becomes `CURRENT_TIMESTAMP`.
+
+34. Old Post text is not archived.
+
+35. The previous current revision ID is not retained in a history or version table.
+
+36. D-042 does not introduce an edit-version history table.
+
+37. After revision update, the current revision is passed again through the existing common Filter Engine and `filter_state` is updated to `PASS` or `REJECT`.
+
+38. A new revision must not inherit a filtering result based on the previous revision text.
+
+### UPDATED_AT SEMANTICS
+
+39. `DEFAULT CURRENT_TIMESTAMP` applies to INSERT only and does not automatically update `updated_at` on PostgreSQL UPDATE operations.
+
+40. Application persistence operations must explicitly set `updated_at = CURRENT_TIMESTAMP` whenever current `x_post_id`, `content_text`, revision-related `filter_state`, or another separately approved mutable persistence field changes.
+
+41. No new PostgreSQL trigger, ORM behavior or framework is introduced for `updated_at`. The project continues the existing explicit application-update approach.
+
+### COMPLIANCE REMOVAL
+
+42. When an applicable X compliance state requires cessation of X Content retention, the complete corresponding `x_source_items` row is hard-deleted.
+
+43. This applies when the applicable compliance action requires removal because of deletion, protection/private state, deactivation, suspension, withholding, removal or another applicable removal condition.
+
+44. No per-item X tombstone remains after hard DELETE.
+
+45. After compliance removal the project does not retain `x_post_id`, `x_edit_root_id`, previous revision IDs, Post text, hash, fingerprint, mapping, deterministic digest, reversible or linkable surrogate, or another source-derived identifier or derivative unless that exact residual representation is separately confirmed permissible under D-041.
+
+46. D-042 approves a NO-TOMBSTONE design for Module 7 v1.
+
+47. Any future technical requirement for a tombstone or residual source-derived identity requires a new review of current official X requirements and a separate explicit project decision.
+
+### PROCESSING HISTORY AFTER REMOVAL
+
+48. No per-item processing history linked to the removed X record is retained after compliance hard DELETE.
+
+49. This is the X-specific retention / deletion rule under D-011 and D-041.
+
+50. While an X record is lawfully retained, its processing lifecycle may be represented by its current persisted state.
+
+51. Compliance removal deletes the source record together with all source-specific identity or history that could reconstruct, identify or link the removed item.
+
+52. D-042 introduces no separate audit or history table for removed X items.
+
+53. Generic operational history may remain only when it is genuinely independent of the removed X Content and cannot reconstruct, identify or link the removed source item.
+
+54. D-042 does not automatically approve any X-derived aggregate, audit key or identifier for retention after removal.
+
+### DEDUP AFTER COMPLIANCE REMOVAL
+
+55. D-035 deterministic deduplication applies to currently retained X logical records through `UNIQUE(x_edit_root_id)`.
+
+56. Compliance removal destroys the retained logical identity of that edit chain.
+
+57. No hidden dedup identity or tombstone is retained after removal.
+
+58. If a previously fully removed logical Post later becomes lawfully available again through an officially permitted X API path, absence of the former source-derived identity means it may be created as a new retained source record.
+
+59. This behavior is a consequence of the D-041 compliance-removal invariant and is not a bypass of D-035.
+
+### SCRUB_GEO
+
+60. Module 7 v1 does not persist geographic data.
+
+61. Therefore Batch Compliance `scrub_geo` does not require removal of a geo field from `x_source_items` because no such field exists in the approved minimal schema.
+
+62. Any future permission to retain geographic data requires a separate schema and compliance decision including `scrub_geo` behavior.
+
+### COMPLIANCE-SYNCHRONIZATION GATE
+
+63. A compliant persistence schema alone does not prove that the application can detect X compliance changes within the required time.
+
+64. Official X API documentation provides Batch Compliance as a candidate mechanism for checking stored Post or User IDs, including compliance actions such as `delete`, `rehydrate` for `tweet_edited`, and `scrub_geo`.
+
+65. A `rehydrate / tweet_edited` action is a potential mechanism for detecting an edit event, after which the current revision would need to be obtained through a separately approved officially permitted path and processed through the D-042 edit lifecycle. D-042 does not authorize that fetch.
+
+66. Batch Compliance is only a candidate V1 compliance-synchronization mechanism.
+
+67. The following have not yet been verified or approved for the current Opportunity Scanner X App:
+
+- actual Batch Compliance availability;
+- Pay Per Use eligibility;
+- pricing or billing;
+- request, job and resource cost boundaries;
+- permitted job size;
+- cadence;
+- turnaround time;
+- suitability for required compliance deadlines;
+- required handling of current and root revision IDs;
+- required additional Post lookup or rehydration requests.
+
+68. Batch Compliance is therefore not yet an approved production compliance mechanism.
+
+### COMPLIANCE STREAMS BOUNDARY
+
+69. X also documents near-real-time Compliance Streams for delete, edit and account-state events.
+
+70. Current official documentation identifies Compliance Streams as requiring Enterprise access.
+
+71. Compliance Streams are therefore not automatically the Module 7 v1 solution, are outside the current Pay Per Use approval and are not assumed to be part of Module 7.
+
+72. Any future Compliance Streams use requires separate access, cost and architecture approval.
+
+### REMAINING LIFECYCLE GATE
+
+73. Persistent live X collection remains prohibited after approval of D-042.
+
+74. The next separate project step must verify current official availability, access, cost and operational suitability of Batch Compliance or another officially permitted compliance mechanism for the existing App.
+
+75. That step must separately define deterministic compliance cadence and verify that the mechanism can satisfy D-041 removal obligations within the applicable required time.
+
+76. No additional endpoint, Post lookup, compliance job, stream or paid request is authorized automatically.
+
+### DOWNSTREAM BOUNDARY
+
+77. `x_source_items` does not include Telegram delivery state because Module 7 does not implement Telegram delivery.
+
+78. D-042 does not implement or move into Module 7:
+
+- EXTRACT;
+- AI Analyzer;
+- Anti-Scam;
+- Risk;
+- Score;
+- Telegram Sources;
+- Discord;
+- scheduler infrastructure.
+
+79. D-042 does not modify `rss_source_items` or reopen Module 4 or COMPLETED / PASS Module 6.
+
+### BACKUP / RECOVERY BOUNDARY
+
+80. Hard DELETE defines removal from the active working persistence model.
+
+81. D-042 does not authorize a separate X raw archive, revision archive or X-specific backup copy.
+
+82. Production backup / WAL retention and guaranteed compliance removal from production backup or recovery paths must be separately verified before production 24/7 persistence. D-042 does not silently resolve that future requirement.
+
+### AUTHORIZATION BOUNDARIES
+
+83. D-042 does not by itself authorize:
+
+- creation or application of `003_x_source_items.sql`;
+- PostgreSQL modification;
+- a new X API request;
+- a Batch Compliance job;
+- a Post Lookup request;
+- a Compliance Stream connection;
+- X Collector implementation;
+- persistent live X collection;
+- spending remaining prepaid balance;
+- increasing Billing Cycle Cap;
+- enabling Auto Recharge.
+
+84. After approval, D-042 must first be synchronized into authoritative project documentation and Git.
+
+85. Only afterward may a separate implementation step explicitly authorize creation and deterministic local testing of `003_x_source_items.sql` using synthetic fixtures and local PostgreSQL without live X Content.
+
+### RELATION TO EXISTING DECISIONS
+
+86. D-017 remains authoritative for the single PostgreSQL persistence layer.
+
+87. D-030 and D-031 remain authoritative for the common Filter Engine and `PASS / REJECT` semantics.
+
+88. D-032 remains authoritative for Module 7 scope and the official API boundary.
+
+89. D-035 remains authoritative for stable logical identity and deterministic deduplication.
+
+90. D-041 remains authoritative for X content compliance, hard-removal constraints and the prohibition on automatically retaining source-derived derivatives.
+
+91. D-034 through D-040 retain their existing budget, access, credential and live-verification boundaries.
+
+92. D-042 does not change the approved architecture, roadmap, source list or module order.

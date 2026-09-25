@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Define and explicitly approve the next X-specific PostgreSQL schema / persistence decision implementing D-041 before any PostgreSQL schema change, persistent storage of real X Content or X Collector implementation. The decision must define exact compliant removal / tombstone behavior, permitted retained processing-history fields, and deduplication behavior without assuming that Post IDs, hashes, fingerprints, mappings or other source-derived identities may survive compliance removal. Do not execute any additional X API request.
+Verify and explicitly decide the officially permitted X compliance-synchronization mechanism required by D-042 before persistent live X collection or X Collector implementation. Batch Compliance is only a candidate; verify availability, Pay Per Use eligibility, pricing / billing, cadence, turnaround time, job / resource boundaries, required rehydration or Post Lookup behavior, and ability to satisfy D-041 removal obligations. Compliance Streams must not be assumed because current documentation places them behind Enterprise access. Do not execute any additional X API request, Batch Compliance job, migration or PostgreSQL schema change.
 
 ## FOUNDATION
 
@@ -89,7 +89,7 @@ Define and explicitly approve the next X-specific PostgreSQL schema / persistenc
 - [x] Record collector proceed / do-not-proceed result for all five sources.
 - [x] Mark SOURCE ACCESS PRECHECK COMPLETE / VERIFIED under D-033.
 
-## D-034 / D-035 / D-036 / D-037 / D-038 / D-039 / D-040 / D-041 POLICY MILESTONE
+## D-034 / D-035 / D-036 / D-037 / D-038 / D-039 / D-040 / D-041 / D-042 POLICY MILESTONE
 
 - [x] Approve official X API Pay Per Use use in principle — D-034.
 - [x] Fix maximum initial personal-funded X API budget at USD $15.
@@ -154,7 +154,15 @@ Define and explicitly approve the next X-specific PostgreSQL schema / persistenc
 - [x] Require any retained internal processing history after compliance removal to be independent of removed X Content and unable to reconstruct, identify or link the removed source item.
 - [x] Defer exact compliant tombstone representation, schema, migration and deletion mechanics to a separate schema / persistence decision.
 - [x] Keep D-041 outside X API request authorization, X Collector implementation and PostgreSQL schema-change authorization.
-- [ ] Define and explicitly approve the next X-specific PostgreSQL schema / persistence decision implementing D-041.
+- [x] Define and explicitly approve D-042 — X PostgreSQL Persistence Schema and Compliance Lifecycle.
+
+- [x] Approve `x_edit_root_id` as the retained logical edit-chain identity and `x_post_id` as the current revision identity.
+- [x] Require `UNIQUE(x_edit_root_id)` for retained logical deduplication and in-place revision updates with re-filtering.
+- [x] Approve hard compliance DELETE with no tombstone and no retained source-derived identity after removal.
+- [x] Keep migration `003_x_source_items.sql`, PostgreSQL changes, new API requests, Batch Compliance jobs and X Collector implementation outside D-042 authorization.
+- [x] Record Batch Compliance only as a candidate compliance-synchronization mechanism pending separate verification.
+- [x] Keep Compliance Streams outside the assumed V1 solution because current documentation requires Enterprise access.
+- [ ] Verify and explicitly approve an officially permitted compliance-synchronization mechanism for Module 7.
 
 ## ROADMAP
 
@@ -163,7 +171,7 @@ Define and explicitly approve the next X-specific PostgreSQL schema / persistenc
 - [x] MODULE 4 — RSS Collector
 - [ ] MODULE 5 — Reddit Collector — BLOCKED — DATA ACCESS NOT APPROVED
 - [x] MODULE 6 — Filter Engine — COMPLETED / PASS
-- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 USD $5.00 prepaid credit purchase completed; D-038 Development Project Access executed and verified; D-039 Bearer Token regeneration through the verified `Generate → Regenerate` flow executed and verified; D-040 single bounded Recent Search verification executed successfully — HTTP 200, `meta.result_count=10`, 10 returned Posts; post-request Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05; no second request authorized; D-041 X Content Compliance and Persistence Policy FIXED / APPROVED; persistent live X Content and PostgreSQL schema changes remain unauthorized until a separate X-specific schema / persistence decision implementing D-041 is explicitly approved
+- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 USD $5.00 prepaid credit purchase completed; D-038 Development Project Access executed and verified; D-039 Bearer Token regeneration through the verified `Generate → Regenerate` flow executed and verified; D-040 single bounded Recent Search verification executed successfully — HTTP 200, `meta.result_count=10`, 10 returned Posts; post-request Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05; no second request authorized; D-041 X Content Compliance and Persistence Policy FIXED / APPROVED; D-042 X PostgreSQL Persistence Schema and Compliance Lifecycle FIXED / APPROVED; next gate is verification and explicit approval of an officially permitted compliance-synchronization mechanism; Batch Compliance remains only a candidate; persistent live X collection and X Collector implementation remain unauthorized
 - [ ] MODULE 8 — Telegram Sources — BLOCKED — TELEGRAM CONTENT AI-USE TERMS CONFLICT
 - [ ] MODULE 9 — Discord Collector — ACCESS PRECHECK: AVAILABLE WITH LIMITATIONS
 - [ ] MODULE 10 — AI Analyzer
