@@ -477,3 +477,15 @@ All notable verified project changes are recorded here.
 - Observed spend for this single verification request was USD $0.05; no broader pricing model is inferred from one request.
 - D-040 authorization is exhausted. No second X API request is authorized.
 - X Collector implementation remains not started.
+
+- D-041 — X Content Compliance and Persistence Policy — FIXED / APPROVED on 2026-09-25.
+- Persistent live X Content remains prohibited until a separately approved X-specific PostgreSQL persistence design implementing D-041 exists.
+- The existing `rss_source_items` schema is not automatically approved or considered sufficient for X persistence.
+- Retained X Content must remain capable of required modification or removal when deletion, modification, protection, suspension, withholding, removal, unavailability or other applicable compliance state changes occur.
+- After compliance removal, the project must not automatically retain Post IDs, hashes, fingerprints, mappings, identifiers, deterministic digests, reversible or linkable surrogates, or other source-derived derivatives unless that specific residual representation is separately confirmed permissible by current official X terms or authorization.
+- Any internal processing history retained after compliance removal must be independent of removed X Content and must not reconstruct, identify or link the removed source item.
+- D-041 does not define or approve an exact tombstone representation, database schema, migration, deletion mechanism or retained audit-field set.
+- Exact compliant tombstone behavior, allowed retained processing-history fields and deduplication behavior are deferred to the next separate X-specific PostgreSQL schema / persistence decision.
+- D-041 authorizes no new X API request, no persistent live X collection, no PostgreSQL schema change and no X Collector implementation.
+- D-040 remains exhausted; no second X API request is authorized.
+- Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED and the formal X status remains `UNKNOWN — REQUIRES APPROVAL`.

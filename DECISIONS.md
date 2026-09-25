@@ -2188,3 +2188,140 @@ Date: 2026-09-23
 29. The D-040 authorization is now exhausted. No second X API request is authorized under D-040.
 
 30. X Collector implementation remains not started. Any further live X API request or transition toward collector implementation requires a separate explicit project step and authorization.
+
+## D-041 — X CONTENT COMPLIANCE AND PERSISTENCE POLICY
+
+Status: FIXED / APPROVED
+
+Date: 2026-09-25
+
+### SCOPE AND AUTHORITY
+
+1. D-041 defines the mandatory content-compliance boundaries for persistent real X Content in Module 7.
+
+2. D-032 remains authoritative for Module 7 scope and requires an approved X-specific content-compliance policy before the first persistent storage of real X Content.
+
+### OFFICIAL-SOURCE BOUNDARY
+
+3. X Content may be persistently processed or stored only when obtained through an officially permitted X API path and only for the approved Opportunity Scanner AI use case.
+
+4. HTML/browser scraping, unofficial mirrors, credential workarounds and access-restriction bypasses remain prohibited.
+
+### DATA-MINIMIZATION BOUNDARY
+
+5. Module 7 is not a raw X archive.
+
+6. Only the minimum X data actually required for the approved Opportunity Scanner processing may be persistently retained.
+
+7. Bulk or speculative archival of X Content for possible future use is prohibited.
+
+### PERSISTENCE ARCHITECTURE
+
+8. PostgreSQL remains the single cross-cutting persistence layer under D-017.
+
+9. D-041 does not authorize or introduce a second database or persistence layer.
+
+10. The existing `rss_source_items` schema is not automatically approved or considered sufficient for X persistence.
+
+11. Persistent live X Content must not be stored in `rss_source_items` or another schema until an X-specific PostgreSQL persistence design is separately approved as compliant with D-041.
+
+### MUTABLE COMPLIANCE STATE
+
+12. Retained X Content must remain technically capable of being modified or removed when the corresponding source state or applicable X requirement changes.
+
+13. Compliance handling must support at minimum X Content that becomes:
+
+- deleted;
+- modified;
+- private or protected;
+- associated with a suspended account;
+- withheld;
+- removed;
+- unavailable;
+- otherwise subject to modification or removal under applicable X requirements.
+
+14. Required modification or removal must occur as soon as reasonably possible and within any applicable deadline imposed by current X requirements, an applicable written removal request, or applicable law.
+
+15. Protected and blocked status must be respected and must not be bypassed through persistence or downstream processing.
+
+### GEO-DATA BOUNDARY
+
+16. Module 7 does not collect or retain X geographic or location data as a standalone dataset.
+
+17. Any future requirement to persist or aggregate X geographic data requires separate compliance review and explicit project approval.
+
+### COMPLIANCE-REMOVAL INVARIANT
+
+18. After compliance removal, an ordinary persisted source record must not retain removed X Content, including Post text, Post ID, profile or author data, or other data falling within the applicable definition of X Content.
+
+19. Because the applicable X definition includes copies and derivative works, the project must not automatically retain after compliance removal any:
+
+- hash;
+- fingerprint;
+- mapping;
+- identifier;
+- deterministic digest;
+- reversible surrogate;
+- linkable surrogate;
+- other derivative based on the removed X Content;
+
+unless the permissibility of that specific residual representation is separately confirmed by current official X terms or other official X authorization.
+
+20. D-041 does not assume that a Post ID, hash, fingerprint, mapping or other source-derived identity is an acceptable compliance tombstone.
+
+### INTERNAL PROCESSING HISTORY
+
+21. Any internal processing history retained after compliance removal must be independent of the removed X Content.
+
+22. Such retained history must not:
+
+- contain X Content;
+- contain a copy or derivative of removed X Content;
+- allow reconstruction of removed X Content;
+- identify the removed X source item;
+- allow retained history to be linked to the specific removed X source item;
+- preserve reversible or deterministic source-derived identity.
+
+23. The permissibility and exact fields of any retained audit or processing history must be determined by the next separately approved schema decision before implementation.
+
+### TOMBSTONE AND DATABASE DESIGN DEFERRED
+
+24. D-041 does not define or invent a compliant tombstone representation.
+
+25. Whether a tombstone is required at all, and which fields could lawfully and technically remain after removal, is deferred to the next separate schema decision.
+
+26. D-041 does not approve database tables, columns, indexes, constraints, migrations, hashes, identifiers or deletion mechanics.
+
+27. The exact X-specific PostgreSQL schema and migration design require a separate explicit project decision before implementation.
+
+### CONFLICT RULE
+
+28. If D-041 compliance requirements conflict with the current PostgreSQL persistence design, deduplication model, processing-history requirement or any other approved architecture, the conflict must be surfaced for a separate explicit decision.
+
+29. Compliance conflicts must not be silently worked around.
+
+### DEDUPLICATION IMPLICATION
+
+30. D-035 stable-identity and deterministic-deduplication requirements do not authorize retention of source-derived identity after compliance removal in violation of D-041.
+
+31. How deterministic deduplication semantics remain compliant after removal is deferred to the next schema decision.
+
+### AUTHORIZATION BOUNDARIES
+
+32. D-041 authorizes no new X API request.
+
+33. D-040 is exhausted. Any further live X API request requires separate explicit authorization.
+
+34. D-041 does not start X Collector implementation.
+
+35. D-041 does not authorize persistent live X collection.
+
+36. D-041 does not authorize any PostgreSQL schema change or creation of an X-specific table.
+
+### RELATION TO EXISTING DECISIONS
+
+37. D-032, D-034, D-035, D-036, D-037, D-038, D-039 and D-040 remain authoritative within their existing scopes.
+
+38. D-041 does not change budget limits, Auto Recharge policy, Billing Cycle Cap, access boundaries, safe-stop rules, architecture, roadmap, module order or the approved V1 source list.
+
+39. The next required Module 7 step is a separate explicit schema/persistence decision that implements D-041 without inventing an unapproved tombstone or retention mechanism.

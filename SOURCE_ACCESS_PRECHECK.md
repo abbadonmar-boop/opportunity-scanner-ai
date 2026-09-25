@@ -109,10 +109,10 @@ Technical limitations relevant to the approved use case:
 - D-039 credential execution through the verified `Generate → Regenerate` flow has been completed successfully; no API use is authorized by D-039.
 - Recent Search endpoint availability is verified by the successful D-040 request. The observed billing outcome for that single request was USD $0.05. Broader rate-limit and billing behavior must not be inferred from this one verification request.
 - No polling frequency or live request budget is inferred from API limits.
-- No live X Content may be permanently persisted before the X-specific content-compliance policy required by D-032 is approved.
+- D-041 — X Content Compliance and Persistence Policy — is FIXED / APPROVED. No live X Content may be permanently persisted until a separately approved X-specific PostgreSQL persistence design implementing D-041 exists.
 
 Persistence / retention / content-compliance:
-The reviewed X policies require stored X Content to remain synchronized with deletion, modification, protection or removal state as applicable.
+The reviewed X policies require stored X Content to remain synchronized with deletion, modification, protection or removal state as applicable. Under approved D-041, compliance removal must not automatically retain Post IDs, hashes, fingerprints, mappings, identifiers or other source-derived derivatives unless separately confirmed permissible by current official X terms or authorization. Any retained internal processing history must be independent of removed X Content and must not reconstruct, identify or link the removed source item.
 
 The reviewed policy set also establishes restrictions covering redistribution, display / attribution, privacy, sensitive-user inference, off-X matching, rate-limit circumvention, unofficial access and model training / fine-tuning on X Content.
 
@@ -155,12 +155,12 @@ NO.
 
 Developer onboarding and App creation are complete. D-034 approves the official Pay Per Use path in principle, D-036 approves the first bounded live-access envelope, D-037 authorized and completed the one-time USD $5.00 prepaid credit purchase, and D-038 authorizes only Development Project Access to the existing `Default Project — Pay Per Use`. The authorized Development connection has now been executed and verified successfully. Staging and Production remain unauthorized.
 
-No collector implementation or production live API collection is authorized by this precheck result. Development Project connection was separately authorized by D-038 and has been executed. D-039 separately authorized only Bearer Token generation and local secret storage. D-040 separately authorized exactly one bounded live Recent Search verification request, and that request has now been executed successfully. D-040 does not authorize X Collector implementation, production polling, pagination or a second request. Staging and Production connection remain unauthorized.
+No collector implementation or production live API collection is authorized by this precheck result. Development Project connection was separately authorized by D-038 and has been executed. D-039 separately authorized only Bearer Token generation and local secret storage. D-040 separately authorized exactly one bounded live Recent Search verification request, and that request has now been executed successfully. D-041 now fixes the X Content Compliance and Persistence Policy but does not authorize X Collector implementation, persistent live X Content, PostgreSQL schema changes, production polling, pagination or a second request. Staging and Production connection remain unauthorized.
 
 Conclusion:
 X / Twitter satisfies the D-033 criteria for `UNKNOWN — REQUIRES APPROVAL`.
 
-The unresolved prerequisite is no longer developer onboarding, App creation, principle-level Pay Per Use approval, bounded-envelope definition, credit-purchase authorization, credit-purchase execution, Development Project Access authorization, Development connection execution or credential-storage preparation. Bearer Token regeneration and local storage under D-039 are complete, and the single D-040 bounded live API verification request has been executed successfully with required pre-request and post-request billing verification. No second request is authorized. Any transition toward X Collector implementation requires a separate explicit project step and authorization.
+Developer onboarding, App creation, principle-level Pay Per Use approval, bounded-envelope definition, credit-purchase authorization and execution, Development Project Access, Development connection, Bearer Token preparation, bounded live verification and the X-specific content-compliance policy are complete within their approved scopes. D-041 is FIXED / APPROVED. The unresolved prerequisite before persistent live X Content or X Collector implementation is a separate explicit X-specific PostgreSQL schema / persistence decision implementing D-041, including compliant removal / tombstone behavior, permitted retained processing-history fields and deduplication behavior. No second X API request is authorized.
 
 The X source precheck is complete at the current authorization boundary.
 
