@@ -614,3 +614,20 @@ All notable verified project changes are recorded here.
 - D-046 remains NOT APPROVED.
 - This correction authorizes no X API request, Compliance Job, upload, polling, download, Post Lookup, migration, PostgreSQL change, persistent live X collection or X Collector implementation.
 - Formal X source status remains `UNKNOWN — REQUIRES APPROVAL`.
+
+### D-046 — X BATCH COMPLIANCE PRODUCTION-SUITABILITY REQUIREMENTS GATE
+
+- D-046 FIXED / APPROVED on 2026-09-25.
+- D-046 includes the D-033 source-status reconciliation for X / Twitter.
+- Formal D-033 X / Twitter source status is now `AVAILABLE WITH LIMITATIONS` because the approved official X access path has been verified.
+- This source-status change does not make Module 7 PASS and does not authorize persistent production X collection.
+- Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED.
+- Persistent production X collection remains `COMPLIANCE-GATED / NOT AUTHORIZED` until a mechanism is proven to satisfy the applicable 24-hour compliance requirement.
+- Batch Compliance is not approved as the production compliance-synchronization mechanism because no guaranteed maximum processing-time SLA has been established proving that the full compliance lifecycle can always satisfy the applicable 24-hour requirement.
+- Production cadence remains unresolved and is not approved.
+- Backup / WAL / restore compliance remains unresolved.
+- Recurring operating cost remains unresolved, including Batch Compliance operations and any required Posts Lookup / rehydration activity.
+- Exact retained-ID submission strategy for edit-chain compliance remains unresolved and must not be invented.
+- Compliance Streams remain a separate Enterprise-access mechanism and are not automatically added to V1.
+- D-046 authorizes no additional X API request, Compliance Job, upload, polling, download, Posts Lookup, rehydration, Recent Search, migration `003_x_source_items.sql`, PostgreSQL change, X Collector implementation, Staging connection, Production connection, Billing Cycle Cap increase, Auto Recharge activation or additional funding.
+- The next separate technical gate after documentation synchronization must focus first on proving 24-hour compliance suitability before persistent production X collection can be authorized.

@@ -3283,3 +3283,148 @@ Backup / WAL / restore compliance and recurring operating cost remain separate u
 D-045 correction authorizes no X API request, Compliance Job, upload, polling, download, Post Lookup, migration, PostgreSQL change, persistent live X collection or X Collector implementation.
 
 D-046 remains NOT APPROVED pending corrected formulation from this factual basis.
+
+## D-046 — X BATCH COMPLIANCE PRODUCTION-SUITABILITY REQUIREMENTS GATE
+
+Status: FIXED / APPROVED
+
+Approval date: 2026-09-25
+
+### PURPOSE
+
+Define the production-suitability gate for X Batch Compliance without authorizing production collection or additional X API activity.
+
+D-046 uses the corrected current-documentation basis established by the D-045 CURRENT-DOCUMENTATION CORRECTION.
+
+### DOCUMENTED BATCH COMPLIANCE SEMANTICS
+
+1. Current official X Batch Compliance documentation explicitly supports Post compliance handling for deletions, suspensions and edits.
+
+2. Current documented Post result semantics include:
+
+- `delete`;
+- `rehydrate` with reason `tweet_edited`;
+- `scrub_geo` with reason `geo_scrubbed`.
+
+3. Malformed / non-numeric input such as `not_a_valid_id` is documented as producing an `invalid_id` error result.
+
+4. `rehydrate / tweet_edited` requires the application to obtain the current Post revision through Posts Lookup before updating retained current content.
+
+5. `scrub_geo / geo_scrubbed` is a separate compliance action and must not be represented as `delete`.
+
+6. The currently approved D-042 logical X schema stores no geographic data. D-046 does not add geo fields or modify D-042.
+
+### 24-HOUR COMPLIANCE DEADLINE GATE
+
+7. The project recognizes the applicable X requirement to remove required X Content from developer systems within 24 hours.
+
+8. Batch Compliance is asynchronous.
+
+9. Current reviewed Batch Compliance documentation does not publish a guaranteed maximum processing-time SLA sufficient to prove that the complete production lifecycle:
+
+`schedule → create → upload → process → poll → download → application handling`
+
+will always complete within the applicable 24-hour compliance deadline.
+
+10. Therefore Batch Compliance is NOT approved as the production compliance-synchronization mechanism at D-046.
+
+11. Production cadence must not be selected merely from examples such as daily or weekly scheduling.
+
+12. Production cadence may be approved only after the complete worst-case compliance lifecycle can be demonstrated to satisfy the applicable deadline.
+
+### EDIT / REHYDRATION BOUNDARY
+
+13. Edit handling is not an unresolved documentation gap at the action level.
+
+14. `rehydrate / tweet_edited` is treated as documented current behavior.
+
+15. The exact retained-ID set and deterministic Batch submission strategy required to guarantee edit-chain coverage remain unresolved production-design requirements.
+
+16. D-046 does not invent whether production Batch submissions must use only `x_post_id`, `x_edit_root_id`, both, or another separately approved retained-ID strategy.
+
+### COMPLIANCE STREAMS BOUNDARY
+
+17. Compliance Streams are documented as a separate near-real-time compliance mechanism.
+
+18. Current reviewed documentation identifies Compliance Streams as requiring Enterprise access.
+
+19. Compliance Streams are not automatically added to V1, do not change the fixed architecture, and are not approved by D-046.
+
+20. Any future use of Compliance Streams requires separate access, cost and architecture approval.
+
+### BACKUP / WAL / RESTORE GATE
+
+21. Production backup, PostgreSQL WAL and restore behavior remain unresolved compliance requirements.
+
+22. Before persistent production X storage is authorized, the project must define and verify a recovery lifecycle that does not silently restore already removed X Content without required compliance reconciliation.
+
+23. D-046 does not define or approve the final backup / WAL / restore compliance implementation.
+
+### OPERATING COST GATE
+
+24. Recurring production operating cost remains unresolved.
+
+25. Known API charges verified by the project do not by themselves establish the complete recurring cost of production Batch Compliance.
+
+26. The final cost model must account for the required compliance lifecycle, including applicable Batch operations and any required Posts Lookup / rehydration requests.
+
+27. Signed upload / download recurring cost must not be assumed to be zero unless separately verified.
+
+### D-033 SOURCE STATUS RECONCILIATION
+
+28. The original D-033 X status `UNKNOWN — REQUIRES APPROVAL` was appropriate while official access availability still depended on unresolved approval-dependent steps.
+
+29. Those access prerequisites have subsequently been resolved within their approved scopes, including:
+
+- Pay Per Use activation / funding;
+- Development Project connection;
+- Bearer Token preparation;
+- authenticated Recent Search verification;
+- Batch Compliance account access verification;
+- one bounded synthetic Batch Compliance lifecycle reaching create → upload → complete → download.
+
+30. Therefore the formal X source status under D-033 is now:
+
+`AVAILABLE WITH LIMITATIONS`
+
+31. This status means that the approved official X access path has been verified.
+
+32. `AVAILABLE WITH LIMITATIONS` does NOT mean that persistent production collection is approved.
+
+33. Persistent production X collection remains:
+
+`COMPLIANCE-GATED / NOT AUTHORIZED`
+
+until a mechanism is proven to satisfy the applicable 24-hour compliance requirement.
+
+34. The X status change does not make Module 7 PASS.
+
+### AUTHORIZATION BOUNDARY
+
+35. D-046 authorizes no:
+
+- X API request;
+- Compliance Job;
+- signed upload or download;
+- polling;
+- Posts Lookup;
+- rehydration request;
+- Recent Search request;
+- Compliance Stream connection;
+- migration `003_x_source_items.sql`;
+- PostgreSQL change;
+- X Collector implementation;
+- persistent live X collection;
+- Staging connection;
+- Production connection;
+- Billing Cycle Cap increase;
+- Auto Recharge enablement;
+- additional funding or spend.
+
+36. Formal X source status is `AVAILABLE WITH LIMITATIONS`.
+
+37. Module 7 remains `SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED`.
+
+38. Persistent production X collection remains `COMPLIANCE-GATED / NOT AUTHORIZED`.
+
+39. The next technical gate must focus first on proving 24-hour compliance suitability before any persistent production X collection can be authorized.
