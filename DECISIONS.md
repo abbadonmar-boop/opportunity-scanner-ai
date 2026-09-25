@@ -3428,3 +3428,78 @@ until a mechanism is proven to satisfy the applicable 24-hour compliance require
 38. Persistent production X collection remains `COMPLIANCE-GATED / NOT AUTHORIZED`.
 
 39. The next technical gate must focus first on proving 24-hour compliance suitability before any persistent production X collection can be authorized.
+
+## D-047 — X 24-HOUR PRODUCTION COMPLIANCE SUITABILITY EVIDENCE GATE
+
+Status: FIXED / APPROVED
+
+Approval date: 2026-09-25
+
+### PURPOSE
+
+1. D-047 defines the evidence threshold that must be satisfied before persistent production X collection can be authorized under the applicable 24-hour compliance requirement.
+
+2. D-047 does not change the fixed architecture, Module 7 scope, approved source set or roadmap.
+
+### BATCH COMPLIANCE SUITABILITY
+
+3. X Batch Compliance remains an allowed candidate compliance mechanism but is NOT approved as the production compliance-synchronization mechanism.
+
+4. Production approval requires evidence that the complete compliance lifecycle can satisfy the applicable 24-hour requirement in the required worst case.
+
+5. An individual Batch Compliance job completing quickly does not establish a guaranteed processing-time SLA and must not be treated as proof of production suitability.
+
+6. Historical project observations from bounded Batch Compliance verification do not establish a guaranteed worst-case completion bound.
+
+7. Batch Compliance cannot receive production PASS unless authoritative evidence establishes a sufficiently bounded maximum lifecycle time, or another separately approved official mechanism provides the required compliance guarantee.
+
+### COMPLIANCE STREAMS
+
+8. Compliance event streams are recognized as a separate official near-real-time compliance mechanism.
+
+9. Compliance event streams require Enterprise access under the currently verified official access model.
+
+10. Compliance event streams are not automatically added to V1 and are not approved by D-047.
+
+11. Any future use of Compliance event streams requires separate explicit access, cost and architecture approval.
+
+### PRODUCTION AUTHORIZATION CONDITION
+
+12. Persistent production X collection remains:
+
+`COMPLIANCE-GATED / NOT AUTHORIZED`
+
+13. The gate may be reconsidered only when at least one official, separately approved production compliance mechanism is evidenced as capable of satisfying the applicable 24-hour requirement.
+
+14. Evidence must establish production suitability; unsupported assumptions, isolated fast executions, average timings or best-case observations are insufficient.
+
+15. Module 7 remains `SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED` and is not PASS.
+
+16. Formal D-033 X / Twitter source status remains `AVAILABLE WITH LIMITATIONS`.
+
+### AUTHORIZATION BOUNDARY
+
+17. D-047 authorizes no:
+
+- Enterprise purchase or Enterprise access activation;
+- X API request;
+- Compliance Job;
+- signed upload or download;
+- polling;
+- Posts Lookup;
+- rehydration request;
+- Recent Search request;
+- Compliance Stream connection;
+- migration `003_x_source_items.sql`;
+- PostgreSQL change;
+- X Collector implementation;
+- persistent X collection;
+- Staging connection;
+- Production connection;
+- Billing Cycle Cap increase;
+- Auto Recharge enablement;
+- additional funding or spend.
+
+18. Backup / WAL / restore compliance and recurring production operating cost remain unresolved and are not approved by D-047.
+
+19. The next project step must remain inside the evidence-definition / verification boundary until the 24-hour production compliance gate is resolved or a separate project decision explicitly changes that state.

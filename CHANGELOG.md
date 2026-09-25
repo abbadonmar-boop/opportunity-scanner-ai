@@ -641,3 +641,18 @@ All notable verified project changes are recorded here.
 - Persistent production X collection remains `COMPLIANCE-GATED / NOT AUTHORIZED`.
 - Current technical gate is to define and verify the evidence required to prove that an approved production compliance mechanism can satisfy the applicable 24-hour requirement.
 - No X API request, Compliance Job, Posts Lookup, migration `003_x_source_items.sql`, PostgreSQL change, persistent X collection or X Collector implementation is authorized by this state advancement.
+
+### D-047 — X 24-HOUR PRODUCTION COMPLIANCE SUITABILITY EVIDENCE GATE
+
+- D-047 FIXED / APPROVED on 2026-09-25.
+- D-047 defines the evidence threshold required before persistent production X collection can be authorized.
+- Batch Compliance remains an allowed candidate but is not production-approved.
+- Isolated fast Batch Compliance executions, averages and best-case observations do not establish a guaranteed worst-case compliance bound and are insufficient evidence of production suitability.
+- Production approval requires authoritative evidence that the complete compliance lifecycle can satisfy the applicable 24-hour requirement in the required worst case, or a separately approved official mechanism that provides the required guarantee.
+- Compliance event streams remain a separate official near-real-time mechanism requiring Enterprise access under the currently verified access model.
+- Compliance event streams are not automatically added to V1 and require separate explicit access, cost and architecture approval.
+- Formal D-033 X / Twitter source status remains `AVAILABLE WITH LIMITATIONS`.
+- Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED and is not PASS.
+- Persistent production X collection remains `COMPLIANCE-GATED / NOT AUTHORIZED`.
+- Backup / WAL / restore compliance and recurring production operating cost remain unresolved.
+- D-047 authorizes no Enterprise activation, X API request, Compliance Job, signed upload / download, polling, Posts Lookup, rehydration, Recent Search, Compliance Stream connection, migration `003_x_source_items.sql`, PostgreSQL change, X Collector implementation, persistent X collection, Staging connection, Production connection, Billing Cycle Cap increase, Auto Recharge enablement or additional funding.
