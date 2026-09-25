@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Synchronize approved D-046 and its D-033 source-status reconciliation into the remaining authoritative project documentation and Git. Formal X / Twitter source status is `AVAILABLE WITH LIMITATIONS`. Persistent production X collection remains `COMPLIANCE-GATED / NOT AUTHORIZED` until a mechanism is proven to satisfy the applicable 24-hour compliance requirement. After documentation synchronization, the next separate technical gate must focus on proving 24-hour compliance suitability. No X API request, Compliance Job, Posts Lookup, migration `003_x_source_items.sql`, PostgreSQL change, persistent production collection or X Collector implementation is authorized during this synchronization step.
+Define and verify the evidence required to prove 24-hour X production compliance suitability under D-046. The next technical gate must resolve the production compliance mechanism and its worst-case timing against the applicable 24-hour requirement before persistent production X collection can be authorized. Persistent production X collection remains `COMPLIANCE-GATED / NOT AUTHORIZED`. No X API request, Compliance Job, Posts Lookup, migration `003_x_source_items.sql`, PostgreSQL change, persistent X collection or X Collector implementation is authorized during this definition / verification step.
 
 ## FOUNDATION
 
