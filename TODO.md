@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Synchronize D-043 into authoritative project documentation and Git. After that, verify Billing Cycle Cap, Auto Recharge and Current Spend through the existing approved billing-check path, then execute exactly one D-043-authorized read-only `GET /2/compliance/jobs?type=tweets` request solely to verify current Development App access. Do not execute POST, create a Compliance Job, perform Post Lookup or rehydration, run migration `003_x_source_items.sql`, change PostgreSQL, begin persistent live X collection or start X Collector implementation.
+Synchronize the completed D-043 execution result into the remaining authoritative project documentation and Git. D-043 is exhausted. Do not execute any additional X API request, create a Compliance Job, execute POST, perform Post Lookup or rehydration, run migration `003_x_source_items.sql`, change PostgreSQL, begin persistent live X collection or start X Collector implementation. Batch Compliance GET access is verified, but Batch Compliance is not yet approved as the production compliance-synchronization mechanism.
 
 ## FOUNDATION
 
@@ -168,9 +168,9 @@ Synchronize D-043 into authoritative project documentation and Git. After that, 
 - [x] Confirm documented unit cost of USD $0.005 for `GET /2/compliance/jobs`.
 - [x] Authorize exactly one future read-only `GET /2/compliance/jobs?type=tweets` request solely for Development App access verification.
 - [x] Keep Compliance Job creation, POST, Post Lookup, rehydration, migration, PostgreSQL changes, persistent live X collection and X Collector implementation outside D-043 authorization.
-- [ ] Verify billing state before the D-043 request.
-- [ ] Execute exactly one authorized D-043 GET and record only safe access-verification metadata.
-- [ ] Verify billing state after the D-043 request.
+- [x] Verify pre-request billing state — Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05.
+- [x] Execute exactly one authorized D-043 GET — HTTP 200; `DATA_PRESENT=False`; `META_RESULT_COUNT=0`; `ACCESS_RESULT=PASS`; authorization exhausted.
+- [x] Verify post-request billing state — Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05; exact USD $0.005 charge not independently visible at Console cent precision.
 
 ## ROADMAP
 
@@ -179,7 +179,7 @@ Synchronize D-043 into authoritative project documentation and Git. After that, 
 - [x] MODULE 4 — RSS Collector
 - [ ] MODULE 5 — Reddit Collector — BLOCKED — DATA ACCESS NOT APPROVED
 - [x] MODULE 6 — Filter Engine — COMPLETED / PASS
-- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 USD $5.00 prepaid credit purchase completed; D-038 Development Project Access executed and verified; D-039 Bearer Token regeneration through the verified `Generate → Regenerate` flow executed and verified; D-040 single bounded Recent Search verification executed successfully — HTTP 200, `meta.result_count=10`, 10 returned Posts; post-request Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05; no second request authorized; D-041 X Content Compliance and Persistence Policy FIXED / APPROVED; D-042 X PostgreSQL Persistence Schema and Compliance Lifecycle FIXED / APPROVED; D-043 X Batch Compliance Account Access Verification Authorization FIXED / APPROVED; exactly one future read-only `GET /2/compliance/jobs?type=tweets` request is authorized solely for current Development App access verification; Batch Compliance remains only a candidate; persistent live X collection and X Collector implementation remain unauthorized
+- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 USD $5.00 prepaid credit purchase completed; D-038 Development Project Access executed and verified; D-039 Bearer Token regeneration through the verified `Generate → Regenerate` flow executed and verified; D-040 single bounded Recent Search verification executed successfully — HTTP 200, `meta.result_count=10`, 10 returned Posts; post-request Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05; no second request authorized; D-041 X Content Compliance and Persistence Policy FIXED / APPROVED; D-042 X PostgreSQL Persistence Schema and Compliance Lifecycle FIXED / APPROVED; D-043 X Batch Compliance Account Access Verification Authorization FIXED / APPROVED / EXECUTED; the single authorized read-only `GET /2/compliance/jobs?type=tweets` returned HTTP 200 with `DATA_PRESENT=False`, `META_RESULT_COUNT=0` and `ACCESS_RESULT=PASS`; D-043 authorization is exhausted; Batch Compliance remains only a candidate and is not yet approved as the production compliance-synchronization mechanism; persistent live X collection and X Collector implementation remain unauthorized
 - [ ] MODULE 8 — Telegram Sources — BLOCKED — TELEGRAM CONTENT AI-USE TERMS CONFLICT
 - [ ] MODULE 9 — Discord Collector — ACCESS PRECHECK: AVAILABLE WITH LIMITATIONS
 - [ ] MODULE 10 — AI Analyzer

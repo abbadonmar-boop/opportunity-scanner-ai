@@ -521,3 +521,15 @@ All notable verified project changes are recorded here.
 - D-043 authorization is exhausted after exactly one authorized GET request regardless of result.
 - D-043 does not authorize migration `003_x_source_items.sql`, PostgreSQL changes, persistent live X collection, X Collector implementation, Compliance Streams, Staging / Production connection, Billing Cycle Cap increase, Auto Recharge activation or additional prepaid funding.
 - Module 7 remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED and formal X status remains `UNKNOWN — REQUIRES APPROVAL`.
+
+- D-043 execution completed on 2026-09-25.
+- Pre-request billing verification: Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05.
+- Exactly one authorized read-only `GET /2/compliance/jobs?type=tweets` request was executed.
+- Safe result: HTTP 200; `DATA_PRESENT=False`; `META_RESULT_COUNT=0`; `ACCESS_RESULT=PASS`.
+- Current Development App access to the GET Batch Compliance endpoint is therefore verified.
+- No Compliance Job was created. No POST request, Post Lookup, rehydration, Recent Search, pagination or other X API request was executed under D-043.
+- D-043 authorization is exhausted. No second request is authorized.
+- Post-request billing remained displayed as Remaining Balance USD $4.95, Billing Cycle Cap USD $1.00, Auto Recharge OFF and Current Spend USD $0.05.
+- The exact USD $0.005 request charge was not independently visible at the Console's cent-level display precision.
+- Batch Compliance remains only a candidate and is not yet approved as the production compliance-synchronization mechanism.
+- Persistent live X collection and X Collector implementation remain unauthorized.
