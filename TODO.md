@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Synchronize the completed D-044 execution result into authoritative project documentation and Git. D-044 is EXECUTED / EXHAUSTED. The synthetic transport lifecycle reached download successfully, but expected `invalid_id` semantic verification FAILED because the safe parser returned `ERROR_CATEGORY=UNKNOWN_OR_NONE`. Do not execute any additional X API request under D-044. Batch Compliance remains only a candidate and is not approved as the production compliance-synchronization mechanism.
+Synchronize approved D-045 — X Batch Compliance D-044 Semantic Reconciliation — into authoritative project documentation and Git. D-045 authorizes no X API request. D-044 remains EXECUTED / EXHAUSTED. Its transport verification is PASS, while semantic verification remains FAIL UNDER THE APPROVED D-044 TEST ORACLE. The actual semantic meaning of the downloaded D-044 record is UNKNOWN / NOT RECOVERABLE FROM RETAINED EVIDENCE. Batch Compliance remains only a candidate and is not approved as the production compliance-synchronization mechanism.
 
 ## FOUNDATION
 
@@ -89,7 +89,7 @@ Synchronize the completed D-044 execution result into authoritative project docu
 - [x] Record collector proceed / do-not-proceed result for all five sources.
 - [x] Mark SOURCE ACCESS PRECHECK COMPLETE / VERIFIED under D-033.
 
-## D-034 / D-035 / D-036 / D-037 / D-038 / D-039 / D-040 / D-041 / D-042 / D-043 / D-044 POLICY MILESTONE
+## D-034 / D-035 / D-036 / D-037 / D-038 / D-039 / D-040 / D-041 / D-042 / D-043 / D-044 / D-045 POLICY MILESTONE
 
 - [x] Approve official X API Pay Per Use use in principle — D-034.
 - [x] Fix maximum initial personal-funded X API budget at USD $15.
@@ -180,11 +180,21 @@ Synchronize the completed D-044 execution result into authoritative project docu
 - [x] Record signed upload PUT cost as UNKNOWN / NOT SEPARATELY VERIFIED.
 - [x] Record signed download GET cost as UNKNOWN / NOT SEPARATELY VERIFIED.
 - [x] Keep Billing Cycle Cap at USD $1.00 and Auto Recharge OFF.
-- [ ] Complete D-044 execution-result documentation / Git synchronization.
+- [x] Complete D-044 execution-result documentation / Git synchronization — commit `1e42808` pushed to `origin/main` and final branch synchronization verified.
 - [x] Verify pre-request billing state before the first D-044 network operation — Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05.
 - [x] Execute exactly one D-044 synthetic lifecycle attempt within the approved envelope — create HTTP 200; upload HTTP 200; one status GET HTTP 200 with job status `complete`; download HTTP 200 with one result record; safe parser returned `ERROR_CATEGORY=UNKNOWN_OR_NONE`; expected `invalid_id` semantic result not verified; D-044 verification result FAIL; authorization exhausted.
 - [x] Verify final billing state after D-044 — Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05; observed cent-level Current Spend delta USD $0.00, which does not prove zero actual lifecycle cost.
 
+- [x] Approve D-045 — X Batch Compliance D-044 Semantic Reconciliation.
+- [x] Preserve D-044 historical result without silently rewriting the approved test or execution record.
+- [x] Record D-044 transport verification as PASS.
+- [x] Preserve D-044 semantic verification as FAIL UNDER THE APPROVED D-044 TEST ORACLE.
+- [x] Record that current reviewed official documentation does not support the D-044 assumption that `not_a_valid_id` deterministically produces `"error":"invalid_id"`.
+- [x] Record actual D-044 downloaded-record semantics as UNKNOWN / NOT RECOVERABLE FROM RETAINED EVIDENCE.
+- [x] Prohibit reuse of `not_a_valid_id` as an assumed deterministic official semantic test vector unless future official documentation explicitly establishes its behavior.
+- [x] Require any future Batch Compliance semantic test to define parser / oracle and PASS / FAIL conditions from then-current official documentation before execution.
+- [x] Confirm D-045 authorizes no X API request.
+- [ ] Complete D-045 documentation / Git synchronization.
 ## ROADMAP
 
 - [x] MODULE 2 — PostgreSQL
@@ -192,7 +202,7 @@ Synchronize the completed D-044 execution result into authoritative project docu
 - [x] MODULE 4 — RSS Collector
 - [ ] MODULE 5 — Reddit Collector — BLOCKED — DATA ACCESS NOT APPROVED
 - [x] MODULE 6 — Filter Engine — COMPLETED / PASS
-- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 USD $5.00 prepaid credit purchase completed; D-038 Development Project Access executed and verified; D-039 Bearer Token regeneration through the verified `Generate → Regenerate` flow executed and verified; D-040 single bounded Recent Search verification executed successfully — HTTP 200, `meta.result_count=10`, 10 returned Posts; post-request Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05; no second request authorized; D-041 X Content Compliance and Persistence Policy FIXED / APPROVED; D-042 X PostgreSQL Persistence Schema and Compliance Lifecycle FIXED / APPROVED; D-043 X Batch Compliance Account Access Verification Authorization FIXED / APPROVED / EXECUTED; the single authorized read-only `GET /2/compliance/jobs?type=tweets` returned HTTP 200 with `DATA_PRESENT=False`, `META_RESULT_COUNT=0` and `ACCESS_RESULT=PASS`; D-043 authorization is exhausted; Batch Compliance remains only a candidate and is not yet approved as the production compliance-synchronization mechanism; persistent live X collection and X Collector implementation remain unauthorized; D-044 X Batch Compliance Synthetic Lifecycle Verification Authorization FIXED / APPROVED / EXECUTED / EXHAUSTED; the single synthetic `not_a_valid_id` lifecycle reached create HTTP 200, upload HTTP 200, one status GET HTTP 200 with job status `complete`, and download HTTP 200 with one result record; safe parser returned `ERROR_CATEGORY=UNKNOWN_OR_NONE`, so expected `invalid_id` semantic verification FAILED; no retry or additional X API request is authorized; persistent live X collection and X Collector implementation remain unauthorized
+- [ ] MODULE 7 — X Collector — SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED — X status: UNKNOWN — REQUIRES APPROVAL; D-036 bounded live-access envelope approved; D-037 USD $5.00 prepaid credit purchase completed; D-038 Development Project Access executed and verified; D-039 Bearer Token regeneration through the verified `Generate → Regenerate` flow executed and verified; D-040 single bounded Recent Search verification executed successfully — HTTP 200, `meta.result_count=10`, 10 returned Posts; post-request Remaining Balance USD $4.95; Billing Cycle Cap USD $1.00; Auto Recharge OFF; Current Spend USD $0.05; no second request authorized; D-041 X Content Compliance and Persistence Policy FIXED / APPROVED; D-042 X PostgreSQL Persistence Schema and Compliance Lifecycle FIXED / APPROVED; D-043 X Batch Compliance Account Access Verification Authorization FIXED / APPROVED / EXECUTED; the single authorized read-only `GET /2/compliance/jobs?type=tweets` returned HTTP 200 with `DATA_PRESENT=False`, `META_RESULT_COUNT=0` and `ACCESS_RESULT=PASS`; D-043 authorization is exhausted; Batch Compliance remains only a candidate and is not yet approved as the production compliance-synchronization mechanism; persistent live X collection and X Collector implementation remain unauthorized; D-044 X Batch Compliance Synthetic Lifecycle Verification Authorization FIXED / APPROVED / EXECUTED / EXHAUSTED; the single synthetic `not_a_valid_id` lifecycle reached create HTTP 200, upload HTTP 200, one status GET HTTP 200 with job status `complete`, and download HTTP 200 with one result record; safe parser returned `ERROR_CATEGORY=UNKNOWN_OR_NONE`, so expected `invalid_id` semantic verification FAILED; no retry or additional X API request is authorized; persistent live X collection and X Collector implementation remain unauthorized; D-045 X Batch Compliance D-044 Semantic Reconciliation FIXED / APPROVED; current reviewed official documentation does not support the D-044 deterministic `invalid_id` oracle; D-044 transport verification is PASS, semantic verification remains FAIL UNDER THE APPROVED D-044 TEST ORACLE, actual downloaded-record semantics are UNKNOWN / NOT RECOVERABLE FROM RETAINED EVIDENCE, and D-045 authorizes no X API request
 - [ ] MODULE 8 — Telegram Sources — BLOCKED — TELEGRAM CONTENT AI-USE TERMS CONFLICT
 - [ ] MODULE 9 — Discord Collector — ACCESS PRECHECK: AVAILABLE WITH LIMITATIONS
 - [ ] MODULE 10 — AI Analyzer

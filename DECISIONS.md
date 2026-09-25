@@ -3058,3 +3058,152 @@ No retry, second job, second download, additional polling, Post Lookup, rehydrat
 D-044 authorization is exhausted. Any further investigation requires a new explicit project decision and authorization.
 
 Batch Compliance remains only a candidate and is not approved as the production compliance-synchronization mechanism. Persistent live X collection and X Collector implementation remain unauthorized.
+
+## D-045 — X BATCH COMPLIANCE D-044 SEMANTIC RECONCILIATION
+
+Status: FIXED / APPROVED
+
+Date: 2026-09-25
+
+### CONTEXT
+
+D-044 — X Batch Compliance Synthetic Lifecycle Verification Authorization — was executed and exhausted.
+
+The authorized transport lifecycle reached:
+
+`create → upload → status complete → download`
+
+with HTTP 200 at each executed transport step.
+
+The downloaded result contained exactly one record.
+
+The D-044 safe parser searched for the expected semantic result:
+
+`ERROR_CATEGORY=invalid_id`
+
+but returned:
+
+`ERROR_CATEGORY=UNKNOWN_OR_NONE`
+
+Therefore D-044 semantic verification was recorded as FAIL under its approved test oracle.
+
+The raw download response body was intentionally not retained under the D-044 safety boundary.
+
+### CURRENT OFFICIAL DOCUMENTATION RECONCILIATION
+
+Current reviewed official X Batch Compliance documentation describes downloaded compliance results as newline-delimited JSON records based on fields including:
+
+- `id`;
+- `action`;
+- relevant timestamps;
+- `reason`.
+
+Current reviewed documentation describes Post compliance reasons / events including values such as:
+
+- `deleted`;
+- `bounced`;
+- `protected`;
+- `suspended`;
+- `scrub_geo`.
+
+The current reviewed official documentation does not establish that malformed input `not_a_valid_id` must produce:
+
+`"error":"invalid_id"`
+
+and does not establish `invalid_id` as the deterministic result representation assumed by the D-044 parser.
+
+Therefore the D-044 assumption that `not_a_valid_id` had an officially documented deterministic `invalid_id` result is:
+
+`NOT SUPPORTED BY CURRENT OFFICIAL DOCUMENTATION`
+
+### HISTORICAL INTEGRITY
+
+The original approved D-044 text and execution result are not silently rewritten.
+
+D-044 remains:
+
+`FIXED / APPROVED / EXECUTED / EXHAUSTED`
+
+Its approved semantic verification result remains:
+
+`FAIL`
+
+because the approved test oracle was not satisfied.
+
+D-045 changes the interpretation of that FAIL based on the current documentation reconciliation; it does not erase or retroactively replace the D-044 result.
+
+### INTERPRETATION
+
+The D-044 transport verification is considered:
+
+`PASS`
+
+because the authorized create, upload, processing / status, and download transport lifecycle completed successfully.
+
+The D-044 semantic verification remains:
+
+`FAIL UNDER THE APPROVED D-044 TEST ORACLE`
+
+However, that semantic FAIL must not be interpreted as evidence that X Batch Compliance semantic processing itself failed.
+
+The D-044 `invalid_id` oracle was not supported by the current reviewed official documentation.
+
+Because the raw response body was intentionally not retained, the actual semantic meaning of the single downloaded result record is:
+
+`UNKNOWN / NOT RECOVERABLE FROM RETAINED EVIDENCE`
+
+No claim may be made that the record was `bounced`, `deleted`, `protected`, `suspended`, `scrub_geo`, `invalid_id`, or any other specific semantic result.
+
+### FUTURE TEST RULE
+
+`not_a_valid_id` must not be reused as an assumed deterministic official Batch Compliance semantic test vector unless future official documentation explicitly establishes its behavior.
+
+Any future Batch Compliance semantic verification must define its expected parser / oracle from the then-current official documented result schema before execution.
+
+The expected fields, actions, reasons, and PASS / FAIL conditions must be documented and approved before any future live test.
+
+### AUTHORIZATION BOUNDARY
+
+D-045 authorizes no X API request.
+
+D-045 does not authorize:
+
+- creation of another Compliance Job;
+- upload;
+- polling;
+- download;
+- retry of D-044;
+- Post Lookup;
+- rehydration;
+- Recent Search;
+- Compliance Streams;
+- real Post IDs;
+- real User IDs;
+- X Content persistence;
+- migration `003_x_source_items.sql`;
+- PostgreSQL changes;
+- X Collector implementation;
+- persistent live X collection;
+- Staging;
+- Production;
+- Billing Cycle Cap changes;
+- Auto Recharge changes;
+- additional funding.
+
+Any further X API verification requires a new explicit project decision and authorization.
+
+### PROJECT STATUS EFFECT
+
+Batch Compliance remains only a candidate for the production compliance-synchronization mechanism.
+
+It is not approved for production use by D-045.
+
+Module 7 remains:
+
+`SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED`
+
+Formal X source status remains:
+
+`UNKNOWN — REQUIRES APPROVAL`
+
+Persistent live X collection and X Collector implementation remain unauthorized.
