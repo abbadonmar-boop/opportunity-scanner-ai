@@ -246,12 +246,12 @@ Evidence:
 - D-033 defines the formal SOURCE ACCESS PRECHECK status criteria.
 
 Collector implementation may proceed:
-YES, subject to the documented limitations.
+YES — only for the D-050-authorized code-only / synthetic implementation foundation after D-050 documentation synchronization. Real Discord credentials, guild installation, live Gateway / REST access, Discord-specific PostgreSQL schema changes and persistence of real Discord message content remain NOT AUTHORIZED without separate controlled approval.
 
-The complete five-source SOURCE ACCESS PRECHECK is finished and verified under D-033. Under D-049, controlled roadmap continuation to Module 9 — Discord Collector is permitted, but Discord Collector implementation remains NOT AUTHORIZED until a separate explicit Module 9 scope / official-access boundary / acceptance-criteria decision is defined and approved.
+The complete five-source SOURCE ACCESS PRECHECK is finished and verified under D-033. D-049 permits controlled roadmap continuation to Module 9 — Discord Collector. D-050 — Module 9 Discord Collector Scope, Official-Access Boundary and Acceptance Criteria — is FIXED / APPROVED. D-050 authorizes only the code-only / synthetic implementation foundation after documentation synchronization. It does not authorize real Discord credentials, guild installation, a live Gateway connection, live Discord REST API calls, Discord-specific PostgreSQL schema changes or persistence of real Discord message content. The historical D-033 access evidence and Discord status `AVAILABLE WITH LIMITATIONS` remain unchanged.
 
 Conclusion:
-Discord satisfies the D-033 criteria for `AVAILABLE WITH LIMITATIONS`.
+Discord satisfies the D-033 criteria for `AVAILABLE WITH LIMITATIONS`. D-050 is FIXED / APPROVED and permits only the controlled code-only / synthetic Module 9 foundation at the current authorization boundary; Module 9 is not PASS.
 
 An official permitted access path exists and no current external approval gate blocks controlled personal-scale implementation. Material limitations include guild-specific installation and permissions, Message Content Intent, rate limits, data-handling obligations, credential security and future verification / privileged-intent review thresholds at larger scale.
 

@@ -3626,3 +3626,103 @@ Date: 2026-09-26
 10. After D-049 documentation synchronization, the next project step is to define and explicitly approve the Module 9 — Discord Collector scope, official-access boundary and acceptance criteria.
 
 11. D-049 does not change the approved architecture, source set, logical pipeline, ROADMAP definitions or module numbering.
+
+## D-050 — MODULE 9 DISCORD COLLECTOR SCOPE, OFFICIAL-ACCESS BOUNDARY AND ACCEPTANCE CRITERIA
+
+Status: FIXED / APPROVED
+
+Date: 2026-09-26
+
+1. Module 9 implements only the Discord Collector within the already approved Opportunity Scanner AI Architecture v1.0. Architecture, V1 source list, ROADMAP and module order are unchanged.
+
+2. Discord retains the D-033 source status `AVAILABLE WITH LIMITATIONS`.
+
+3. Only the official Discord access path is permitted:
+   - Discord Application;
+   - bot user;
+   - official guild installation / OAuth2;
+   - Discord Gateway;
+   - documented Discord APIs.
+
+4. The following are prohibited:
+   - scraping;
+   - self-bot / user-token automation;
+   - bypassing permission / intent restrictions;
+   - unofficial methods of obtaining Discord data;
+   - global Discord search.
+
+5. The collector operates only against explicitly allowed guilds / channels where the application is officially installed and the bot has the necessary permissions.
+
+6. Least privilege is mandatory.
+   - `Administrator` must not be requested.
+   - Only permissions / intents actually required by the collector may be used.
+   - Additional privileged intents must not be enabled speculatively.
+
+7. `MESSAGE_CONTENT` may be used for reading ordinary message content only when it is available to the application under the then-current Discord Developer Portal state and current Discord requirements.
+   - Current personal / small-scale availability must not be treated as permanent authorization.
+   - Access requirements must be re-verified before scaling or when verification / review requirements change.
+   - Any new external review / verification gate must be satisfied officially and must not be bypassed.
+
+8. The primary live collection path is Gateway events for approved guild / channel sources. REST API use is permitted only where required by approved functionality and documented by Discord. Broad historical crawling is outside Module 9 scope.
+
+9. Module 9 is limited to the source-side pipeline:
+
+`Discord → COLLECT → NORMALIZE → early PostgreSQL persistence → DEDUPLICATE → existing Module 6 Filter Engine`
+
+Module 9 does not implement a new Filter Engine, AI Analyzer, Anti-Scam, Risk, Score or new Telegram subsystem.
+
+10. PostgreSQL remains the single persistence layer under D-017. D-050 does not define or create a Discord-specific table or migration. Exact Discord schema, update / delete lifecycle and retention representation require a separate controlled persistence decision before the corresponding database change.
+
+11. Stable source identity and deterministic deduplication are mandatory under D-035. Normal repeated collection of the same Discord message must not create a new logical opportunity.
+
+12. Discord message edits / deletions and requirements to update or delete retained API data must be addressed before production PASS. The exact persistence lifecycle must be fixed separately; indefinite raw-message retention must not be assumed.
+
+13. Discord message content may be used only within the approved Opportunity Scanner AI application functionality. It must not be used for AI / ML / LLM training, fine-tuning or training-dataset creation without explicit Discord permission. Future Module 10 use of Discord-derived content is limited to inference / analysis within approved functionality and then-current Discord terms. D-050 does not authorize model training.
+
+14. All Discord API and Gateway rate limits must be respected automatically. Retry / backoff must not bypass rate limits or become aggressive polling.
+
+15. Bot tokens and all Discord secrets:
+   - must never be stored in Git, source code or project documentation;
+   - must remain inside the approved local ignored `.env` or another separately approved secret boundary;
+   - real token generation, rotation or verification requires a separate controlled step.
+
+16. After D-050 approval, Module 9 may begin with code-only / synthetic implementation foundation without real Discord connectivity:
+   - configuration structure;
+   - normalized internal model;
+   - deterministic identity / deduplication logic;
+   - Gateway payload parsing using synthetic fixtures;
+   - permission / intents validation logic;
+   - unit tests.
+
+Real Discord API / Gateway calls remain prohibited during this foundation stage.
+
+17. D-050 does not itself authorize:
+   - generating or displaying a bot token;
+   - installing the application into a real guild;
+   - opening a real Gateway connection;
+   - making live Discord REST API calls;
+   - creating a Discord PostgreSQL migration / schema;
+   - persisting real Discord message content.
+
+These actions require separate controlled authorization / implementation steps.
+
+18. Minimum Module 9 acceptance criteria:
+   - official-access boundary enforced;
+   - guild / channel allowlist enforced;
+   - least privilege enforced;
+   - privileged-intent assumptions fail-safe;
+   - synthetic Gateway message collection verified;
+   - normalization verified;
+   - stable identity / deduplication verified;
+   - edit / delete handling contract defined before persistence completion;
+   - rate-limit / error handling verified;
+   - secrets absent from Git / logs;
+   - PostgreSQL persistence separately approved and tested;
+   - integration with the existing Module 6 Filter Engine verified;
+   - bounded live Discord verification separately authorized and successfully completed before Module 9 PASS;
+   - documentation and Git synchronized;
+   - Module 9 may receive PASS only after all acceptance criteria are satisfied.
+
+19. D-050 does not close or change Module 7 or Module 8. Their existing gates / blockers remain in force.
+
+20. After D-050 documentation synchronization, the first Module 9 implementation step is a safe code-only configuration foundation without credentials and without live Discord calls.

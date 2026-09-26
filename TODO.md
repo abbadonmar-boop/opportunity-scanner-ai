@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Define and explicitly approve D-050 — Module 9 Discord Collector Scope, Official-Access Boundary and Acceptance Criteria — before any Discord Collector implementation. Preserve the verified D-033 Discord status `AVAILABLE WITH LIMITATIONS`, official Discord Developer Platform access path, minimum-permission principle, Gateway / API rate-limit compliance, Discord message-content policy boundary and prohibition on using Discord message content to train AI / ML models without explicit Discord permission. Do not generate or expose Discord secrets, install or connect the bot to a guild, open a Gateway connection, make live Discord API calls, create Discord-specific PostgreSQL schema changes or begin collector implementation before D-050 is approved.
+Synchronize approved D-050 — Module 9 Discord Collector Scope, Official-Access Boundary and Acceptance Criteria — into the remaining authoritative project documentation and Git. Preserve Discord D-033 status `AVAILABLE WITH LIMITATIONS`, official Discord access only, guild / channel allowlisting, least privilege, `MESSAGE_CONTENT` gate, rate-limit compliance, AI-training prohibition, separate Discord persistence decision and separate live-access authorization. After documentation synchronization, begin only the approved code-only / synthetic Module 9 foundation. Do not generate or expose Discord credentials, install the application into a real guild, open a real Gateway connection, make live Discord API calls, create Discord-specific PostgreSQL schema changes or persist real Discord message content without separate authorization.
 
 ## FOUNDATION
 

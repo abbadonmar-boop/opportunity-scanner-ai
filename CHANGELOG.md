@@ -687,3 +687,23 @@ All notable verified project changes are recorded here.
 - Discord Collector implementation remains NOT AUTHORIZED until a separate explicit Module 9 scope / official-access boundary / acceptance-criteria decision is defined and approved.
 - D-049 authorizes no new X API request, Enterprise activation, Compliance Stream connection, persistent X collection, migration `003_x_source_items.sql`, X PostgreSQL change, Telegram Sources collection or bypass of any existing access / compliance restriction.
 - After D-049 documentation synchronization, the next project step is to define and explicitly approve the Module 9 — Discord Collector scope, official-access boundary and acceptance criteria.
+
+### D-050 — MODULE 9 DISCORD COLLECTOR SCOPE, OFFICIAL-ACCESS BOUNDARY AND ACCEPTANCE CRITERIA
+
+- D-050 FIXED / APPROVED on 2026-09-26.
+- Module 9 — Discord Collector is now SCOPE APPROVED / PRE-IMPLEMENTATION and is not PASS.
+- Discord retains the verified D-033 source status `AVAILABLE WITH LIMITATIONS`.
+- Only the official Discord Application / bot / guild installation / Gateway / documented API access path is permitted.
+- Scraping, self-bots, user-token automation, permission / intent bypass and global Discord search are prohibited.
+- Guild / channel allowlisting and least privilege are mandatory; `Administrator` must not be requested merely for convenience.
+- `MESSAGE_CONTENT` may be used only when available under the then-current Discord Developer Portal state and current Discord requirements; any future verification / review gate must be satisfied officially.
+- Module 9 is limited to `Discord → COLLECT → NORMALIZE → early PostgreSQL persistence → DEDUPLICATE → existing Module 6 Filter Engine`.
+- PostgreSQL remains the single persistence layer under D-017, but D-050 does not authorize a Discord-specific migration or schema change.
+- Stable source identity and deterministic deduplication remain mandatory under D-035.
+- Discord message edit / delete handling, retention representation and persistence lifecycle require a separate controlled decision before persistence completion.
+- Discord message content must not be used for AI / ML / LLM training, fine-tuning or training-dataset creation without explicit Discord permission.
+- Discord API / Gateway rate limits must be respected and must not be bypassed.
+- After D-050 documentation synchronization, only code-only / synthetic Module 9 foundation is authorized: configuration structure, normalized internal model, deterministic identity / deduplication logic, synthetic Gateway payload parsing, permission / intent validation and unit tests.
+- D-050 does not authorize real Discord credentials, real guild installation, live Gateway connection, live Discord REST API calls, Discord-specific PostgreSQL schema changes or persistence of real Discord message content.
+- A bounded live Discord verification requires separate explicit authorization before execution and before Module 9 can receive PASS.
+- D-050 does not close, complete, remove, reorder or waive Module 7 or Module 8; their existing gates / blockers remain unchanged.
