@@ -673,3 +673,17 @@ All notable verified project changes are recorded here.
 - Persistent production X collection remains `COMPLIANCE-GATED / NOT AUTHORIZED`.
 - Backup / WAL / restore compliance and recurring production operating cost remain unresolved.
 - D-048 authorizes no Enterprise purchase or activation, X API request, Compliance Job, signed upload / download, polling, Posts Lookup, rehydration, Recent Search, Compliance Stream connection, migration `003_x_source_items.sql`, PostgreSQL change, X Collector implementation, persistent X collection, Staging connection, Production connection, Billing Cycle Cap increase, Auto Recharge enablement or additional funding.
+
+### D-049 — CONTROLLED ROADMAP CONTINUATION BEYOND GATED / BLOCKED SOURCE MODULES
+
+- D-049 FIXED / APPROVED on 2026-09-26.
+- D-049 does not change Architecture v1.0, the fixed ROADMAP, module order or the approved V1 source list.
+- Module 7 — X Collector remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED and is not PASS.
+- D-048 remains authoritative for Module 7; persistent production X collection remains `COMPLIANCE-GATED / NOT AUTHORIZED`.
+- Module 8 — Telegram Sources remains BLOCKED and is not PASS.
+- Controlled roadmap continuation to Module 9 — Discord Collector is approved because Modules 7 and 8 remain gated / blocked.
+- D-049 does not complete, remove, reorder or waive Module 7 or Module 8.
+- Module 9 retains the verified D-033 source status `AVAILABLE WITH LIMITATIONS`.
+- Discord Collector implementation remains NOT AUTHORIZED until a separate explicit Module 9 scope / official-access boundary / acceptance-criteria decision is defined and approved.
+- D-049 authorizes no new X API request, Enterprise activation, Compliance Stream connection, persistent X collection, migration `003_x_source_items.sql`, X PostgreSQL change, Telegram Sources collection or bypass of any existing access / compliance restriction.
+- After D-049 documentation synchronization, the next project step is to define and explicitly approve the Module 9 — Discord Collector scope, official-access boundary and acceptance criteria.

@@ -3598,3 +3598,31 @@ and is not PASS.
 21. Persistent production X collection may not be authorized from Batch Compliance evidence unless authoritative evidence later establishes a sufficient worst-case production bound, or a different official compliance mechanism is separately approved and proven suitable.
 
 22. D-048 does not change the fixed architecture, approved source set, Module 7 scope or roadmap.
+
+## D-049 — CONTROLLED ROADMAP CONTINUATION BEYOND GATED / BLOCKED SOURCE MODULES
+
+Status: FIXED / APPROVED
+
+Date: 2026-09-26
+
+1. D-049 does not change Opportunity Scanner AI Architecture v1.0, the fixed ROADMAP, module order or the approved V1 source list.
+
+2. Module 7 — X Collector remains SCOPE APPROVED / PRE-IMPLEMENTATION / ACCESS GATED and is not PASS. D-048 remains fully authoritative. Persistent production X collection remains `COMPLIANCE-GATED / NOT AUTHORIZED`.
+
+3. Module 8 — Telegram Sources remains BLOCKED and is not PASS. Its verified blocker is not resolved or bypassed by D-049.
+
+4. The current inability to continue Module 7 or Module 8 does not require the entire project to stop.
+
+5. Controlled roadmap continuation beyond currently gated / blocked source modules is approved so development may proceed to the next technically available module: Module 9 — Discord Collector.
+
+6. This controlled continuation does not complete, remove, reorder or waive Module 7 or Module 8. Both remain part of the fixed ROADMAP and must be revisited when their respective gates or blockers can be resolved.
+
+7. D-049 does not itself authorize Discord Collector implementation.
+
+8. Before any Module 9 implementation begins, a separate explicit Module 9 scope / official-access boundary / acceptance-criteria decision must be defined and approved, using the already verified D-033 source status `AVAILABLE WITH LIMITATIONS`.
+
+9. D-049 authorizes no new X API request, Enterprise activation, Compliance Stream connection, persistent X collection, migration `003_x_source_items.sql`, X PostgreSQL change, Telegram Sources collection or bypass of any existing access / compliance restriction.
+
+10. After D-049 documentation synchronization, the next project step is to define and explicitly approve the Module 9 — Discord Collector scope, official-access boundary and acceptance criteria.
+
+11. D-049 does not change the approved architecture, source set, logical pipeline, ROADMAP definitions or module numbering.

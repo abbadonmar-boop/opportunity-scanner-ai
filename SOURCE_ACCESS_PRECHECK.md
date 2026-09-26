@@ -248,7 +248,7 @@ Evidence:
 Collector implementation may proceed:
 YES, subject to the documented limitations.
 
-No Discord collector implementation is authorized to begin until the complete five-source SOURCE ACCESS PRECHECK is finished and verified under D-033.
+The complete five-source SOURCE ACCESS PRECHECK is finished and verified under D-033. Under D-049, controlled roadmap continuation to Module 9 — Discord Collector is permitted, but Discord Collector implementation remains NOT AUTHORIZED until a separate explicit Module 9 scope / official-access boundary / acceptance-criteria decision is defined and approved.
 
 Conclusion:
 Discord satisfies the D-033 criteria for `AVAILABLE WITH LIMITATIONS`.
