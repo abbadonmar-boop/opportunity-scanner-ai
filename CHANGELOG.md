@@ -730,3 +730,29 @@ All notable verified project changes are recorded here.
 - No real guild installation, live Gateway connection or live Discord REST API request occurred.
 - No Discord-specific PostgreSQL schema change was made and no real Discord message content was persisted.
 - The D-050 authorization boundary remains in force. The next Module 9 step must be selected from the remaining D-050 acceptance criteria without expanding scope.
+
+### D-051 — DISCORD MESSAGE LIFECYCLE AND POSTGRESQL PERSISTENCE CONTRACT
+
+- D-051 FIXED / APPROVED on 2026-09-26.
+- D-051 does not change Architecture v1.0, ROADMAP, D-050 scope or the approved Discord source.
+- PostgreSQL remains the single persistence layer under D-017.
+- D-051 fixes one current `discord_source_items` row per Discord message; previous edit history, raw Gateway payload archives and separate revision rows are not retained.
+- Stable Discord source identity remains based on `guild_id + channel_id + message_id`; message edits do not create a new logical opportunity.
+- `MESSAGE_UPDATE` updates the current row in place and resets `filter_state` to `PENDING` for re-filtering by the existing Module 6 Filter Engine.
+- An unknown `MESSAGE_UPDATE` may create a current row only when the event payload itself contains every mandatory field required for a valid current record.
+- Incomplete unknown `MESSAGE_UPDATE` payloads must fail safely without fabricated values, REST lookup or history crawling; any such lookup requires separate controlled authorization.
+- `MESSAGE_DELETE` and `MESSAGE_DELETE_BULK` use hard deletion; no message content, author ID, message ID, dedup hash, tombstone or other source-specific derived identity may remain in `discord_source_items` after deletion.
+- Already-absent rows during deletion are treated as idempotent no-ops.
+- Discord-user, Discord-platform and applicable legal deletion requests use the same approved hard-delete lifecycle.
+- Only non-identifying aggregated operational metrics may remain after hard deletion; source-specific identifiers must not be retained merely to prove deletion.
+- D-051 fixes an encryption-at-rest production gate: real Discord persistence cannot receive production PASS until a verified encryption-at-rest design exists for PostgreSQL and applicable backup / WAL / restore / recovery persistence paths.
+- D-051 does not choose the encryption mechanism; that requires a separate controlled security implementation decision.
+- D-051 fixes a privacy / deletion-request production gate: before production / live operation, an up-to-date privacy policy and an easily accessible Discord-user API-data modification / deletion request mechanism must exist.
+- D-051 fixes a `MESSAGE_CONTENT` fail-safe gate: required message-content access must be confirmed before live textual persistence; empty or redacted content caused by intent restrictions must not be treated as a normal textual opportunity, persisted as normal text or passed to the normal Filter Engine using fabricated empty content.
+- Intent restrictions must not be bypassed through REST or history crawling.
+- Backup / WAL / restore deletion lifecycle and encryption compliance remain separately unresolved before production persistence PASS.
+- D-051 does not invent a time-based Discord retention period; retention must be separately justified before production PASS.
+- D-051 does not add Telegram delivery state to `discord_source_items` and does not define downstream treatment of already-delivered Telegram notifications after a Discord edit or deletion.
+- After D-051 documentation synchronization, only synthetic-only creation and verification of `003_discord_source_items.sql` is authorized as the next implementation step, followed separately by synthetic lifecycle tests.
+- D-051 itself does not authorize creating or applying `003_discord_source_items.sql` before documentation synchronization is complete.
+- Real Discord persistence, live Gateway / REST access, token actions, real guild installation and production activation remain NOT AUTHORIZED.
