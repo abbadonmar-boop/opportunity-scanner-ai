@@ -756,3 +756,21 @@ All notable verified project changes are recorded here.
 - After D-051 documentation synchronization, only synthetic-only creation and verification of `003_discord_source_items.sql` is authorized as the next implementation step, followed separately by synthetic lifecycle tests.
 - D-051 itself does not authorize creating or applying `003_discord_source_items.sql` before documentation synchronization is complete.
 - Real Discord persistence, live Gateway / REST access, token actions, real guild installation and production activation remain NOT AUTHORIZED.
+
+### POST-D-051 DISCORD POSTGRESQL PERSISTENCE-SCHEMA MILESTONE
+
+- Discord migration `003_discord_source_items.sql` was created and verified under the approved D-051 logical persistence contract.
+- PostgreSQL health was verified before migration application.
+- The pre-migration database state confirmed that `discord_source_items` did not exist and schema migration version 3 was not applied.
+- Migration 003 was applied through the existing `opportunity_scanner_app` application-role path.
+- Migration application completed successfully in one transaction.
+- `discord_source_items` ownership was verified as `opportunity_scanner_app`.
+- Schema migration version 3 was verified present exactly once.
+- Table columns, defaults, indexes, UNIQUE constraints and the `filter_state` CHECK constraint were verified.
+- Repeat application of migration 003 was verified idempotent.
+- One controlled synthetic Discord row was inserted successfully and received default `filter_state=PENDING`.
+- The controlled synthetic row was hard-deleted after verification and final `discord_source_items` row count was verified as zero.
+- Implementation commit: `3fe7b02` — `feat: add discord persistence schema`.
+- Module 9 remains SCOPE APPROVED / IMPLEMENTATION IN PROGRESS and is not PASS.
+- The next separately authorized implementation step is synthetic `MESSAGE_UPDATE`, `MESSAGE_DELETE` and `MESSAGE_DELETE_BULK` lifecycle verification after documentation synchronization.
+- No live Discord call, token action, real guild installation, real Discord persistence or production activation was authorized or performed by this milestone.
