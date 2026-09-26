@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Synchronize approved D-049 — Controlled Roadmap Continuation Beyond Gated / Blocked Source Modules — into the remaining authoritative project documentation and Git. D-049 permits controlled roadmap continuation to Module 9 — Discord Collector without completing, removing, reordering or waiving Module 7 or Module 8. D-049 does not authorize Discord Collector implementation. After documentation synchronization and clean Git verification, define and explicitly approve the Module 9 scope, official-access boundary and acceptance criteria before any implementation.
+Define and explicitly approve D-050 — Module 9 Discord Collector Scope, Official-Access Boundary and Acceptance Criteria — before any Discord Collector implementation. Preserve the verified D-033 Discord status `AVAILABLE WITH LIMITATIONS`, official Discord Developer Platform access path, minimum-permission principle, Gateway / API rate-limit compliance, Discord message-content policy boundary and prohibition on using Discord message content to train AI / ML models without explicit Discord permission. Do not generate or expose Discord secrets, install or connect the bot to a guild, open a Gateway connection, make live Discord API calls, create Discord-specific PostgreSQL schema changes or begin collector implementation before D-050 is approved.
 
 ## FOUNDATION
 
