@@ -707,3 +707,26 @@ All notable verified project changes are recorded here.
 - D-050 does not authorize real Discord credentials, real guild installation, live Gateway connection, live Discord REST API calls, Discord-specific PostgreSQL schema changes or persistence of real Discord message content.
 - A bounded live Discord verification requires separate explicit authorization before execution and before Module 9 can receive PASS.
 - D-050 does not close, complete, remove, reorder or waive Module 7 or Module 8; their existing gates / blockers remain unchanged.
+
+### POST-D-050 MODULE 9 SYNTHETIC FOUNDATION MILESTONE
+
+- The first D-050-authorized Module 9 Discord Collector code-only / synthetic foundation was implemented and verified on 2026-09-26.
+- Added `src/opportunity_scanner/discord_collector.py`.
+- Added `tests/test_discord_collector.py`.
+- Implemented explicit guild / channel allowlist pairs rather than independent guild and channel allowlists.
+- Implemented least-privilege fail-safe behavior including rejection of requested `Administrator` permission.
+- Implemented fail-safe `MESSAGE_CONTENT` gating.
+- Implemented synthetic `MESSAGE_CREATE` Gateway payload parsing with normalized Discord message representation.
+- Implemented UTC normalization for message timestamps and collection timestamps.
+- Implemented deterministic Discord message deduplication identity based on Discord source identity rather than message content, so edits retain the same logical identity.
+- Added runtime validation for malformed allowlist entries and invalid Discord IDs.
+- Focused Discord synthetic verification passed 23 / 23 tests.
+- Full project regression verification passed 46 / 46 tests using the project `.venv`.
+- The earlier full-suite failure under system Python was diagnosed as an environment-selection issue: system Python did not contain the project-pinned `psycopg`, while the project `.venv` contained `psycopg 3.3.5`; rerunning the complete suite with the project `.venv` passed 46 / 46 tests.
+- Secret / live-network string verification found no Discord token variables, authorization headers, Discord API / Gateway URLs or webhooks in the new Discord files.
+- Implementation commit `35ee017` — `feat: add discord collector synthetic foundation` — was pushed to `origin/main`, and final branch synchronization was verified.
+- Module 9 is now SCOPE APPROVED / IMPLEMENTATION IN PROGRESS and is not PASS.
+- No real Discord credentials were generated or exposed.
+- No real guild installation, live Gateway connection or live Discord REST API request occurred.
+- No Discord-specific PostgreSQL schema change was made and no real Discord message content was persisted.
+- The D-050 authorization boundary remains in force. The next Module 9 step must be selected from the remaining D-050 acceptance criteria without expanding scope.
