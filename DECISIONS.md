@@ -3826,3 +3826,52 @@ Date: 2026-09-26
    - real guild installation;
    - real Discord persistence;
    - production activation.
+
+## D-052 — MODULE 9 DISCORD RATE-LIMIT AND ERROR-HANDLING CONTRACT
+
+Status: FIXED / APPROVED
+
+Date: 2026-09-29
+
+1. Discord HTTP per-route rate limits must not be hardcoded. The future official Discord transport must derive applicable HTTP rate-limit state from Discord-provided response headers and documented response semantics.
+
+2. HTTP `429` is retryable only when Discord supplies a valid retry delay through the documented `Retry-After` header and/or documented `retry_after` response field.
+
+3. A retry after HTTP `429` must never occur before the valid Discord-provided retry delay has elapsed.
+
+4. If HTTP `429` does not contain a valid usable retry delay, automatic retry must fail safely and must not proceed.
+
+5. HTTP `401` and `403` are non-retryable access / authorization failures for automatic collector retry purposes.
+   - They must be surfaced as controlled errors.
+   - Automatic repeated requests are prohibited.
+   - Credential, permission or configuration problems must not be hidden by retry loops.
+
+6. Automatic retry for HTTP `5xx` responses and transport / network failures is not introduced during the current code-only / synthetic foundation.
+   - These failures must be classified and surfaced safely.
+   - A bounded retry / backoff policy for such failures may be selected only when the concrete official Discord transport / client implementation is approved.
+   - D-052 therefore does not invent retry counts, retry intervals or exponential-backoff parameters that are not yet required by an approved transport.
+
+7. Gateway outbound rate limits must be respected automatically by any future live Gateway transport.
+   - The current verified Discord documentation reference at D-052 approval time is 120 outbound Gateway events per connection per 60 seconds.
+   - This numeric reference must be re-verified against then-current official Discord documentation before the first authorized live Gateway connection.
+   - The implementation must not use reconnects, retries or multiple connections as a rate-limit bypass.
+
+8. Rate-limit and error-handling logic implemented before live connectivity must remain transport-agnostic.
+   - Synthetic status codes, headers, retry-delay values and Gateway counters may be used for deterministic tests.
+   - No real Discord request is required or authorized for synthetic verification.
+
+9. D-052 does not select or approve a Discord client library, HTTP library, WebSocket library or framework.
+
+10. D-052 adds no dependency to `requirements.txt`.
+
+11. D-052 does not authorize:
+   - bot token generation, rotation or verification;
+   - real guild installation;
+   - live Discord Gateway connection;
+   - live Discord REST API calls;
+   - persistence of real Discord content;
+   - production activation.
+
+12. Verification of the D-050 acceptance criterion `rate-limit / error handling verified` requires a separate code-only / synthetic implementation and test milestone after this decision is documented.
+
+13. Satisfying that synthetic criterion does not grant Module 9 PASS. The separately required bounded live Discord verification under D-050 remains mandatory and requires separate explicit authorization.
