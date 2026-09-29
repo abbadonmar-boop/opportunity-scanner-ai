@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import sys
 import unittest
+from unittest.mock import MagicMock, patch
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -21,6 +22,9 @@ from opportunity_scanner.discord_collector import (  # noqa: E402
     NormalizedDiscordMessage,
     build_dedup_key,
     parse_gateway_message_create,
+    persist_gateway_message_delete,
+    persist_gateway_message_delete_bulk,
+    persist_gateway_message_update,
     validate_collector_config,
     validate_message_access,
 )
@@ -361,6 +365,378 @@ class DiscordDedupTests(unittest.TestCase):
             build_dedup_key(first),
             build_dedup_key(second),
         )
+
+
+class _TestDatabaseConfig:
+    dbname: str = "test_db"
+    user: str = "test_user"
+    password: str = "test_password"
+    host: str = "127.0.0.1"
+    port: int = 5432
+
+
+class DiscordLifecyclePersistenceTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.config = DiscordCollectorConfig(
+            allowed_guild_channels=frozenset(
+                {
+                    ("1001", "2001"),
+                    ("1002", "2001"),
+                }
+            ),
+            message_content_intent_enabled=True,
+        )
+        self.database = _TestDatabaseConfig()
+        self.collected_at = datetime(
+            2026,
+            9,
+            26,
+            10,
+            0,
+            tzinfo=timezone.utc,
+        )
+
+    def _mock_connection(
+        self,
+        *,
+        fetchone_side_effect: list[tuple[object, ...] | None] | None = None,
+        fetchall_side_effect: list[list[tuple[object, ...]]] | None = None,
+    ) -> tuple[MagicMock, MagicMock]:
+        cursor = MagicMock()
+
+        if fetchone_side_effect is not None:
+            cursor.fetchone.side_effect = fetchone_side_effect
+
+        if fetchall_side_effect is not None:
+            cursor.fetchall.side_effect = fetchall_side_effect
+
+        cursor_context = MagicMock()
+        cursor_context.__enter__.return_value = cursor
+
+        connection = MagicMock()
+        connection.cursor.return_value = cursor_context
+
+        connection_context = MagicMock()
+        connection_context.__enter__.return_value = connection
+
+        return connection_context, cursor
+
+    def test_existing_message_update_updates_in_place_and_resets_filter(self) -> None:
+        published_at = datetime(
+            2026,
+            9,
+            26,
+            7,
+            30,
+            tzinfo=timezone.utc,
+        )
+        connection_context, cursor = self._mock_connection(
+            fetchone_side_effect=[
+                (
+                    101,
+                    "1001",
+                    "4001",
+                    "Original message",
+                    published_at,
+                    None,
+                ),
+                (101,),
+            ]
+        )
+        payload = {
+            "t": "MESSAGE_UPDATE",
+            "d": {
+                "id": "3001",
+                "guild_id": "1001",
+                "channel_id": "2001",
+                "content": "Edited message",
+                "edited_timestamp": "2026-09-26T12:15:00+02:00",
+            },
+        }
+
+        with patch(
+            "opportunity_scanner.discord_collector.psycopg.connect",
+            return_value=connection_context,
+        ):
+            result = persist_gateway_message_update(
+                payload,
+                self.config,
+                self.database,
+                collected_at=self.collected_at,
+            )
+
+        self.assertEqual(result, (101, False))
+        self.assertEqual(cursor.execute.call_count, 2)
+
+        update_sql = cursor.execute.call_args_list[1].args[0]
+        update_params = cursor.execute.call_args_list[1].args[1]
+
+        self.assertIn("UPDATE discord_source_items", update_sql)
+        self.assertIn("filter_state = 'PENDING'", update_sql)
+        self.assertEqual(update_params[0], "4001")
+        self.assertEqual(update_params[1], "Edited message")
+        self.assertEqual(update_params[2], published_at)
+        self.assertEqual(
+            update_params[3],
+            datetime(2026, 9, 26, 10, 15, tzinfo=timezone.utc),
+        )
+        self.assertEqual(update_params[4], self.collected_at)
+        self.assertEqual(update_params[5], 101)
+
+    def test_complete_unknown_message_update_can_create_row(self) -> None:
+        connection_context, cursor = self._mock_connection(
+            fetchone_side_effect=[None, (102,)]
+        )
+        payload = {
+            "t": "MESSAGE_UPDATE",
+            "d": {
+                "id": "3002",
+                "guild_id": "1001",
+                "channel_id": "2001",
+                "author": {"id": "4002"},
+                "content": "Complete unknown update",
+                "timestamp": "2026-09-26T09:30:00+02:00",
+                "edited_timestamp": "2026-09-26T10:00:00+02:00",
+            },
+        }
+
+        with patch(
+            "opportunity_scanner.discord_collector.psycopg.connect",
+            return_value=connection_context,
+        ):
+            result = persist_gateway_message_update(
+                payload,
+                self.config,
+                self.database,
+                collected_at=self.collected_at,
+            )
+
+        self.assertEqual(result, (102, True))
+        self.assertEqual(cursor.execute.call_count, 2)
+        self.assertIn(
+            "INSERT INTO discord_source_items",
+            cursor.execute.call_args_list[1].args[0],
+        )
+
+    def test_incomplete_unknown_message_update_fails_without_insert(self) -> None:
+        connection_context, cursor = self._mock_connection(
+            fetchone_side_effect=[None]
+        )
+        payload = {
+            "t": "MESSAGE_UPDATE",
+            "d": {
+                "id": "3003",
+                "guild_id": "1001",
+                "channel_id": "2001",
+                "content": "Missing author and timestamp",
+            },
+        }
+
+        with (
+            patch(
+                "opportunity_scanner.discord_collector.psycopg.connect",
+                return_value=connection_context,
+            ),
+            self.assertRaises(DiscordPayloadError),
+        ):
+            persist_gateway_message_update(
+                payload,
+                self.config,
+                self.database,
+                collected_at=self.collected_at,
+            )
+
+        self.assertEqual(cursor.execute.call_count, 1)
+        self.assertIn(
+            "SELECT id",
+            cursor.execute.call_args_list[0].args[0],
+        )
+
+    def test_message_delete_hard_deletes_using_stored_identity(self) -> None:
+        connection_context, cursor = self._mock_connection(
+            fetchone_side_effect=[
+                (201, "1001"),
+                (201,),
+            ]
+        )
+        payload = {
+            "t": "MESSAGE_DELETE",
+            "d": {
+                "id": "3001",
+                "channel_id": "2001",
+            },
+        }
+
+        with patch(
+            "opportunity_scanner.discord_collector.psycopg.connect",
+            return_value=connection_context,
+        ):
+            result = persist_gateway_message_delete(
+                payload,
+                self.config,
+                self.database,
+            )
+
+        self.assertTrue(result)
+        self.assertEqual(cursor.execute.call_count, 2)
+        self.assertEqual(
+            cursor.execute.call_args_list[0].args[1],
+            ("2001", "3001"),
+        )
+        self.assertIn(
+            "DELETE FROM discord_source_items",
+            cursor.execute.call_args_list[1].args[0],
+        )
+
+    def test_absent_message_delete_is_idempotent_noop(self) -> None:
+        connection_context, cursor = self._mock_connection(
+            fetchone_side_effect=[None]
+        )
+        payload = {
+            "t": "MESSAGE_DELETE",
+            "d": {
+                "id": "3999",
+                "channel_id": "2001",
+            },
+        }
+
+        with patch(
+            "opportunity_scanner.discord_collector.psycopg.connect",
+            return_value=connection_context,
+        ):
+            result = persist_gateway_message_delete(
+                payload,
+                self.config,
+                self.database,
+            )
+
+        self.assertFalse(result)
+        self.assertEqual(cursor.execute.call_count, 1)
+
+    def test_message_delete_validates_present_guild_id_against_stored_row(
+        self,
+    ) -> None:
+        connection_context, cursor = self._mock_connection(
+            fetchone_side_effect=[(202, "1001")]
+        )
+        payload = {
+            "t": "MESSAGE_DELETE",
+            "d": {
+                "id": "3004",
+                "channel_id": "2001",
+                "guild_id": "1002",
+            },
+        }
+
+        with (
+            patch(
+                "opportunity_scanner.discord_collector.psycopg.connect",
+                return_value=connection_context,
+            ),
+            self.assertRaises(DiscordPayloadError),
+        ):
+            persist_gateway_message_delete(
+                payload,
+                self.config,
+                self.database,
+            )
+
+        self.assertEqual(cursor.execute.call_count, 1)
+
+    def test_delete_does_not_require_message_content_intent(self) -> None:
+        config = DiscordCollectorConfig(
+            allowed_guild_channels=frozenset({("1001", "2001")}),
+            message_content_intent_enabled=False,
+        )
+        connection_context, cursor = self._mock_connection(
+            fetchone_side_effect=[
+                (203, "1001"),
+                (203,),
+            ]
+        )
+        payload = {
+            "t": "MESSAGE_DELETE",
+            "d": {
+                "id": "3005",
+                "channel_id": "2001",
+            },
+        }
+
+        with patch(
+            "opportunity_scanner.discord_collector.psycopg.connect",
+            return_value=connection_context,
+        ):
+            result = persist_gateway_message_delete(
+                payload,
+                config,
+                self.database,
+            )
+
+        self.assertTrue(result)
+        self.assertEqual(cursor.execute.call_count, 2)
+
+    def test_bulk_delete_hard_deletes_only_existing_rows(self) -> None:
+        connection_context, cursor = self._mock_connection(
+            fetchall_side_effect=[
+                [
+                    ("3001", "1001"),
+                    ("3002", "1001"),
+                ],
+                [
+                    (301,),
+                    (302,),
+                ],
+            ]
+        )
+        payload = {
+            "t": "MESSAGE_DELETE_BULK",
+            "d": {
+                "ids": ["3001", "3002", "3999"],
+                "channel_id": "2001",
+            },
+        }
+
+        with patch(
+            "opportunity_scanner.discord_collector.psycopg.connect",
+            return_value=connection_context,
+        ):
+            result = persist_gateway_message_delete_bulk(
+                payload,
+                self.config,
+                self.database,
+            )
+
+        self.assertEqual(result, 2)
+        self.assertEqual(cursor.execute.call_count, 2)
+        self.assertIn(
+            "DELETE FROM discord_source_items",
+            cursor.execute.call_args_list[1].args[0],
+        )
+
+    def test_absent_bulk_delete_is_idempotent_noop(self) -> None:
+        connection_context, cursor = self._mock_connection(
+            fetchall_side_effect=[[]]
+        )
+        payload = {
+            "t": "MESSAGE_DELETE_BULK",
+            "d": {
+                "ids": ["3998", "3999"],
+                "channel_id": "2001",
+            },
+        }
+
+        with patch(
+            "opportunity_scanner.discord_collector.psycopg.connect",
+            return_value=connection_context,
+        ):
+            result = persist_gateway_message_delete_bulk(
+                payload,
+                self.config,
+                self.database,
+            )
+
+        self.assertEqual(result, 0)
+        self.assertEqual(cursor.execute.call_count, 1)
 
 
 if __name__ == "__main__":
