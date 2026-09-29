@@ -15,12 +15,19 @@ if str(SRC_ROOT) not in sys.path:
 
 
 from opportunity_scanner.discord_collector import (  # noqa: E402
+    DISCORD_GATEWAY_OUTBOUND_LIMIT,
+    DISCORD_GATEWAY_OUTBOUND_WINDOW_SECONDS,
     DiscordAccessError,
     DiscordCollectorConfig,
+    DiscordCollectorError,
+    DiscordTransportDecision,
     DiscordConfigError,
     DiscordPayloadError,
     NormalizedDiscordMessage,
     build_dedup_key,
+    classify_discord_http_response,
+    classify_discord_transport_failure,
+    gateway_outbound_retry_after_seconds,
     parse_gateway_message_create,
     persist_gateway_message_create,
     persist_gateway_message_delete,
@@ -1003,6 +1010,156 @@ class DiscordLifecyclePersistenceTests(unittest.TestCase):
 
         self.assertEqual(result, 0)
         self.assertEqual(cursor.execute.call_count, 1)
+
+
+class DiscordRateLimitAndErrorPolicyTests(unittest.TestCase):
+    def test_success_without_exhausted_rate_limit_proceeds(self) -> None:
+        decision = classify_discord_http_response(
+            200,
+            headers={
+                "X-RateLimit-Remaining": "4",
+                "X-RateLimit-Reset-After": "1.5",
+            },
+        )
+
+        self.assertEqual(
+            decision,
+            DiscordTransportDecision(
+                action="PROCEED",
+                retry_allowed=False,
+            ),
+        )
+
+    def test_success_with_exhausted_route_waits_for_reset_after(self) -> None:
+        decision = classify_discord_http_response(
+            200,
+            headers={
+                "X-RateLimit-Remaining": "0",
+                "X-RateLimit-Reset-After": "1.75",
+            },
+        )
+
+        self.assertEqual(decision.action, "WAIT_BEFORE_NEXT_REQUEST")
+        self.assertFalse(decision.retry_allowed)
+        self.assertEqual(decision.delay_seconds, 1.75)
+
+    def test_exhausted_route_without_valid_reset_delay_fails_safe(self) -> None:
+        decision = classify_discord_http_response(
+            200,
+            headers={
+                "X-RateLimit-Remaining": "0",
+                "X-RateLimit-Reset-After": "invalid",
+            },
+        )
+
+        self.assertEqual(decision.action, "RATE_LIMIT_STATE_FAIL_SAFE")
+        self.assertFalse(decision.retry_allowed)
+        self.assertIsNone(decision.delay_seconds)
+
+    def test_429_uses_valid_retry_after_header(self) -> None:
+        decision = classify_discord_http_response(
+            429,
+            headers={"retry-after": "2.5"},
+        )
+
+        self.assertEqual(decision.action, "RETRY_AFTER")
+        self.assertTrue(decision.retry_allowed)
+        self.assertEqual(decision.delay_seconds, 2.5)
+
+    def test_429_uses_valid_retry_after_body(self) -> None:
+        decision = classify_discord_http_response(
+            429,
+            body={"retry_after": 3.25},
+        )
+
+        self.assertEqual(decision.action, "RETRY_AFTER")
+        self.assertTrue(decision.retry_allowed)
+        self.assertEqual(decision.delay_seconds, 3.25)
+
+    def test_429_uses_longer_valid_delay_when_both_are_present(self) -> None:
+        decision = classify_discord_http_response(
+            429,
+            headers={"Retry-After": "2.0"},
+            body={"retry_after": 3.0},
+        )
+
+        self.assertEqual(decision.action, "RETRY_AFTER")
+        self.assertTrue(decision.retry_allowed)
+        self.assertEqual(decision.delay_seconds, 3.0)
+
+    def test_429_without_valid_retry_delay_fails_safe(self) -> None:
+        decision = classify_discord_http_response(
+            429,
+            headers={"Retry-After": "invalid"},
+            body={"retry_after": -1},
+        )
+
+        self.assertEqual(decision.action, "RATE_LIMIT_FAIL_SAFE")
+        self.assertFalse(decision.retry_allowed)
+        self.assertIsNone(decision.delay_seconds)
+
+    def test_401_and_403_are_non_retryable(self) -> None:
+        for status_code in (401, 403):
+            with self.subTest(status_code=status_code):
+                decision = classify_discord_http_response(status_code)
+
+                self.assertEqual(decision.action, "ACCESS_ERROR")
+                self.assertFalse(decision.retry_allowed)
+                self.assertIsNone(decision.delay_seconds)
+
+    def test_5xx_is_classified_without_automatic_retry(self) -> None:
+        decision = classify_discord_http_response(503)
+
+        self.assertEqual(decision.action, "TRANSIENT_HTTP_ERROR")
+        self.assertFalse(decision.retry_allowed)
+        self.assertIsNone(decision.delay_seconds)
+
+    def test_transport_failure_has_no_automatic_retry(self) -> None:
+        decision = classify_discord_transport_failure()
+
+        self.assertEqual(decision.action, "TRANSPORT_ERROR")
+        self.assertFalse(decision.retry_allowed)
+        self.assertIsNone(decision.delay_seconds)
+
+    def test_gateway_limit_allows_event_below_current_reference_limit(self) -> None:
+        timestamps = [100.0] * (DISCORD_GATEWAY_OUTBOUND_LIMIT - 1)
+
+        retry_after = gateway_outbound_retry_after_seconds(
+            timestamps,
+            100.0,
+        )
+
+        self.assertEqual(retry_after, 0.0)
+
+    def test_gateway_limit_blocks_next_event_at_current_reference_limit(self) -> None:
+        timestamps = [100.0] * DISCORD_GATEWAY_OUTBOUND_LIMIT
+
+        retry_after = gateway_outbound_retry_after_seconds(
+            timestamps,
+            100.0,
+        )
+
+        self.assertEqual(
+            retry_after,
+            DISCORD_GATEWAY_OUTBOUND_WINDOW_SECONDS,
+        )
+
+    def test_gateway_limit_releases_events_after_window(self) -> None:
+        timestamps = [100.0] * DISCORD_GATEWAY_OUTBOUND_LIMIT
+
+        retry_after = gateway_outbound_retry_after_seconds(
+            timestamps,
+            160.0,
+        )
+
+        self.assertEqual(retry_after, 0.0)
+
+    def test_gateway_invalid_state_fails_safely(self) -> None:
+        with self.assertRaises(DiscordCollectorError):
+            gateway_outbound_retry_after_seconds(
+                [101.0],
+                100.0,
+            )
 
 
 if __name__ == "__main__":

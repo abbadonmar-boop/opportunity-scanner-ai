@@ -1,9 +1,10 @@
 from __future__ import annotations
 
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from hashlib import sha256
+import math
 from typing import Any, Protocol
 
 import psycopg
@@ -25,6 +26,188 @@ class DiscordAccessError(DiscordCollectorError):
 
 class DiscordPayloadError(DiscordCollectorError):
     pass
+
+
+DISCORD_GATEWAY_OUTBOUND_LIMIT = 120
+DISCORD_GATEWAY_OUTBOUND_WINDOW_SECONDS = 60.0
+
+
+@dataclass(frozen=True)
+class DiscordTransportDecision:
+    action: str
+    retry_allowed: bool
+    delay_seconds: float | None = None
+
+
+def _parse_non_negative_seconds(value: object) -> float | None:
+    if value is None or isinstance(value, bool):
+        return None
+
+    try:
+        seconds = float(value)
+    except (TypeError, ValueError):
+        return None
+
+    if not math.isfinite(seconds) or seconds < 0:
+        return None
+
+    return seconds
+
+
+def _get_header_value(
+    headers: Mapping[str, object] | None,
+    name: str,
+) -> object | None:
+    if headers is None:
+        return None
+
+    target = name.casefold()
+
+    for key, value in headers.items():
+        if isinstance(key, str) and key.casefold() == target:
+            return value
+
+    return None
+
+
+def classify_discord_http_response(
+    status_code: int,
+    *,
+    headers: Mapping[str, object] | None = None,
+    body: Mapping[str, object] | None = None,
+) -> DiscordTransportDecision:
+    if (
+        isinstance(status_code, bool)
+        or not isinstance(status_code, int)
+        or not 100 <= status_code <= 599
+    ):
+        raise DiscordCollectorError("Discord HTTP status code is invalid")
+
+    if status_code == 429:
+        retry_delays: list[float] = []
+
+        header_delay = _parse_non_negative_seconds(
+            _get_header_value(headers, "Retry-After")
+        )
+        if header_delay is not None:
+            retry_delays.append(header_delay)
+
+        if body is not None:
+            body_delay = _parse_non_negative_seconds(body.get("retry_after"))
+            if body_delay is not None:
+                retry_delays.append(body_delay)
+
+        if not retry_delays:
+            return DiscordTransportDecision(
+                action="RATE_LIMIT_FAIL_SAFE",
+                retry_allowed=False,
+            )
+
+        return DiscordTransportDecision(
+            action="RETRY_AFTER",
+            retry_allowed=True,
+            delay_seconds=max(retry_delays),
+        )
+
+    if status_code in (401, 403):
+        return DiscordTransportDecision(
+            action="ACCESS_ERROR",
+            retry_allowed=False,
+        )
+
+    if 500 <= status_code <= 599:
+        return DiscordTransportDecision(
+            action="TRANSIENT_HTTP_ERROR",
+            retry_allowed=False,
+        )
+
+    if 200 <= status_code <= 299:
+        remaining = _get_header_value(headers, "X-RateLimit-Remaining")
+
+        if remaining is not None and str(remaining).strip() == "0":
+            reset_after = _parse_non_negative_seconds(
+                _get_header_value(headers, "X-RateLimit-Reset-After")
+            )
+
+            if reset_after is None:
+                return DiscordTransportDecision(
+                    action="RATE_LIMIT_STATE_FAIL_SAFE",
+                    retry_allowed=False,
+                )
+
+            return DiscordTransportDecision(
+                action="WAIT_BEFORE_NEXT_REQUEST",
+                retry_allowed=False,
+                delay_seconds=reset_after,
+            )
+
+        return DiscordTransportDecision(
+            action="PROCEED",
+            retry_allowed=False,
+        )
+
+    return DiscordTransportDecision(
+        action="HTTP_ERROR",
+        retry_allowed=False,
+    )
+
+
+def classify_discord_transport_failure() -> DiscordTransportDecision:
+    return DiscordTransportDecision(
+        action="TRANSPORT_ERROR",
+        retry_allowed=False,
+    )
+
+
+def gateway_outbound_retry_after_seconds(
+    sent_event_timestamps: Sequence[float],
+    now: float,
+    *,
+    limit: int = DISCORD_GATEWAY_OUTBOUND_LIMIT,
+    window_seconds: float = DISCORD_GATEWAY_OUTBOUND_WINDOW_SECONDS,
+) -> float:
+    if isinstance(limit, bool) or not isinstance(limit, int) or limit <= 0:
+        raise DiscordCollectorError("Gateway outbound limit must be a positive integer")
+
+    normalized_now = _parse_non_negative_seconds(now)
+    normalized_window = _parse_non_negative_seconds(window_seconds)
+
+    if normalized_now is None:
+        raise DiscordCollectorError("Gateway current time must be non-negative")
+
+    if normalized_window is None or normalized_window == 0:
+        raise DiscordCollectorError("Gateway rate-limit window must be positive")
+
+    active_timestamps: list[float] = []
+    window_start = normalized_now - normalized_window
+
+    for raw_timestamp in sent_event_timestamps:
+        timestamp = _parse_non_negative_seconds(raw_timestamp)
+
+        if timestamp is None:
+            raise DiscordCollectorError(
+                "Gateway outbound timestamp must be non-negative"
+            )
+
+        if timestamp > normalized_now:
+            raise DiscordCollectorError(
+                "Gateway outbound timestamp cannot be in the future"
+            )
+
+        if timestamp > window_start:
+            active_timestamps.append(timestamp)
+
+    if len(active_timestamps) < limit:
+        return 0.0
+
+    active_timestamps.sort()
+    blocking_index = len(active_timestamps) - limit
+    blocking_timestamp = active_timestamps[blocking_index]
+
+    return max(
+        0.0,
+        blocking_timestamp + normalized_window - normalized_now,
+    )
 
 
 @dataclass(frozen=True)
