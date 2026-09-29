@@ -795,3 +795,24 @@ All notable verified project changes are recorded here.
 - Module 9 remains SCOPE APPROVED / IMPLEMENTATION IN PROGRESS and is not PASS.
 - No live Discord Gateway / REST call, token action, real guild installation, real Discord persistence or production activation was authorized or performed by this milestone.
 - After documentation synchronization, the next Module 9 step must be selected only from the remaining approved D-050 / D-051 acceptance criteria and requires a separate explicit decision where applicable.
+
+### POST-D-051 DISCORD MESSAGE_CREATE AND FILTER ENGINE INTEGRATION MILESTONE
+
+- Discord `MESSAGE_CREATE` persistence and integration with the existing Module 6 Filter Engine were implemented and verified.
+- Implementation commit: `3c4a444` — `feat: integrate discord persistence with filter engine`.
+- New Discord CREATE rows begin with `filter_state=PENDING`.
+- Repeated identical `MESSAGE_CREATE` events are idempotent and do not create a second row.
+- Conflicting duplicate CREATE events with the same source identity but different content fail safely and do not silently overwrite the stored row.
+- PENDING Discord rows are processed through the existing Module 6 `evaluate_filter()` implementation; Module 9 does not introduce a separate Filter Engine.
+- Filter results are persisted as the existing `PASS / REJECT` states.
+- `MESSAGE_UPDATE` processing is connected to the same Module 6 Filter Engine after the D-051 reset to `PENDING`.
+- Focused Discord verification passed 38 / 38 tests.
+- Full project regression verification passed 61 / 61 tests.
+- Real local PostgreSQL synthetic verification passed for CREATE filtering, identical duplicate idempotency, conflicting duplicate protection and UPDATE re-filtering.
+- Stable Discord message identity was preserved through CREATE and UPDATE verification.
+- All controlled synthetic rows were removed after verification; final synthetic `discord_source_items` row count was verified as zero.
+- The D-050 acceptance criterion `integration with the existing Module 6 Filter Engine verified` now has implementation and verification evidence.
+- The D-050 criterion `rate-limit / error handling verified` has not yet been established by the current evidence.
+- Module 9 remains SCOPE APPROVED / IMPLEMENTATION IN PROGRESS and is not PASS.
+- Bounded live Discord verification still requires separate explicit authorization before Module 9 PASS.
+- No live Discord Gateway / REST call, token action, real guild installation, real Discord persistence or production activation was authorized or performed by this milestone.
