@@ -774,3 +774,24 @@ All notable verified project changes are recorded here.
 - Module 9 remains SCOPE APPROVED / IMPLEMENTATION IN PROGRESS and is not PASS.
 - The next separately authorized implementation step is synthetic `MESSAGE_UPDATE`, `MESSAGE_DELETE` and `MESSAGE_DELETE_BULK` lifecycle verification after documentation synchronization.
 - No live Discord call, token action, real guild installation, real Discord persistence or production activation was authorized or performed by this milestone.
+
+### POST-D-051 DISCORD MESSAGE LIFECYCLE PERSISTENCE MILESTONE
+
+- D-051-authorized synthetic Discord message lifecycle persistence was implemented and verified.
+- Implementation commit: `edb758a` — `feat: add discord message lifecycle persistence`.
+- Added PostgreSQL lifecycle handling for `MESSAGE_UPDATE`, `MESSAGE_DELETE` and `MESSAGE_DELETE_BULK`.
+- Existing-message `MESSAGE_UPDATE` updates the same stored row, preserves stable dedup identity and resets `filter_state` to `PENDING`.
+- A complete unknown `MESSAGE_UPDATE` may create a row only when the payload itself supplies all mandatory persisted fields.
+- An incomplete unknown `MESSAGE_UPDATE` fails safely without fabricated values, REST lookup or history crawling.
+- `MESSAGE_DELETE` hard-deletes the stored row and does not require `guild_id` in the event; when `guild_id` is present it is validated against the stored message.
+- `MESSAGE_DELETE_BULK` hard-deletes matching stored rows; absent message rows remain idempotent no-ops.
+- Focused Discord verification passed 32 / 32 tests.
+- Full project regression verification passed 55 / 55 tests.
+- Real local PostgreSQL verification using synthetic Discord data passed for existing UPDATE, incomplete unknown UPDATE, complete unknown UPDATE, `MESSAGE_DELETE` and `MESSAGE_DELETE_BULK`.
+- Stable dedup identity and reset to `filter_state=PENDING` were verified against the real local PostgreSQL schema.
+- All controlled synthetic lifecycle rows were removed after verification; final synthetic `discord_source_items` row count was verified as zero.
+- During host-side PostgreSQL verification, credential drift for the existing `opportunity_scanner_app` role was detected and remediated without changing database schema or persisted project data.
+- Host TCP SCRAM authentication was subsequently verified successfully as `opportunity_scanner_app`.
+- Module 9 remains SCOPE APPROVED / IMPLEMENTATION IN PROGRESS and is not PASS.
+- No live Discord Gateway / REST call, token action, real guild installation, real Discord persistence or production activation was authorized or performed by this milestone.
+- After documentation synchronization, the next Module 9 step must be selected only from the remaining approved D-050 / D-051 acceptance criteria and requires a separate explicit decision where applicable.
