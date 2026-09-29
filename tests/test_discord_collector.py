@@ -22,9 +22,13 @@ from opportunity_scanner.discord_collector import (  # noqa: E402
     NormalizedDiscordMessage,
     build_dedup_key,
     parse_gateway_message_create,
+    persist_gateway_message_create,
     persist_gateway_message_delete,
     persist_gateway_message_delete_bulk,
     persist_gateway_message_update,
+    process_gateway_message_create,
+    process_gateway_message_update,
+    process_pending_discord_source_item,
     validate_collector_config,
     validate_message_access,
 )
@@ -373,6 +377,268 @@ class _TestDatabaseConfig:
     password: str = "test_password"
     host: str = "127.0.0.1"
     port: int = 5432
+
+
+
+class DiscordCreatePersistenceAndFilterTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.config = DiscordCollectorConfig(
+            allowed_guild_channels=frozenset({("1001", "2001")}),
+            message_content_intent_enabled=True,
+        )
+        self.database = _TestDatabaseConfig()
+        self.collected_at = datetime(
+            2026,
+            9,
+            26,
+            10,
+            0,
+            tzinfo=timezone.utc,
+        )
+
+    def _payload(
+        self,
+        *,
+        content: str = "Freelance tester opportunity",
+    ) -> dict[str, object]:
+        return {
+            "t": "MESSAGE_CREATE",
+            "d": {
+                "id": "3001",
+                "guild_id": "1001",
+                "channel_id": "2001",
+                "author": {
+                    "id": "4001",
+                },
+                "content": content,
+                "timestamp": "2026-09-26T09:30:00+02:00",
+                "edited_timestamp": None,
+            },
+        }
+
+    def _mock_connection(
+        self,
+        *,
+        fetchone_side_effect: list[tuple[object, ...] | None],
+    ) -> tuple[MagicMock, MagicMock]:
+        cursor = MagicMock()
+        cursor.fetchone.side_effect = fetchone_side_effect
+
+        cursor_context = MagicMock()
+        cursor_context.__enter__.return_value = cursor
+
+        connection = MagicMock()
+        connection.cursor.return_value = cursor_context
+
+        connection_context = MagicMock()
+        connection_context.__enter__.return_value = connection
+
+        return connection_context, cursor
+
+    def test_message_create_inserts_pending_row(self) -> None:
+        connection_context, cursor = self._mock_connection(
+            fetchone_side_effect=[
+                None,
+                (101,),
+            ],
+        )
+
+        with patch(
+            "opportunity_scanner.discord_collector.psycopg.connect",
+            return_value=connection_context,
+        ):
+            result = persist_gateway_message_create(
+                self._payload(),
+                self.config,
+                self.database,
+                collected_at=self.collected_at,
+            )
+
+        self.assertEqual(result, (101, True))
+        self.assertEqual(cursor.execute.call_count, 2)
+
+        insert_sql = cursor.execute.call_args_list[1].args[0]
+        insert_params = cursor.execute.call_args_list[1].args[1]
+
+        self.assertIn(
+            "INSERT INTO discord_source_items",
+            insert_sql,
+        )
+        self.assertEqual(insert_params[-1], "PENDING")
+
+    def test_identical_duplicate_create_is_idempotent(self) -> None:
+        message = parse_gateway_message_create(
+            self._payload(),
+            self.config,
+            collected_at=self.collected_at,
+        )
+        dedup_key = build_dedup_key(message)
+
+        connection_context, cursor = self._mock_connection(
+            fetchone_side_effect=[
+                (
+                    101,
+                    message.content_text,
+                    dedup_key,
+                    "PASS",
+                ),
+            ],
+        )
+
+        with patch(
+            "opportunity_scanner.discord_collector.psycopg.connect",
+            return_value=connection_context,
+        ):
+            result = persist_gateway_message_create(
+                self._payload(),
+                self.config,
+                self.database,
+                collected_at=self.collected_at,
+            )
+
+        self.assertEqual(result, (101, False))
+        self.assertEqual(cursor.execute.call_count, 1)
+
+    def test_conflicting_duplicate_create_fails_without_overwrite(
+        self,
+    ) -> None:
+        message = parse_gateway_message_create(
+            self._payload(),
+            self.config,
+            collected_at=self.collected_at,
+        )
+        dedup_key = build_dedup_key(message)
+
+        connection_context, cursor = self._mock_connection(
+            fetchone_side_effect=[
+                (
+                    101,
+                    "Unexpected different content",
+                    dedup_key,
+                    "PASS",
+                ),
+            ],
+        )
+
+        with (
+            patch(
+                "opportunity_scanner.discord_collector.psycopg.connect",
+                return_value=connection_context,
+            ),
+            self.assertRaises(DiscordPayloadError),
+        ):
+            persist_gateway_message_create(
+                self._payload(),
+                self.config,
+                self.database,
+                collected_at=self.collected_at,
+            )
+
+        self.assertEqual(cursor.execute.call_count, 1)
+
+    def test_pending_item_uses_existing_module_6_filter_engine(
+        self,
+    ) -> None:
+        connection_context, cursor = self._mock_connection(
+            fetchone_side_effect=[
+                ("Freelance tester opportunity", "PENDING"),
+            ],
+        )
+
+        with (
+            patch(
+                "opportunity_scanner.discord_collector.psycopg.connect",
+                return_value=connection_context,
+            ),
+            patch(
+                "opportunity_scanner.discord_collector.evaluate_filter",
+                return_value="PASS",
+            ) as filter_mock,
+            patch(
+                "opportunity_scanner.discord_collector.persist_discord_filter_result",
+                return_value="PASS",
+            ) as persist_mock,
+        ):
+            result = process_pending_discord_source_item(
+                101,
+                self.database,
+            )
+
+        self.assertEqual(result, "PASS")
+        filter_mock.assert_called_once_with(
+            None,
+            "Freelance tester opportunity",
+        )
+        persist_mock.assert_called_once_with(
+            101,
+            "PASS",
+            self.database,
+        )
+        self.assertEqual(cursor.execute.call_count, 1)
+
+    def test_message_create_processes_pending_row_through_filter(
+        self,
+    ) -> None:
+        with (
+            patch(
+                "opportunity_scanner.discord_collector.persist_gateway_message_create",
+                return_value=(101, True),
+            ) as create_mock,
+            patch(
+                "opportunity_scanner.discord_collector.process_pending_discord_source_item",
+                return_value="PASS",
+            ) as filter_mock,
+        ):
+            result = process_gateway_message_create(
+                self._payload(),
+                self.config,
+                self.database,
+                collected_at=self.collected_at,
+            )
+
+        self.assertEqual(result, (101, True, "PASS"))
+        create_mock.assert_called_once()
+        filter_mock.assert_called_once_with(
+            101,
+            self.database,
+        )
+
+    def test_message_update_processes_reset_pending_row_through_filter(
+        self,
+    ) -> None:
+        update_payload: dict[str, object] = {
+            "t": "MESSAGE_UPDATE",
+            "d": {
+                "id": "3001",
+                "guild_id": "1001",
+                "channel_id": "2001",
+                "content": "Edited freelance tester opportunity",
+            },
+        }
+
+        with (
+            patch(
+                "opportunity_scanner.discord_collector.persist_gateway_message_update",
+                return_value=(101, False),
+            ) as update_mock,
+            patch(
+                "opportunity_scanner.discord_collector.process_pending_discord_source_item",
+                return_value="PASS",
+            ) as filter_mock,
+        ):
+            result = process_gateway_message_update(
+                update_payload,
+                self.config,
+                self.database,
+                collected_at=self.collected_at,
+            )
+
+        self.assertEqual(result, (101, False, "PASS"))
+        update_mock.assert_called_once()
+        filter_mock.assert_called_once_with(
+            101,
+            self.database,
+        )
 
 
 class DiscordLifecyclePersistenceTests(unittest.TestCase):

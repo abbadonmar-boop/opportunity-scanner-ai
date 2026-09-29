@@ -8,6 +8,8 @@ from typing import Any, Protocol
 
 import psycopg
 
+from .filter_engine import evaluate_filter
+
 
 class DiscordCollectorError(RuntimeError):
     pass
@@ -226,6 +228,286 @@ class DiscordDatabaseConfig(Protocol):
     password: str
     host: str
     port: int
+
+
+
+def _validate_existing_message_create(
+    row: tuple[object, ...],
+    message: NormalizedDiscordMessage,
+    dedup_key: str,
+) -> tuple[int, str]:
+    row_id, stored_content, stored_dedup_key, stored_filter_state = row
+
+    if str(stored_content) != message.content_text:
+        raise DiscordPayloadError(
+            "Conflicting duplicate MESSAGE_CREATE must not overwrite stored content"
+        )
+
+    if str(stored_dedup_key) != dedup_key:
+        raise DiscordCollectorError(
+            "Stored Discord dedup identity does not match MESSAGE_CREATE identity"
+        )
+
+    filter_state = str(stored_filter_state)
+
+    if filter_state not in ("PENDING", "PASS", "REJECT"):
+        raise DiscordCollectorError(
+            "Stored Discord filter_state is invalid"
+        )
+
+    return int(row_id), filter_state
+
+
+def persist_gateway_message_create(
+    payload: Mapping[str, Any],
+    config: DiscordCollectorConfig,
+    database: DiscordDatabaseConfig,
+    collected_at: datetime | None = None,
+) -> tuple[int, bool]:
+    message = parse_gateway_message_create(
+        payload,
+        config,
+        collected_at=collected_at,
+    )
+    dedup_key = build_dedup_key(message)
+
+    with psycopg.connect(
+        host=database.host,
+        port=database.port,
+        dbname=database.dbname,
+        user=database.user,
+        password=database.password,
+    ) as connection:
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT id,
+                       content_text,
+                       dedup_key,
+                       filter_state
+                FROM discord_source_items
+                WHERE guild_id = %s
+                  AND channel_id = %s
+                  AND message_id = %s
+                """,
+                (
+                    message.guild_id,
+                    message.channel_id,
+                    message.message_id,
+                ),
+            )
+            existing = cursor.fetchone()
+
+            if existing is not None:
+                row_id, _filter_state = _validate_existing_message_create(
+                    existing,
+                    message,
+                    dedup_key,
+                )
+                return row_id, False
+
+            cursor.execute(
+                """
+                INSERT INTO discord_source_items (
+                    guild_id,
+                    channel_id,
+                    message_id,
+                    author_id,
+                    content_text,
+                    published_at,
+                    edited_at,
+                    collected_at,
+                    dedup_key,
+                    filter_state
+                )
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                ON CONFLICT (guild_id, channel_id, message_id)
+                DO NOTHING
+                RETURNING id
+                """,
+                (
+                    message.guild_id,
+                    message.channel_id,
+                    message.message_id,
+                    message.author_id,
+                    message.content_text,
+                    message.published_at,
+                    message.edited_at,
+                    message.collected_at,
+                    dedup_key,
+                    "PENDING",
+                ),
+            )
+            inserted = cursor.fetchone()
+
+            if inserted is not None:
+                return int(inserted[0]), True
+
+            # A concurrent identical CREATE may have won the insert race.
+            cursor.execute(
+                """
+                SELECT id,
+                       content_text,
+                       dedup_key,
+                       filter_state
+                FROM discord_source_items
+                WHERE guild_id = %s
+                  AND channel_id = %s
+                  AND message_id = %s
+                """,
+                (
+                    message.guild_id,
+                    message.channel_id,
+                    message.message_id,
+                ),
+            )
+            concurrent = cursor.fetchone()
+
+            if concurrent is None:
+                raise DiscordCollectorError(
+                    "MESSAGE_CREATE persistence failed"
+                )
+
+            row_id, _filter_state = _validate_existing_message_create(
+                concurrent,
+                message,
+                dedup_key,
+            )
+            return row_id, False
+
+
+def persist_discord_filter_result(
+    row_id: int,
+    filter_state: str,
+    database: DiscordDatabaseConfig,
+) -> str:
+    if filter_state not in ("PASS", "REJECT"):
+        raise DiscordCollectorError(
+            "Discord filter result must be PASS or REJECT"
+        )
+
+    with psycopg.connect(
+        host=database.host,
+        port=database.port,
+        dbname=database.dbname,
+        user=database.user,
+        password=database.password,
+    ) as connection:
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                UPDATE discord_source_items
+                SET filter_state = %s,
+                    updated_at = CURRENT_TIMESTAMP
+                WHERE id = %s
+                  AND filter_state = 'PENDING'
+                RETURNING filter_state
+                """,
+                (
+                    filter_state,
+                    row_id,
+                ),
+            )
+            row = cursor.fetchone()
+
+            if row is None:
+                raise DiscordCollectorError(
+                    "Discord PENDING filter-state persistence failed"
+                )
+
+            return str(row[0])
+
+
+def process_pending_discord_source_item(
+    row_id: int,
+    database: DiscordDatabaseConfig,
+) -> str:
+    with psycopg.connect(
+        host=database.host,
+        port=database.port,
+        dbname=database.dbname,
+        user=database.user,
+        password=database.password,
+    ) as connection:
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT content_text, filter_state
+                FROM discord_source_items
+                WHERE id = %s
+                """,
+                (row_id,),
+            )
+            row = cursor.fetchone()
+
+    if row is None:
+        raise DiscordCollectorError(
+            "Discord source item for filtering was not found"
+        )
+
+    content_text, stored_filter_state = row
+    filter_state = str(stored_filter_state)
+
+    if filter_state in ("PASS", "REJECT"):
+        return filter_state
+
+    if filter_state != "PENDING":
+        raise DiscordCollectorError(
+            "Stored Discord filter_state is invalid"
+        )
+
+    result = evaluate_filter(
+        None,
+        str(content_text),
+    )
+
+    return persist_discord_filter_result(
+        row_id,
+        result,
+        database,
+    )
+
+
+def process_gateway_message_create(
+    payload: Mapping[str, Any],
+    config: DiscordCollectorConfig,
+    database: DiscordDatabaseConfig,
+    collected_at: datetime | None = None,
+) -> tuple[int, bool, str]:
+    row_id, created = persist_gateway_message_create(
+        payload,
+        config,
+        database,
+        collected_at=collected_at,
+    )
+
+    filter_state = process_pending_discord_source_item(
+        row_id,
+        database,
+    )
+
+    return row_id, created, filter_state
+
+
+def process_gateway_message_update(
+    payload: Mapping[str, Any],
+    config: DiscordCollectorConfig,
+    database: DiscordDatabaseConfig,
+    collected_at: datetime | None = None,
+) -> tuple[int, bool, str]:
+    row_id, created = persist_gateway_message_update(
+        payload,
+        config,
+        database,
+        collected_at=collected_at,
+    )
+
+    filter_state = process_pending_discord_source_item(
+        row_id,
+        database,
+    )
+
+    return row_id, created, filter_state
 
 
 def _normalize_collected_at(
