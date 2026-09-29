@@ -832,3 +832,22 @@ All notable verified project changes are recorded here.
 - D-052 authorizes synthetic implementation and tests only; it does not authorize live Gateway / REST calls, token actions, real guild installation, real Discord persistence or production activation.
 - The D-050 criterion `rate-limit / error handling verified` remains OPEN until the separate synthetic implementation and verification milestone passes.
 - Module 9 remains SCOPE APPROVED / IMPLEMENTATION IN PROGRESS and is not PASS.
+
+### POST-D-052 DISCORD RATE-LIMIT / ERROR-HANDLING SYNTHETIC VERIFICATION MILESTONE
+
+- D-052 code-only / synthetic implementation and verification completed on 2026-09-29.
+- Implementation commit: `030d59a` - `feat: add discord rate limit error policy`.
+- Added transport-agnostic handling for Discord HTTP rate-limit and error states without selecting or adding a Discord client, HTTP, WebSocket or framework dependency.
+- HTTP `429` permits retry only when a valid Discord-provided retry delay exists; when both valid header and body delays are present, the longer delay is used so retry cannot occur before either supplied delay.
+- HTTP `429` without a usable retry delay fails safely without automatic retry.
+- HTTP `401 / 403` are classified as non-retryable access failures.
+- HTTP `5xx` and transport failures remain non-retryable during the current code-only / synthetic stage.
+- Successful responses exposing exhausted Discord rate-limit state require the supplied reset delay before another request is permitted; missing / invalid reset delay fails safely.
+- Synthetic Gateway outbound limiting was verified against the D-052 recorded reference of 120 outbound events per 60 seconds; this reference must still be re-verified against then-current official Discord documentation before the first authorized live Gateway connection.
+- Focused Discord verification: 52 / 52 tests PASS.
+- Full project regression: 75 / 75 tests PASS.
+- `git diff --check` PASS.
+- The D-050 acceptance criterion `rate-limit / error handling verified` now has implementation and verification evidence.
+- Module 9 remains SCOPE APPROVED / IMPLEMENTATION IN PROGRESS and is not PASS.
+- Bounded live Discord verification remains mandatory before Module 9 PASS and still requires separate explicit authorization.
+- No live Discord Gateway / REST call, token action, real guild installation, real Discord persistence or production activation was authorized or performed by this milestone.
