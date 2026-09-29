@@ -816,3 +816,19 @@ All notable verified project changes are recorded here.
 - Module 9 remains SCOPE APPROVED / IMPLEMENTATION IN PROGRESS and is not PASS.
 - Bounded live Discord verification still requires separate explicit authorization before Module 9 PASS.
 - No live Discord Gateway / REST call, token action, real guild installation, real Discord persistence or production activation was authorized or performed by this milestone.
+
+### D-052 DISCORD RATE-LIMIT AND ERROR-HANDLING CONTRACT
+
+- D-052 — Module 9 Discord Rate-Limit and Error-Handling Contract — is FIXED / APPROVED.
+- Decision commit: `87f019b` — `docs: approve discord rate limit error handling contract`.
+- Discord HTTP per-route limits must not be hardcoded; future transport must use Discord-provided rate-limit state.
+- HTTP `429` may be retried only when a valid Discord-provided retry delay is available, and never before that delay expires.
+- HTTP `429` without a valid retry delay fails safely without automatic retry.
+- HTTP `401` and `403` are non-retryable access / authorization failures for automatic collector retry purposes.
+- Automatic retry for HTTP `5xx` and transport / network failures is not introduced during the current code-only / synthetic stage.
+- A concrete bounded retry / backoff policy for `5xx` and transport failures remains deferred until an official Discord transport / client is separately approved.
+- Gateway outbound limits must be respected automatically; the current documented reference recorded by D-052 must be re-verified before the first authorized live Gateway connection.
+- D-052 remains transport-agnostic and introduces no Discord client, HTTP, WebSocket or framework dependency.
+- D-052 authorizes synthetic implementation and tests only; it does not authorize live Gateway / REST calls, token actions, real guild installation, real Discord persistence or production activation.
+- The D-050 criterion `rate-limit / error handling verified` remains OPEN until the separate synthetic implementation and verification milestone passes.
+- Module 9 remains SCOPE APPROVED / IMPLEMENTATION IN PROGRESS and is not PASS.

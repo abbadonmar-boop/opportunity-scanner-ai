@@ -2,7 +2,7 @@
 
 ## CURRENT PRIORITY
 
-Synchronize the verified Module 9 Discord MESSAGE_CREATE persistence and Module 6 Filter Engine integration milestone into CHANGELOG.md and README.md, then commit the documentation synchronization. After synchronization, continue only with the remaining approved D-050 / D-051 acceptance criteria. The criterion `integration with the existing Module 6 Filter Engine verified` now has evidence. The criterion `rate-limit / error handling verified` is not yet established by current evidence. Bounded live Discord verification and all live / real Discord actions remain separately controlled and are not authorized by this milestone.
+Implement and verify D-052 — Module 9 Discord Rate-Limit and Error-Handling Contract — using code-only / synthetic tests and no new dependency. The implementation must remain transport-agnostic. The D-050 criterion `rate-limit / error handling verified` remains OPEN until that synthetic implementation and verification pass. Bounded live Discord verification remains separately controlled and is not authorized; no live Gateway / REST calls, token actions, real guild installation, real Discord persistence or production activation are authorized.
 
 ## FOUNDATION
 
