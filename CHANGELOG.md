@@ -895,3 +895,30 @@ All notable verified project changes are recorded here.
 - D-054 dependency milestone: `websockets==17.1` was added to `requirements.txt`, installed successfully in the project `.venv`, and import-version verification returned `WEBSOCKETS_VERSION=17.1`.
 - D-054 code-only / local-loopback transport verification is COMPLETED / PASS: 9 / 9 focused Gateway transport tests passed and the full project regression suite passed 84 / 84 tests using the project `.venv`; verification used `127.0.0.1` local loopback only.
 - No Discord REST / Gateway call, bot-token action, real guild installation or production activation was performed by this dependency milestone.
+
+### D-053 PRE-EXECUTION PREPARATION AND IN-MEMORY VERIFIER MILESTONE
+
+- D-053 pre-execution preparation is COMPLETED / PASS on 2026-09-30.
+- The bot token is stored only in the local Git-ignored `.env`; the token value was not printed, logged, committed or documented.
+- `MESSAGE_CONTENT` was verified ON in the Discord Developer Portal.
+- `GUILD_MEMBERS` and `GUILD_PRESENCES` remain OFF.
+- `Administrator` is not granted.
+- One controlled test bot is installed only in the private test guild `Opportunity Scanner AI Test`.
+- The approved allowlisted test channel is `#opportunity-scanner-test`.
+- Unrelated text and voice channels explicitly deny `View Channel` to the bot.
+- Test guild / channel allowlist IDs are stored only in the local `.env`.
+- Exactly one authorized read-only `GET /api/v10/gateway/bot` precheck was executed and returned HTTP 200.
+- The session-start precheck reported `total=1000`, `remaining=1000`, `reset_after=0` and `max_concurrency=1`.
+- No retry or second precheck request was executed.
+- The D-053 in-memory lifecycle verifier is implemented in commit `275bdb5`.
+- The verifier covers the approved synthetic `MESSAGE_CREATE -> MESSAGE_UPDATE -> MESSAGE_DELETE` lifecycle, stable message identity and Module 6 `PASS -> REJECT` behavior without PostgreSQL persistence.
+- Focused D-053 verifier verification passed 5 / 5 tests.
+- Current Discord-focused verification passes 66 / 66 tests.
+- Full project regression passes 89 / 89 tests.
+- No Discord Gateway connection has been opened.
+- No real `IDENTIFY` has been sent.
+- No Gateway session has been started.
+- No real Discord message content has been persisted.
+- Telegram delivery, AI / LLM processing and production activation remain outside D-053 scope.
+- D-053 live Gateway execution remains NOT STARTED.
+- The next controlled step is implementation and local verification of the bounded D-053 live-verification runner without opening a Discord Gateway connection.
