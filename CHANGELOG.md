@@ -892,3 +892,6 @@ All notable verified project changes are recorded here.
 - Bot token creation or verification, Developer Portal actions, real guild installation, Discord REST / Gateway calls, real Discord `IDENTIFY`, persistence of real Discord content, Telegram delivery, AI / LLM processing and production activation remain prohibited during D-054 technical verification.
 - D-054 does not grant Module 9 PASS.
 - D-053 live execution has not started.
+- D-054 dependency milestone: `websockets==17.1` was added to `requirements.txt`, installed successfully in the project `.venv`, and import-version verification returned `WEBSOCKETS_VERSION=17.1`.
+- Code-only / local-loopback transport verification remains pending.
+- No Discord REST / Gateway call, bot-token action, real guild installation or production activation was performed by this dependency milestone.
