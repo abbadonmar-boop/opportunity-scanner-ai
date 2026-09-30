@@ -3984,3 +3984,137 @@ Date: 2026-09-30
     - multi-session operation;
     - production credential rollout;
     - production activation.
+
+## D-054 — D-053 GATEWAY TRANSPORT SELECTION AND PRE-LIVE TECHNICAL VERIFICATION
+
+Status: FIXED / APPROVED
+
+Date: 2026-09-30
+
+1. For D-053 bounded verification and the current controlled Gateway foundation, the selected Python Gateway transport is `websockets==17.1`.
+
+2. `discord.py` is not added.
+
+3. The `websockets==17.1` selection is limited to D-053 bounded verification and the current controlled Gateway foundation.
+   - D-054 does not declare it an irreversible production transport choice.
+   - Before production activation, transport architecture may be separately reviewed.
+   - Such a review does not automatically authorize or add any new dependency.
+   - Any additional production transport dependency requires a separate controlled technical decision.
+
+4. The Gateway transport must use `websockets.asyncio.client.connect()` directly so that connection lifecycle remains explicitly controlled.
+
+5. D-053 permits exactly one Gateway connection attempt.
+   - `async for` reconnect iteration around `connect()` is prohibited.
+   - Automatic reconnect helpers or reconnect loops are prohibited.
+   - A second `connect()` is prohibited.
+
+6. `ping_interval=None` must be used so that automatic WebSocket-level Ping/Pong keepalive does not create an independent transport keepalive mechanism.
+   - Discord Gateway heartbeat handling remains explicitly controlled by the application.
+
+7. `compression=None` must be used for the first bounded verification.
+   - Generic WebSocket compression is disabled.
+   - Discord Gateway payload compression is not enabled for the first D-053 bounded verification.
+
+8. `proxy=None` must be used so that hidden or automatically discovered system proxy configuration does not alter the network path of the single authorized connection.
+
+9. D-053 permits at most:
+   - one `IDENTIFY`;
+   - one Discord session start.
+
+10. `RESUME` / Gateway opcode `6` is prohibited.
+    - re-identify is prohibited;
+    - a second `IDENTIFY` is prohibited;
+    - a second connection is prohibited;
+    - replacement session creation is prohibited.
+
+11. Gateway `Heartbeat Request` / opcode `1` may be serviced with a normal heartbeat within the already established single authorized session.
+    - Servicing opcode `1` does not authorize a reconnect, new session or additional `IDENTIFY`.
+
+12. Heartbeat lifecycle must be controlled explicitly.
+    - After a heartbeat is sent, the expected Heartbeat ACK must be observed according to the implemented Gateway heartbeat state.
+    - Absence of the expected Heartbeat ACK results in controlled close plus `STOP / FAIL`.
+    - After missing ACK, reconnect, `RESUME`, second `connect()` and repeated `IDENTIFY` are prohibited.
+
+13. Gateway `Reconnect` / opcode `7` results in `STOP / FAIL`.
+    - The requested reconnect must not be performed inside D-053.
+    - The connection must be closed in a controlled manner.
+    - reconnect, `RESUME`, second `connect()` and repeated `IDENTIFY` remain prohibited.
+
+14. Gateway `Invalid Session` / opcode `9` results in `STOP / FAIL`, regardless of whether Discord indicates that the session might otherwise be resumable.
+    - `RESUME` is prohibited;
+    - waiting and then performing a new `IDENTIFY` is prohibited;
+    - reconnect is prohibited;
+    - second `connect()` is prohibited;
+    - replacement session creation is prohibited.
+
+15. Any other unexpected WebSocket close, transport failure, lost session or Gateway condition that would require another connection before completion of the D-053 lifecycle also results in controlled close plus `STOP / FAIL`.
+
+16. The following are allowed as normal operations inside the single D-053 connection:
+    - receiving Gateway `Hello`;
+    - calculating the heartbeat interval;
+    - sending normal Gateway heartbeats;
+    - responding to Gateway Heartbeat Request / opcode `1`;
+    - receiving Heartbeat ACK.
+
+17. Before the first live Gateway connection, all D-053 pre-execution checks must be completed, including:
+    - applicable Discord session-start limits;
+    - required `MESSAGE_CONTENT` state;
+    - required least-privilege permissions and intents;
+    - approved test guild / allowlisted channel configuration.
+
+18. Before any live Discord activity, a separate code-only / local-loopback technical verification of the selected transport wrapper must be completed.
+
+19. The local-loopback verification must prove at minimum:
+    - successful import of `websockets`;
+    - expected installed version `17.1`;
+    - exactly one controlled connection;
+    - deterministic send / receive;
+    - controlled close;
+    - absence of automatic reconnect;
+    - absence of `RESUME`;
+    - absence of a second-connect path;
+    - absence of repeated `IDENTIFY`;
+    - fail-safe simulated handling of unexpected disconnect;
+    - fail-safe simulated handling of missing Heartbeat ACK;
+    - fail-safe simulated handling of opcode `7`;
+    - fail-safe simulated handling of opcode `9`.
+
+20. Local-loopback verification must not use:
+    - Discord infrastructure;
+    - a bot token;
+    - Discord Developer Portal actions;
+    - a real guild;
+    - Discord REST;
+    - Discord Gateway.
+
+21. During D-054 technical verification, the following remain prohibited:
+    - bot token creation or verification;
+    - real guild installation;
+    - Discord REST calls;
+    - Discord Gateway connection;
+    - real Discord `IDENTIFY`;
+    - persistence of real Discord content;
+    - Telegram delivery;
+    - AI / LLM processing of Discord content;
+    - production activation.
+
+22. `websockets==17.1` is the only new Gateway dependency authorized by D-054 for D-053 bounded verification and the current controlled Gateway foundation.
+    - No other Discord client, HTTP library, WebSocket framework or Discord framework dependency is automatically authorized.
+
+23. D-052 rate-limit and error-handling boundaries remain mandatory during D-054 and D-053.
+
+24. D-053 one-session boundaries remain mandatory and take precedence over transport-library convenience or default behavior.
+
+25. A successful local-loopback PASS does not automatically start D-053 live verification.
+    - D-053 pre-execution checks must still be completed first.
+    - Live execution begins only after those checks are separately verified.
+
+26. D-054 does not change Architecture v1.0, the fixed ROADMAP, Module 9 scope or production architecture.
+
+27. D-054 does not grant Module 9 PASS and does not authorize:
+    - production Discord collection;
+    - production persistence;
+    - background reconnect loops;
+    - multi-session operation;
+    - production credential rollout;
+    - production activation.
