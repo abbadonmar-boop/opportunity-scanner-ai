@@ -1,13 +1,17 @@
 from __future__ import annotations
 
+import asyncio
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from hashlib import sha256
+import json
 import math
 from typing import Any, Protocol
 
 import psycopg
+from websockets.asyncio.client import connect
+from websockets.exceptions import ConnectionClosed
 
 from .filter_engine import evaluate_filter
 
@@ -25,6 +29,10 @@ class DiscordAccessError(DiscordCollectorError):
 
 
 class DiscordPayloadError(DiscordCollectorError):
+    pass
+
+
+class DiscordGatewayStopFail(DiscordCollectorError):
     pass
 
 
@@ -208,6 +216,351 @@ def gateway_outbound_retry_after_seconds(
         0.0,
         blocking_timestamp + normalized_window - normalized_now,
     )
+
+
+
+DISCORD_D053_LIFECYCLE_SEQUENCE = (
+    "MESSAGE_CREATE",
+    "MESSAGE_UPDATE",
+    "MESSAGE_DELETE",
+)
+
+
+@dataclass(frozen=True)
+class DiscordBoundedGatewayResult:
+    connection_attempts: int
+    identify_count: int
+    session_start_count: int
+    lifecycle_events: tuple[str, ...]
+
+
+def _parse_gateway_payload(raw_payload: str | bytes) -> Mapping[str, Any]:
+    try:
+        decoded = json.loads(raw_payload)
+    except (TypeError, ValueError, json.JSONDecodeError) as exc:
+        raise DiscordGatewayStopFail(
+            "Gateway payload is not valid JSON"
+        ) from exc
+
+    if not isinstance(decoded, Mapping):
+        raise DiscordGatewayStopFail(
+            "Gateway payload must be a JSON object"
+        )
+
+    opcode = decoded.get("op")
+
+    if isinstance(opcode, bool) or not isinstance(opcode, int):
+        raise DiscordGatewayStopFail(
+            "Gateway opcode must be an integer"
+        )
+
+    return decoded
+
+
+class DiscordBoundedGatewayTransport:
+    """
+    D-054 controlled single-connection Gateway transport.
+
+    This class deliberately provides no reconnect, RESUME or second-connect path.
+    """
+
+    def __init__(self) -> None:
+        self.connection_attempts = 0
+        self.identify_count = 0
+        self.session_start_count = 0
+        self._outbound_event_timestamps: list[float] = []
+
+    async def _send_gateway_payload(
+        self,
+        websocket: Any,
+        payload: Mapping[str, Any],
+    ) -> None:
+        opcode = payload.get("op")
+
+        if isinstance(opcode, bool) or not isinstance(opcode, int):
+            raise DiscordGatewayStopFail(
+                "Outbound Gateway opcode must be an integer"
+            )
+
+        if opcode == 6:
+            raise DiscordGatewayStopFail(
+                "Gateway RESUME is prohibited by D-053 / D-054"
+            )
+
+        if opcode == 2:
+            if self.identify_count >= 1:
+                raise DiscordGatewayStopFail(
+                    "Repeated Gateway IDENTIFY is prohibited"
+                )
+
+            self.identify_count += 1
+
+        loop = asyncio.get_running_loop()
+
+        while True:
+            now = loop.time()
+            retry_after = gateway_outbound_retry_after_seconds(
+                self._outbound_event_timestamps,
+                now,
+            )
+
+            if retry_after <= 0:
+                break
+
+            await asyncio.sleep(retry_after)
+
+        await websocket.send(
+            json.dumps(
+                dict(payload),
+                separators=(",", ":"),
+            )
+        )
+
+        self._outbound_event_timestamps.append(loop.time())
+
+    async def run(
+        self,
+        uri: str,
+        identify_payload: Mapping[str, Any],
+    ) -> DiscordBoundedGatewayResult:
+        if self.connection_attempts != 0:
+            raise DiscordGatewayStopFail(
+                "A second Gateway connection attempt is prohibited"
+            )
+
+        if not isinstance(uri, str) or not uri.strip():
+            raise DiscordGatewayStopFail(
+                "Gateway URI must be a non-empty string"
+            )
+
+        if identify_payload.get("op") != 2:
+            raise DiscordGatewayStopFail(
+                "The single session-start payload must be IDENTIFY opcode 2"
+            )
+
+        self.connection_attempts += 1
+
+        lifecycle_events: list[str] = []
+        last_sequence: int | None = None
+        awaiting_heartbeat_ack = False
+        heartbeat_ack_deadline: float | None = None
+
+        try:
+            async with connect(
+                uri,
+                ping_interval=None,
+                compression=None,
+                proxy=None,
+            ) as websocket:
+                hello = _parse_gateway_payload(
+                    await websocket.recv()
+                )
+
+                if hello.get("op") != 10:
+                    raise DiscordGatewayStopFail(
+                        "First Gateway payload must be Hello opcode 10"
+                    )
+
+                hello_data = hello.get("d")
+
+                if not isinstance(hello_data, Mapping):
+                    raise DiscordGatewayStopFail(
+                        "Gateway Hello data is missing"
+                    )
+
+                heartbeat_interval_ms = _parse_non_negative_seconds(
+                    hello_data.get("heartbeat_interval")
+                )
+
+                if (
+                    heartbeat_interval_ms is None
+                    or heartbeat_interval_ms <= 0
+                ):
+                    raise DiscordGatewayStopFail(
+                        "Gateway heartbeat_interval must be positive"
+                    )
+
+                heartbeat_interval = heartbeat_interval_ms / 1000.0
+
+                await self._send_gateway_payload(
+                    websocket,
+                    identify_payload,
+                )
+
+                loop = asyncio.get_running_loop()
+                next_heartbeat_at = loop.time() + heartbeat_interval
+
+                while True:
+                    now = loop.time()
+                    deadlines = [next_heartbeat_at]
+
+                    if heartbeat_ack_deadline is not None:
+                        deadlines.append(heartbeat_ack_deadline)
+
+                    timeout = max(
+                        0.0,
+                        min(deadlines) - now,
+                    )
+
+                    try:
+                        raw_payload = await asyncio.wait_for(
+                            websocket.recv(),
+                            timeout=timeout,
+                        )
+                    except TimeoutError:
+                        now = loop.time()
+
+                        if (
+                            heartbeat_ack_deadline is not None
+                            and now >= heartbeat_ack_deadline
+                        ):
+                            raise DiscordGatewayStopFail(
+                                "Expected Gateway Heartbeat ACK was not received"
+                            )
+
+                        if now >= next_heartbeat_at:
+                            if awaiting_heartbeat_ack:
+                                raise DiscordGatewayStopFail(
+                                    "Expected Gateway Heartbeat ACK was not received"
+                                )
+
+                            await self._send_gateway_payload(
+                                websocket,
+                                {
+                                    "op": 1,
+                                    "d": last_sequence,
+                                },
+                            )
+
+                            awaiting_heartbeat_ack = True
+                            heartbeat_ack_deadline = (
+                                loop.time() + heartbeat_interval
+                            )
+                            next_heartbeat_at = (
+                                loop.time() + heartbeat_interval
+                            )
+
+                        continue
+
+                    payload = _parse_gateway_payload(raw_payload)
+                    opcode = payload["op"]
+
+                    if opcode == 0:
+                        sequence = payload.get("s")
+
+                        if (
+                            isinstance(sequence, bool)
+                            or not isinstance(sequence, int)
+                            or sequence < 0
+                        ):
+                            raise DiscordGatewayStopFail(
+                                "Gateway dispatch sequence is invalid"
+                            )
+
+                        last_sequence = sequence
+                        event_type = payload.get("t")
+
+                        if not isinstance(event_type, str):
+                            raise DiscordGatewayStopFail(
+                                "Gateway dispatch event type is invalid"
+                            )
+
+                        if event_type == "READY":
+                            self.session_start_count += 1
+
+                            if self.session_start_count > 1:
+                                raise DiscordGatewayStopFail(
+                                    "More than one Gateway session start is prohibited"
+                                )
+
+                            continue
+
+                        if event_type in DISCORD_D053_LIFECYCLE_SEQUENCE:
+                            if self.session_start_count != 1:
+                                raise DiscordGatewayStopFail(
+                                    "Lifecycle dispatch received before the single READY"
+                                )
+
+                            expected_event = DISCORD_D053_LIFECYCLE_SEQUENCE[
+                                len(lifecycle_events)
+                            ]
+
+                            if event_type != expected_event:
+                                raise DiscordGatewayStopFail(
+                                    "D-053 lifecycle dispatch order is invalid"
+                                )
+
+                            lifecycle_events.append(event_type)
+
+                            if (
+                                len(lifecycle_events)
+                                == len(DISCORD_D053_LIFECYCLE_SEQUENCE)
+                            ):
+                                return DiscordBoundedGatewayResult(
+                                    connection_attempts=self.connection_attempts,
+                                    identify_count=self.identify_count,
+                                    session_start_count=self.session_start_count,
+                                    lifecycle_events=tuple(lifecycle_events),
+                                )
+
+                        continue
+
+                    if opcode == 1:
+                        existing_ack_deadline = heartbeat_ack_deadline
+
+                        await self._send_gateway_payload(
+                            websocket,
+                            {
+                                "op": 1,
+                                "d": last_sequence,
+                            },
+                        )
+
+                        awaiting_heartbeat_ack = True
+
+                        if existing_ack_deadline is None:
+                            heartbeat_ack_deadline = (
+                                loop.time() + heartbeat_interval
+                            )
+                        else:
+                            heartbeat_ack_deadline = existing_ack_deadline
+
+                        continue
+
+                    if opcode == 11:
+                        awaiting_heartbeat_ack = False
+                        heartbeat_ack_deadline = None
+                        continue
+
+                    if opcode == 7:
+                        raise DiscordGatewayStopFail(
+                            "Gateway Reconnect opcode 7 requires STOP / FAIL"
+                        )
+
+                    if opcode == 9:
+                        raise DiscordGatewayStopFail(
+                            "Gateway Invalid Session opcode 9 requires STOP / FAIL"
+                        )
+
+                    if opcode == 10:
+                        raise DiscordGatewayStopFail(
+                            "Unexpected second Gateway Hello received"
+                        )
+
+        except DiscordGatewayStopFail:
+            raise
+        except ConnectionClosed as exc:
+            raise DiscordGatewayStopFail(
+                "Gateway connection closed before bounded verification completed"
+            ) from exc
+        except OSError as exc:
+            raise DiscordGatewayStopFail(
+                "Gateway transport failed before bounded verification completed"
+            ) from exc
+
+        raise DiscordGatewayStopFail(
+            "Gateway bounded verification ended without completion"
+        )
 
 
 @dataclass(frozen=True)
