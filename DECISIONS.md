@@ -3875,3 +3875,112 @@ Date: 2026-09-29
 12. Verification of the D-050 acceptance criterion `rate-limit / error handling verified` requires a separate code-only / synthetic implementation and test milestone after this decision is documented.
 
 13. Satisfying that synthetic criterion does not grant Module 9 PASS. The separately required bounded live Discord verification under D-050 remains mandatory and requires separate explicit authorization.
+
+## D-053 — MODULE 9 BOUNDED LIVE DISCORD VERIFICATION AUTHORIZATION
+
+Status: FIXED / APPROVED
+
+Date: 2026-09-30
+
+1. D-053 authorizes one strictly bounded live verification of the official Discord Application / Bot / Gateway access path for Module 9. It does not authorize production operation.
+
+2. The verification scope is limited to:
+   - one test bot controlled by the user;
+   - one private test guild controlled by the user;
+   - one explicitly allowlisted test channel;
+   - synthetic test messages created specifically for D-053.
+
+3. Real user-generated Discord content is outside the D-053 verification scope.
+
+4. Only the official Discord Application / Bot / Gateway path is permitted.
+   - User-token automation is prohibited.
+   - Self-bots are prohibited.
+   - Scraping is prohibited.
+   - Permission or intent bypass is prohibited.
+   - Global Discord search is prohibited.
+
+5. The bot token must remain only in the local Git-ignored `.env`.
+   - The token must not be printed to terminal output.
+   - The token must not be written to logs.
+   - The token must not be committed to Git.
+   - The token must not be recorded in project documentation.
+
+6. Least privilege remains mandatory.
+   - `Administrator` permission is prohibited.
+   - `GUILD_MEMBERS` is not authorized.
+   - `GUILD_PRESENCES` is not authorized.
+   - Only the minimum permissions and intents required for the bounded verification may be used.
+
+7. Before the live Gateway connection, the required `MESSAGE_CONTENT` state must be verified through the official Discord Developer Portal and against the then-current Discord requirements.
+
+8. Before execution, the concrete Python Gateway transport / client must be separately selected and technically verified.
+   - D-053 does not itself approve an arbitrary Discord library or dependency.
+   - No dependency may be added merely because D-053 is approved.
+
+9. D-053 permits at most:
+   - one Gateway connection attempt;
+   - one `IDENTIFY`;
+   - one Discord session start.
+
+10. Within D-053:
+    - automatic reconnect is prohibited;
+    - `RESUME` is prohibited;
+    - re-identify / a second `IDENTIFY` is prohibited;
+    - a second Gateway connection is prohibited.
+
+11. If an unexpected disconnect, WebSocket close, Gateway close code, transport failure or loss of session occurs before the complete verification sequence finishes, the result is immediately `STOP / FAIL`.
+    - No reconnect is permitted.
+    - No `RESUME` is permitted.
+    - No re-identify is permitted.
+    - No second connection or replacement session is permitted.
+
+12. The official Gateway handshake and the heartbeat traffic required to keep the single authorized connection alive are permitted.
+    - Applicable Discord session-start limits must be checked before the connection is opened.
+
+13. The bounded verification scenario is limited to one synthetic lifecycle in the allowlisted test channel:
+
+    `MESSAGE_CREATE -> one MESSAGE_UPDATE -> MESSAGE_DELETE`
+
+14. Events received during this lifecycle may be:
+    - normalized;
+    - checked for stable identity and deduplication;
+    - processed through the approved Discord lifecycle logic;
+    - processed through the existing Module 6 Filter Engine;
+
+    but only in memory for purposes of the bounded verification.
+
+15. D-053 does not authorize persistence of real Discord message content in PostgreSQL.
+
+16. D-053 does not authorize:
+    - Telegram delivery;
+    - AI / LLM processing of Discord content;
+    - history crawling;
+    - bulk message reading;
+    - reading unrelated channels;
+    - guild-wide discovery or search;
+    - production collection;
+    - production activation.
+
+17. D-052 rate-limit and error-handling boundaries remain mandatory during D-053.
+    - HTTP per-route limits must not be hardcoded.
+    - HTTP `429` handling must use valid Discord-provided retry-delay state.
+    - HTTP `401 / 403` remain non-retryable.
+    - Automatic retry for HTTP `5xx` or transport failures is not introduced.
+    - Reconnects or additional sessions must not be used to bypass rate limits or errors.
+
+18. An unexpected `429`, `401 / 403`, intent failure, permission failure, Gateway protocol error, unexpected close / disconnect or other error that prevents completion inside the single authorized session results in `STOP / FAIL` without retry / reconnect bypass.
+
+19. Successful D-053 execution does not automatically grant Module 9 PASS.
+    After the bounded live verification, the project must separately verify:
+    - all remaining D-050 acceptance criteria;
+    - secret / log safety;
+    - Git state;
+    - required project documentation.
+
+20. D-053 does not authorize:
+    - production Discord persistence;
+    - a persistent Discord collector;
+    - background reconnect loops;
+    - multi-session operation;
+    - production credential rollout;
+    - production activation.
