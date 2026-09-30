@@ -851,3 +851,25 @@ All notable verified project changes are recorded here.
 - Module 9 remains SCOPE APPROVED / IMPLEMENTATION IN PROGRESS and is not PASS.
 - Bounded live Discord verification remains mandatory before Module 9 PASS and still requires separate explicit authorization.
 - No live Discord Gateway / REST call, token action, real guild installation, real Discord persistence or production activation was authorized or performed by this milestone.
+
+### D-053 — MODULE 9 BOUNDED LIVE DISCORD VERIFICATION AUTHORIZATION
+
+- D-053 is FIXED / APPROVED on 2026-09-30.
+- Decision commit: `0e25824` - `docs: approve discord bounded live verification`.
+- D-053 authorizes one strictly bounded live verification of the official Discord Application / Bot / Gateway path; it does not authorize production operation.
+- Scope is limited to one user-controlled test bot, one private test guild, one explicitly allowlisted test channel and synthetic test messages created specifically for D-053.
+- Real user-generated Discord content is outside the verification scope.
+- User-token automation, self-bots, scraping, permission / intent bypass and global Discord search remain prohibited.
+- The bot token must remain only in the local Git-ignored `.env` and must not be printed, logged, committed or documented.
+- Least privilege remains mandatory; `Administrator`, `GUILD_MEMBERS` and `GUILD_PRESENCES` are not authorized.
+- Required `MESSAGE_CONTENT` state must be verified through the official Discord Developer Portal and then-current Discord requirements before live connection.
+- The concrete Python Gateway transport / client must be separately selected and technically verified before execution; D-053 does not itself approve an arbitrary library or dependency.
+- D-053 permits at most one Gateway connection attempt, one `IDENTIFY` and one Discord session start.
+- Automatic reconnect, `RESUME`, re-identify and a second Gateway connection are prohibited.
+- Unexpected disconnect / close / transport failure / lost session before completion results in `STOP / FAIL` without a second connection.
+- The bounded scenario is exactly one synthetic lifecycle: `MESSAGE_CREATE -> one MESSAGE_UPDATE -> MESSAGE_DELETE`.
+- Verification processing may occur only in memory; persistence of real Discord content in PostgreSQL is not authorized.
+- Telegram delivery, AI / LLM processing, history crawling, bulk message reading, unrelated-channel reading, guild-wide discovery / search and production activation remain prohibited.
+- D-052 rate-limit / error-handling boundaries remain mandatory.
+- Successful D-053 execution will not automatically grant Module 9 PASS; all remaining D-050 acceptance criteria, secret / log safety, Git state and documentation must still be verified.
+- D-053 execution has not started as of this approval milestone.
