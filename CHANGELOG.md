@@ -873,3 +873,22 @@ All notable verified project changes are recorded here.
 - D-052 rate-limit / error-handling boundaries remain mandatory.
 - Successful D-053 execution will not automatically grant Module 9 PASS; all remaining D-050 acceptance criteria, secret / log safety, Git state and documentation must still be verified.
 - D-053 execution has not started as of this approval milestone.
+
+### D-054 — D-053 GATEWAY TRANSPORT SELECTION AND PRE-LIVE TECHNICAL VERIFICATION
+
+- D-054 is FIXED / APPROVED on 2026-09-30.
+- Decision commit: `7d15047` - `docs: approve discord gateway transport verification`.
+- `websockets==17.1` is selected for D-053 bounded verification and the current controlled Gateway foundation.
+- This selection is not an irreversible production transport choice; production transport architecture may be separately reviewed before production activation, and such review does not automatically authorize a new dependency.
+- `discord.py` is not added.
+- The controlled transport must use one direct `websockets.asyncio.client.connect()` path with no reconnect iterator or reconnect loop.
+- `ping_interval=None`, `compression=None` and `proxy=None` are required by the approved bounded transport contract.
+- At most one Gateway connection attempt, one `IDENTIFY` and one session start remain permitted.
+- `RESUME`, second `connect()`, re-identify and repeated `IDENTIFY` remain prohibited.
+- Gateway Heartbeat Request / opcode `1` may be serviced with a normal heartbeat inside the existing session.
+- Missing expected Heartbeat ACK requires controlled close plus `STOP / FAIL`.
+- Gateway Reconnect / opcode `7` and Invalid Session / opcode `9` require controlled close plus `STOP / FAIL`, without reconnect, `RESUME`, second connection or repeated `IDENTIFY`.
+- Before any live Discord activity, code-only / local-loopback verification must prove the approved transport boundaries.
+- Bot token creation or verification, Developer Portal actions, real guild installation, Discord REST / Gateway calls, real Discord `IDENTIFY`, persistence of real Discord content, Telegram delivery, AI / LLM processing and production activation remain prohibited during D-054 technical verification.
+- D-054 does not grant Module 9 PASS.
+- D-053 live execution has not started.
