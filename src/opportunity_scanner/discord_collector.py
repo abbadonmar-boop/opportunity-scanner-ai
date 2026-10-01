@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import asyncio
-from collections.abc import Mapping, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from hashlib import sha256
@@ -322,6 +322,12 @@ class DiscordBoundedGatewayTransport:
         self,
         uri: str,
         identify_payload: Mapping[str, Any],
+        lifecycle_handler: Callable[
+            [Mapping[str, Any]],
+            None,
+        ]
+        | None = None,
+        ready_handler: Callable[[], None] | None = None,
     ) -> DiscordBoundedGatewayResult:
         if self.connection_attempts != 0:
             raise DiscordGatewayStopFail(
@@ -473,6 +479,9 @@ class DiscordBoundedGatewayTransport:
                                     "More than one Gateway session start is prohibited"
                                 )
 
+                            if ready_handler is not None:
+                                ready_handler()
+
                             continue
 
                         if event_type in DISCORD_D053_LIFECYCLE_SEQUENCE:
@@ -489,6 +498,9 @@ class DiscordBoundedGatewayTransport:
                                 raise DiscordGatewayStopFail(
                                     "D-053 lifecycle dispatch order is invalid"
                                 )
+
+                            if lifecycle_handler is not None:
+                                lifecycle_handler(payload)
 
                             lifecycle_events.append(event_type)
 

@@ -47,6 +47,8 @@ class DiscordBoundedGatewayTransportTests(
     async def _run_loopback(
         handler,
         transport: DiscordBoundedGatewayTransport,
+        lifecycle_handler=None,
+        ready_handler=None,
     ):
         async with serve(
             handler,
@@ -68,6 +70,8 @@ class DiscordBoundedGatewayTransportTests(
             return await transport.run(
                 uri,
                 DiscordBoundedGatewayTransportTests._identify_payload(),
+                lifecycle_handler=lifecycle_handler,
+                ready_handler=ready_handler,
             )
 
     def test_websockets_version_is_exactly_17_1(self) -> None:
@@ -149,6 +153,185 @@ class DiscordBoundedGatewayTransportTests(
         self.assertEqual(result.connection_attempts, 1)
         self.assertEqual(result.identify_count, 1)
         self.assertEqual(result.session_start_count, 1)
+        self.assertEqual(
+            result.lifecycle_events,
+            (
+                "MESSAGE_CREATE",
+                "MESSAGE_UPDATE",
+                "MESSAGE_DELETE",
+            ),
+        )
+
+    async def test_ready_handler_runs_once_before_lifecycle(
+        self,
+    ) -> None:
+        callback_order: list[str] = []
+
+        async def handler(websocket) -> None:
+            await websocket.send(
+                json.dumps(
+                    {
+                        "op": 10,
+                        "d": {
+                            "heartbeat_interval": 1000,
+                        },
+                    }
+                )
+            )
+
+            identify = json.loads(await websocket.recv())
+            self.assertEqual(identify["op"], 2)
+
+            for payload in (
+                {
+                    "op": 0,
+                    "s": 1,
+                    "t": "READY",
+                    "d": {},
+                },
+                {
+                    "op": 0,
+                    "s": 2,
+                    "t": "MESSAGE_CREATE",
+                    "d": {},
+                },
+                {
+                    "op": 0,
+                    "s": 3,
+                    "t": "MESSAGE_UPDATE",
+                    "d": {},
+                },
+                {
+                    "op": 0,
+                    "s": 4,
+                    "t": "MESSAGE_DELETE",
+                    "d": {},
+                },
+            ):
+                await websocket.send(json.dumps(payload))
+
+            await websocket.wait_closed()
+
+        def ready_handler() -> None:
+            callback_order.append("READY")
+
+        def lifecycle_handler(payload) -> None:
+            callback_order.append(str(payload["t"]))
+
+        transport = DiscordBoundedGatewayTransport()
+
+        await self._run_loopback(
+            handler,
+            transport,
+            lifecycle_handler=lifecycle_handler,
+            ready_handler=ready_handler,
+        )
+
+        self.assertEqual(
+            callback_order,
+            [
+                "READY",
+                "MESSAGE_CREATE",
+                "MESSAGE_UPDATE",
+                "MESSAGE_DELETE",
+            ],
+        )
+
+    async def test_lifecycle_handler_receives_dispatch_payloads(
+        self,
+    ) -> None:
+        received_dispatches: list[dict[str, object]] = []
+
+        async def handler(websocket) -> None:
+            await websocket.send(
+                json.dumps(
+                    {
+                        "op": 10,
+                        "d": {
+                            "heartbeat_interval": 1000,
+                        },
+                    }
+                )
+            )
+
+            identify = json.loads(await websocket.recv())
+            self.assertEqual(identify["op"], 2)
+
+            for payload in (
+                {
+                    "op": 0,
+                    "s": 1,
+                    "t": "READY",
+                    "d": {},
+                },
+                {
+                    "op": 0,
+                    "s": 2,
+                    "t": "MESSAGE_CREATE",
+                    "d": {
+                        "id": "100",
+                        "channel_id": "200",
+                        "guild_id": "300",
+                        "content": "create",
+                    },
+                },
+                {
+                    "op": 0,
+                    "s": 3,
+                    "t": "MESSAGE_UPDATE",
+                    "d": {
+                        "id": "100",
+                        "channel_id": "200",
+                        "guild_id": "300",
+                        "content": "update",
+                    },
+                },
+                {
+                    "op": 0,
+                    "s": 4,
+                    "t": "MESSAGE_DELETE",
+                    "d": {
+                        "id": "100",
+                        "channel_id": "200",
+                        "guild_id": "300",
+                    },
+                },
+            ):
+                await websocket.send(json.dumps(payload))
+
+            await websocket.wait_closed()
+
+        def lifecycle_handler(payload) -> None:
+            received_dispatches.append(dict(payload))
+
+        transport = DiscordBoundedGatewayTransport()
+
+        result = await self._run_loopback(
+            handler,
+            transport,
+            lifecycle_handler=lifecycle_handler,
+        )
+
+        self.assertEqual(
+            [payload["t"] for payload in received_dispatches],
+            [
+                "MESSAGE_CREATE",
+                "MESSAGE_UPDATE",
+                "MESSAGE_DELETE",
+            ],
+        )
+        self.assertEqual(
+            received_dispatches[0]["d"]["content"],
+            "create",
+        )
+        self.assertEqual(
+            received_dispatches[1]["d"]["content"],
+            "update",
+        )
+        self.assertEqual(
+            received_dispatches[2]["d"]["id"],
+            "100",
+        )
         self.assertEqual(
             result.lifecycle_events,
             (
