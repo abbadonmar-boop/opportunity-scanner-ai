@@ -946,3 +946,23 @@ All notable verified project changes are recorded here.
 - Telegram delivery, AI / LLM processing and production activation remain outside D-053 scope.
 - D-053 live Gateway execution remains NOT STARTED.
 - The next controlled step is final documentation synchronization and pre-live review before the single authorized D-053 Gateway verification attempt.
+
+### D-053 FINAL PRE-LIVE HEARTBEAT COMPLIANCE MILESTONE
+
+- Milestone recorded on 2026-10-01.
+- Final pre-live Discord Gateway documentation re-verification identified the required initial heartbeat jitter behavior.
+- `DiscordBoundedGatewayTransport` now schedules the initial heartbeat using the Gateway-provided `heartbeat_interval` multiplied by a random jitter factor.
+- The correction is implemented and verified in commit `f42f8b2`.
+- A dedicated deterministic local-loopback test verifies the initial heartbeat jitter path without any Discord network activity.
+- The correction does not add automatic reconnect, `RESUME`, second-connect, re-identify or repeated-`IDENTIFY` behavior.
+- Gateway transport focused verification passes 12 / 12 tests.
+- Current Discord-focused verification passes 74 / 74 tests.
+- Full project regression passes 97 / 97 tests.
+- Exact least-privilege Gateway intents remain `GUILD_MESSAGES | MESSAGE_CONTENT` with integer value `33280`.
+- No real Discord Gateway connection has been opened.
+- No real `IDENTIFY` has been sent.
+- No real Gateway session has been started.
+- No real Discord message content has been persisted.
+- Telegram delivery, AI / LLM processing and production activation remain outside D-053 scope.
+- D-053 live Gateway execution remains NOT STARTED.
+- The next controlled step remains final documentation synchronization and pre-live review before the single authorized D-053 Gateway verification attempt.
