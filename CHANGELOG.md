@@ -922,3 +922,27 @@ All notable verified project changes are recorded here.
 - Telegram delivery, AI / LLM processing and production activation remain outside D-053 scope.
 - D-053 live Gateway execution remains NOT STARTED.
 - The next controlled step is implementation and local verification of the bounded D-053 live-verification runner without opening a Discord Gateway connection.
+
+### D-053 BOUNDED LIVE-VERIFICATION RUNNER PRE-LIVE MILESTONE
+
+- Milestone recorded on 2026-10-01.
+- The bounded D-053 live-verification runner is implemented and locally verified in commit `6da9a56`.
+- The existing D-054 Gateway transport now exposes controlled `READY` and lifecycle callbacks without adding reconnect, `RESUME`, second-connect or repeated-`IDENTIFY` behavior.
+- The runner connects `DiscordBoundedGatewayTransport` to the existing `DiscordD053InMemoryVerifier`.
+- The exact least-privilege Gateway intent set for the bounded D-053 lifecycle is `GUILD_MESSAGES | MESSAGE_CONTENT` with integer value `33280`.
+- Local `.env` loading for `DISCORD_BOT_TOKEN`, `DISCORD_TEST_GUILD_ID` and `DISCORD_TEST_CHANNEL_ID` is implemented without adding a new dependency.
+- Duplicate required D-053 `.env` keys fail safely.
+- The bot token is not emitted by the verified runner output path.
+- Local loopback verification proves the bounded sequence `READY -> MESSAGE_CREATE -> MESSAGE_UPDATE -> MESSAGE_DELETE`.
+- The synthetic CREATE produces Module 6 `PASS`; the UPDATE produces `REJECT`; DELETE completes the in-memory lifecycle without PostgreSQL persistence.
+- Gateway transport focused verification now passes 11 / 11 tests.
+- D-053 runner focused verification passes 5 / 5 tests.
+- Current Discord-focused verification passes 73 / 73 tests.
+- Full project regression passes 96 / 96 tests.
+- No real Discord Gateway connection has been opened.
+- No real `IDENTIFY` has been sent.
+- No real Gateway session has been started.
+- No real Discord message content has been persisted.
+- Telegram delivery, AI / LLM processing and production activation remain outside D-053 scope.
+- D-053 live Gateway execution remains NOT STARTED.
+- The next controlled step is final documentation synchronization and pre-live review before the single authorized D-053 Gateway verification attempt.
