@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from hashlib import sha256
 import json
 import math
+import random
 from typing import Any, Protocol
 
 import psycopg
@@ -394,7 +395,10 @@ class DiscordBoundedGatewayTransport:
                 )
 
                 loop = asyncio.get_running_loop()
-                next_heartbeat_at = loop.time() + heartbeat_interval
+                initial_heartbeat_jitter = random.random()
+                next_heartbeat_at = loop.time() + (
+                    heartbeat_interval * initial_heartbeat_jitter
+                )
 
                 while True:
                     now = loop.time()

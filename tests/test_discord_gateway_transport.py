@@ -5,6 +5,7 @@ import json
 import sys
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import websockets
 from websockets.asyncio.server import serve
@@ -426,6 +427,104 @@ class DiscordBoundedGatewayTransportTests(
                 "op": 1,
                 "d": 1,
             },
+        )
+        self.assertEqual(
+            result.lifecycle_events,
+            (
+                "MESSAGE_CREATE",
+                "MESSAGE_UPDATE",
+                "MESSAGE_DELETE",
+            ),
+        )
+
+    async def test_initial_heartbeat_uses_gateway_jitter(
+        self,
+    ) -> None:
+        received_heartbeat: list[dict[str, object]] = []
+
+        async def handler(websocket) -> None:
+            await websocket.send(
+                json.dumps(
+                    {
+                        "op": 10,
+                        "d": {
+                            "heartbeat_interval": 10000,
+                        },
+                    }
+                )
+            )
+
+            identify = json.loads(await websocket.recv())
+            self.assertEqual(identify["op"], 2)
+
+            heartbeat = json.loads(
+                await asyncio.wait_for(
+                    websocket.recv(),
+                    timeout=0.5,
+                )
+            )
+            received_heartbeat.append(heartbeat)
+
+            await websocket.send(
+                json.dumps(
+                    {
+                        "op": 11,
+                        "d": None,
+                    }
+                )
+            )
+
+            for payload in (
+                {
+                    "op": 0,
+                    "s": 1,
+                    "t": "READY",
+                    "d": {},
+                },
+                {
+                    "op": 0,
+                    "s": 2,
+                    "t": "MESSAGE_CREATE",
+                    "d": {},
+                },
+                {
+                    "op": 0,
+                    "s": 3,
+                    "t": "MESSAGE_UPDATE",
+                    "d": {},
+                },
+                {
+                    "op": 0,
+                    "s": 4,
+                    "t": "MESSAGE_DELETE",
+                    "d": {},
+                },
+            ):
+                await websocket.send(json.dumps(payload))
+
+            await websocket.wait_closed()
+
+        transport = DiscordBoundedGatewayTransport()
+
+        with patch(
+            "opportunity_scanner.discord_collector.random.random",
+            return_value=0.0,
+        ) as random_mock:
+            result = await self._run_loopback(
+                handler,
+                transport,
+            )
+
+        random_mock.assert_called_once_with()
+
+        self.assertEqual(
+            received_heartbeat,
+            [
+                {
+                    "op": 1,
+                    "d": None,
+                }
+            ],
         )
         self.assertEqual(
             result.lifecycle_events,
