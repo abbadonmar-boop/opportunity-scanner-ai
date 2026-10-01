@@ -4,10 +4,10 @@
 Foundation
 
 ## CURRENT MODULE
-Module 9 — Discord Collector — SCOPE APPROVED / IMPLEMENTATION IN PROGRESS
+Module 9 — Discord Collector — COMPLETED / PASS
 
 ## CURRENT STEP
-Module 9 — Discord Collector remains IMPLEMENTATION IN PROGRESS / NOT PASS. D-053 bounded live Discord verification is COMPLETED / PASS on 2026-10-01. The single authorized live Gateway attempt completed successfully with exactly one connection attempt, one `IDENTIFY` and one Gateway session start. The approved synthetic lifecycle completed as `MESSAGE_CREATE -> MESSAGE_UPDATE -> MESSAGE_DELETE`; CREATE produced Module 6 `PASS`, UPDATE produced `REJECT`, and DELETE completed successfully. No second connection, reconnect, `RESUME`, re-identify or repeated `IDENTIFY` was used. The bounded live runner exited normally and post-live `git status --short` was clean. The authorized D-053 live attempt is consumed and must not be rerun. Module 9 is not yet PASS: the next controlled step is documentation synchronization of the verified D-053 live result followed by the separate final D-050 acceptance review.
+Module 9 — Discord Collector is COMPLETED / PASS on 2026-10-01 after the final D-050 acceptance review confirmed all minimum acceptance criteria satisfied. D-053 bounded live Discord verification completed / PASS using exactly one authorized Gateway connection attempt, one `IDENTIFY` and one Gateway session start; the synthetic `MESSAGE_CREATE -> MESSAGE_UPDATE -> MESSAGE_DELETE` lifecycle completed successfully with CREATE=`PASS`, UPDATE=`REJECT` and DELETE completed. Final secret safety verification passed: `.env` is ignored and untracked, the Discord bot token was not printed and was not found in Git objects or project logs. The one-shot D-053 authorization is consumed and must not be reused. Module 9 PASS does not authorize production Discord persistence or production activation; all existing D-051 production gates remain in force. The next project step must follow the fixed ROADMAP.
 
 ## COMPLETED
 - Product requirements and Architecture v1.0 are fixed.

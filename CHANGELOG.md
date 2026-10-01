@@ -984,3 +984,15 @@ All notable verified project changes are recorded here.
 - Post-live `git status --short` was clean.
 - The single D-053 live authorization is consumed and the runner must not be executed again without a new explicit project decision.
 - Module 9 remains IMPLEMENTATION IN PROGRESS / NOT PASS pending the separate final D-050 acceptance review.
+
+### D-050 FINAL ACCEPTANCE REVIEW / MODULE 9 PASS
+- Milestone recorded on 2026-10-01.
+- Final D-050 acceptance review: PASS.
+- All minimum Module 9 acceptance criteria defined by D-050 are satisfied.
+- Module 9 — Discord Collector is COMPLETED / PASS.
+- D-053 bounded live Discord verification remains COMPLETED / PASS with exactly one Gateway connection attempt, one `IDENTIFY` and one Gateway session start.
+- The approved synthetic `MESSAGE_CREATE -> MESSAGE_UPDATE -> MESSAGE_DELETE` lifecycle completed successfully with CREATE=`PASS`, UPDATE=`REJECT` and DELETE completed.
+- Final secret-safety verification passed: `.env` is ignored and untracked; the Discord bot token was not printed and was not found in Git objects or project logs.
+- The one-shot D-053 live authorization is consumed and must not be reused without a new explicit project decision.
+- Module 9 PASS does not authorize production Discord persistence or production activation.
+- All existing D-051 production gates remain in force.
