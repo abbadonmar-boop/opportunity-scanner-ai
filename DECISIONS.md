@@ -4118,3 +4118,384 @@ Date: 2026-09-30
     - multi-session operation;
     - production credential rollout;
     - production activation.
+
+## D-055 — MODULE 10 EXTRACT / AI BOUNDARY, PRE-IMPLEMENTATION SCOPE AND ACCEPTANCE FRAMEWORK
+
+Status: FIXED / APPROVED
+
+Date: 2026-10-01
+
+### PURPOSE
+
+1. D-055 defines the controlled pre-implementation boundary for Module 10 — AI Analyzer.
+
+2. D-055 resolves the previously unspecified responsibility boundary between the already fixed logical stages:
+
+`FILTER → EXTRACT → AI → RISK → SCORE`
+
+3. D-055 does not change Opportunity Scanner AI Architecture v1.0, the fixed ROADMAP, approved source list, module order or product scope.
+
+4. No new roadmap module is introduced for EXTRACT.
+
+5. Within roadmap Module 10 — AI Analyzer, the existing logical stages `EXTRACT` and `AI` are implemented as two distinct processing responsibilities.
+
+6. Their logical order remains mandatory:
+
+`FILTER → EXTRACT → AI`
+
+EXTRACT must not be collapsed into semantic AI analysis, and AI must not replace deterministic extraction.
+
+### MODULE 10 ENTRY BOUNDARY
+
+7. Module 10 operates only on candidates that have already passed the existing upstream collection, normalization, deduplication and Module 6 Filter Engine path.
+
+8. AI must not be used as a replacement for the existing rule-based Filter Engine.
+
+9. A source item that has not reached the approved downstream processing state must not be sent directly to AI merely for convenience.
+
+10. Module 10 does not reopen or redesign completed collector, normalization, deduplication or Filter Engine responsibilities.
+
+### EXTRACT — DETERMINISTIC RESPONSIBILITY
+
+11. `EXTRACT` is a separate deterministic processing stage executed after FILTER and before AI.
+
+12. EXTRACT extracts, preserves and normalizes only information that is explicitly present in approved input data.
+
+13. EXTRACT may use deterministic parsing and normalization of literal or structured source values.
+
+14. EXTRACT does not perform semantic inference, semantic classification, language-model inference or subjective interpretation.
+
+15. EXTRACT input may include only information already available from the approved source record and upstream normalized representation.
+
+16. EXTRACT responsibilities include, where explicitly available:
+
+- source identity and source metadata;
+- title;
+- body / content / text;
+- canonical or source URL;
+- publication timestamp;
+- collection timestamp;
+- other already-known source timestamps;
+- explicitly stated payment amount;
+- explicitly stated payment currency;
+- explicitly stated payment method when present;
+- explicitly stated dates or deadlines;
+- explicitly present links;
+- explicitly stated blockchain network;
+- explicitly stated wallet or payment-system information;
+- other literal or structured values that can be deterministically extracted without semantic inference.
+
+17. EXTRACT may normalize an explicit literal value only when the normalization is deterministic.
+
+18. When useful for traceability, the original literal value or source span must remain distinguishable from its normalized representation.
+
+19. EXTRACT must not invent, estimate or infer a value that is not explicitly present.
+
+20. Ambiguous information must not be silently converted by EXTRACT into a semantic conclusion.
+
+21. If an exact value cannot be deterministically extracted, it remains unavailable / unknown for the purposes of EXTRACT.
+
+22. The exact representation of unavailable, unknown or ambiguous values belongs to the later approved Module 10 data / response schema and is not fixed by D-055.
+
+23. EXTRACT must not determine:
+
+- semantic opportunity category;
+- whether an opportunity is suitable for a beginner;
+- whether prior experience is substantively required;
+- semantic KYC requirements when they are not explicit literal data;
+- semantic deposit requirements when context must be interpreted;
+- whether an opportunity is substantively a contest;
+- geographic eligibility when interpretation is required;
+- hidden conditions;
+- semantic meaning of ambiguous payment language;
+- scam likelihood;
+- final risk;
+- final score.
+
+### CANONICAL ANALYSIS INPUT
+
+24. EXTRACT produces the canonical analysis input consumed by the AI stage.
+
+25. The canonical analysis input must be source-grounded and deterministic.
+
+26. It may contain:
+
+- relevant normalized source text;
+- source metadata required for interpretation;
+- deterministic EXTRACT results;
+- preserved literal values required for traceability;
+- only other already-approved information required by Module 10.
+
+27. The canonical analysis input must not contain fabricated values or semantic conclusions presented as extracted facts.
+
+28. The exact JSON / Python schema for the canonical analysis input is not fixed by D-055 and requires a separate controlled decision before implementation depends on that schema.
+
+### AI — SEMANTIC RESPONSIBILITY
+
+29. The `AI` stage is responsible for semantic interpretation of the canonical analysis input.
+
+30. AI is not responsible for reimplementing deterministic EXTRACT behavior.
+
+31. AI semantic responsibilities include:
+
+- determining what is being offered;
+- determining what the user would need to do;
+- semantic category classification;
+- beginner suitability;
+- experience requirements;
+- KYC interpretation;
+- deposit interpretation;
+- contest interpretation;
+- geographic / eligibility interpretation;
+- hidden conditions;
+- interpretation of ambiguous payment semantics;
+- interpretation of ambiguous conditions or requirements;
+- identifying potential scam-related indicators visible from the provided content;
+- producing a short, understandable user-facing explanation in Russian.
+
+32. Semantic category handling must remain consistent with the already approved V1 product categories:
+
+1. AI / Data;
+2. Testing;
+3. Beginner-friendly Remote Work;
+4. Web3.
+
+The exact category response representation remains part of the later response-schema decision.
+
+33. AI must support interpretation of the approved publication languages:
+
+- English;
+- Russian;
+- Ukrainian;
+- German.
+
+34. User-facing explanations remain Russian-language.
+
+### EXTRACTED VALUES VS AI INTERPRETATION
+
+35. When payment, network, wallet, date, deadline or another literal field has already been deterministically extracted by EXTRACT, AI may use that value as context.
+
+36. AI may validate or interpret the meaning of an extracted value in context.
+
+37. AI must not duplicate ownership of the deterministic extraction itself.
+
+38. AI must not silently overwrite an explicit EXTRACT fact with a different inferred value.
+
+39. If semantic interpretation differs from, qualifies or casts doubt on a literal extracted value, the extracted fact and AI interpretation must remain distinguishable.
+
+40. Example responsibility boundary:
+
+- EXTRACT may deterministically preserve `Payment: up to 100 USDT`;
+- AI may interpret that the amount is conditional, maximum-only, contest-dependent or otherwise not guaranteed if the surrounding text supports that interpretation.
+
+41. The exact structured representation of literal value versus AI interpretation belongs to the later approved Module 10 response schema.
+
+### RISK / SCORE BOUNDARY
+
+42. Module 10 does not implement Module 11 — Anti-Scam Engine.
+
+43. Module 10 does not implement Module 12 — Score Engine.
+
+44. AI may identify potential scam indicators contained in or reasonably derived from the supplied content as semantic signals for later processing.
+
+45. Such AI signals are not a final scam verdict.
+
+46. AI must not assign the final project risk state.
+
+47. AI must not assign the final multidimensional score.
+
+48. Final Anti-Scam / Risk responsibility remains downstream in Module 11.
+
+49. Final Score responsibility remains downstream in Module 12.
+
+50. AI must not bypass, disable or weaken downstream safety processing.
+
+### POSTGRESQL / PERSISTENCE BOUNDARY
+
+51. PostgreSQL remains the single cross-cutting persistence layer under D-017.
+
+52. Module 10 does not introduce a second database, separate AI database, queue, Kafka, Redis, microservice or unrelated persistence technology.
+
+53. The existing persisted source record remains the logical record progressively updated as processing moves through:
+
+`FILTER → EXTRACT → AI → RISK → SCORE`
+
+54. EXTRACT and AI results must remain attributable to the same logical source / opportunity processing record.
+
+55. D-055 does not itself define a new PostgreSQL migration or final EXTRACT / AI persistence schema.
+
+56. Any required database-schema change must be handled through a separate controlled implementation decision before the corresponding migration is created.
+
+### AI PROVIDER / MODEL BOUNDARY
+
+57. D-055 does not select an AI provider.
+
+58. D-055 does not select an AI model.
+
+59. D-055 does not select an AI SDK, framework or additional dependency.
+
+60. The following remain separately unresolved and must be fixed before real AI integration depends on them:
+
+- AI provider;
+- AI model;
+- canonical AI request / response schema;
+- structured response validation;
+- confidence representation and semantics;
+- behavior on invalid AI output;
+- behavior on AI failure;
+- timeout policy;
+- retry policy;
+- rate-limit handling where applicable;
+- budget;
+- maximum permitted cost;
+- token / request cost controls;
+- external-AI data transmission policy;
+- provider data-retention behavior;
+- provider data-use / training behavior;
+- secret / API-key handling for the selected provider.
+
+61. These decisions must not be selected merely for convenience during implementation.
+
+### EXTERNAL AI DATA / COMPLIANCE BOUNDARY
+
+62. D-055 does not authorize transmission of real source content to any external AI provider.
+
+63. Before any real source content is sent to an external AI service, the selected provider's then-current applicable terms, data-use conditions, retention behavior and relevant privacy / training settings must be reviewed and documented.
+
+64. Existing source-specific access, content-use, retention and compliance restrictions remain fully in force.
+
+65. D-055 does not override a source-specific BLOCKED, ACCESS-GATED, COMPLIANCE-GATED or otherwise restricted state.
+
+66. Reddit User Content must not be transmitted to an AI provider until the separately required Reddit AI-use compliance confirmation has been completed.
+
+67. Telegram-derived source content remains subject to the existing Telegram content / AI-use blocker and is not authorized for external AI processing by D-055.
+
+68. X / Twitter-derived content receives no new AI transmission authorization through D-055; all existing X access and compliance gates remain in force.
+
+69. Discord-derived content may be used in future Module 10 only for permitted inference / analysis within the approved Opportunity Scanner AI functionality and then-current applicable Discord requirements.
+
+70. D-055 does not authorize AI / ML / LLM training, fine-tuning or training-dataset creation using Discord-derived content.
+
+71. D-055 does not authorize training, fine-tuning or dataset creation from any other source merely because inference may later be approved.
+
+72. Real-source transmission authorization, where permitted at all, must be established separately from provider/model selection and documented before use.
+
+### SECRETS AND SECURITY
+
+73. AI API keys, credentials, tokens and provider secrets must never be stored in:
+
+- Git;
+- source code;
+- tracked configuration;
+- project documentation;
+- diagnostic output.
+
+74. Provider credentials, when later authorized, must remain inside the approved secret boundary such as the local ignored `.env` unless another secret-management boundary is separately approved.
+
+75. D-055 itself authorizes no provider credential creation, generation, entry or verification.
+
+### PRE-IMPLEMENTATION FOUNDATION
+
+76. After D-055 is approved, Module 10 may begin only with a code-only / synthetic foundation.
+
+77. This initial foundation may implement and test:
+
+- EXTRACT interfaces;
+- deterministic extraction behavior;
+- deterministic literal normalization;
+- canonical analysis-input structure after that structure is separately approved;
+- separation between extracted facts and semantic AI results;
+- provider-independent AI interfaces after their contract is approved;
+- synthetic fixtures;
+- validation logic;
+- unit tests.
+
+78. Initial Module 10 foundation must not require a real external AI connection.
+
+79. Initial Module 10 foundation must not transmit real RSS, Reddit, X, Telegram or Discord source content to an AI provider.
+
+80. Initial Module 10 foundation must not generate or expose real AI credentials.
+
+81. Initial Module 10 foundation must not implement Module 11 Risk or Module 12 Score behavior.
+
+### MINIMUM MODULE 10 ACCEPTANCE FRAMEWORK
+
+82. Module 10 may not receive `COMPLETED / PASS` merely because code exists.
+
+83. At minimum, Module 10 verification must ultimately demonstrate with evidence that:
+
+- the `FILTER → EXTRACT → AI` ordering is preserved;
+- EXTRACT is deterministic;
+- EXTRACT uses only explicit source-grounded values;
+- EXTRACT does not perform semantic classification;
+- missing values are not invented;
+- deterministic normalization is verified;
+- canonical analysis input is source-grounded and reproducible;
+- extracted literal facts remain distinguishable from AI semantic interpretation;
+- AI does not silently overwrite deterministic EXTRACT facts;
+- AI performs only the approved semantic responsibilities;
+- approved EN / RU / UA / DE inputs are handled as required;
+- user-facing explanation is Russian;
+- potential scam indicators remain signals rather than final risk verdicts;
+- AI does not produce the final Module 11 risk state;
+- AI does not produce the final Module 12 score;
+- PostgreSQL remains the single persistence layer;
+- no unapproved infrastructure is introduced;
+- provider/model and their applicable boundaries are separately approved before real integration;
+- response schema and validation behavior are separately approved;
+- failure / timeout / retry behavior is separately approved and tested;
+- cost / budget controls are separately approved and tested;
+- real-source transmission occurs only where separately permitted;
+- source-specific compliance gates remain enforced;
+- secrets are absent from Git, tracked configuration and diagnostic output;
+- relevant automated tests pass;
+- relevant integration tests pass where applicable;
+- project documentation is synchronized;
+- the Module 10 milestone is recorded in Git;
+- the final working-tree state is verified clean.
+
+84. Additional provider-specific acceptance criteria may be added by the later provider/model decision.
+
+85. Such later criteria may tighten Module 10 requirements but must not silently weaken D-055 boundaries.
+
+### EXPLICIT NON-AUTHORIZATIONS
+
+86. D-055 does not authorize:
+
+- a real external AI API call;
+- real-source content transmission to an AI provider;
+- creation or entry of an AI provider API key;
+- selection of provider/model;
+- provider billing activation;
+- paid AI usage;
+- automatic retry behavior;
+- production AI activation;
+- AI training or fine-tuning;
+- training-dataset creation;
+- Module 11 Anti-Scam implementation;
+- final Risk assignment;
+- Module 12 Score implementation;
+- Telegram-source unblocking;
+- Reddit-source unblocking;
+- X production-collection authorization;
+- new Discord production authorization;
+- any change to Architecture v1.0;
+- any change to the fixed ROADMAP.
+
+### ARCHITECTURE / ROADMAP RELATION
+
+87. D-055 preserves the fixed logical pipeline:
+
+`SOURCE → COLLECT → NORMALIZE → DEDUPLICATE → FILTER → EXTRACT → AI → RISK → SCORE → DATABASE → TELEGRAM`
+
+88. D-055 treats EXTRACT and AI as distinct logical stages while keeping their implementation work inside the already fixed roadmap Module 10 — AI Analyzer.
+
+89. This does not merge EXTRACT and AI semantically.
+
+90. It only resolves responsibility for the already-existing EXTRACT stage without adding, removing, reordering or renaming roadmap modules.
+
+91. Module 11 remains responsible for Anti-Scam / Risk.
+
+92. Module 12 remains responsible for Score.
+
+93. Provider/model selection and real AI integration begin only after the required subsequent controlled decision.

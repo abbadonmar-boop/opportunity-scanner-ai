@@ -996,3 +996,20 @@ All notable verified project changes are recorded here.
 - The one-shot D-053 live authorization is consumed and must not be reused without a new explicit project decision.
 - Module 9 PASS does not authorize production Discord persistence or production activation.
 - All existing D-051 production gates remain in force.
+
+### D-055 MODULE 10 EXTRACT / AI BOUNDARY
+
+- Milestone recorded on 2026-10-01.
+- D-055 is FIXED / APPROVED.
+- Module 10 — AI Analyzer is now at PRE-IMPLEMENTATION / DECISION GATE.
+- EXTRACT is fixed as a separate deterministic stage after FILTER and before AI.
+- EXTRACT handles explicit source-grounded literal / structured values without semantic inference.
+- EXTRACT produces the canonical analysis input for AI.
+- AI responsibility is semantic interpretation; it does not replace deterministic EXTRACT.
+- Final Risk remains Module 11 responsibility.
+- Final Score remains Module 12 responsibility.
+- D-055 does not select an AI provider, model, SDK or framework.
+- Module 10 code has NOT started.
+- Real external AI calls and transmission of real source content remain NOT AUTHORIZED.
+- Provider/model, schemas, confidence semantics, failure/timeout/retry policy, cost/budget controls and external-AI data policy require separate controlled decisions.
+- Architecture v1.0 and the fixed ROADMAP remain unchanged.
